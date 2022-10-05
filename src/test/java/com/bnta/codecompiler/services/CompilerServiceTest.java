@@ -1,0 +1,47 @@
+package com.bnta.codecompiler.services;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.io.File;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
+public class CompilerServiceTest {
+    CompilerService compilerService;
+
+    @BeforeEach
+    public void setUp() {
+        compilerService = new CompilerService();
+    }
+
+    @Test
+    public void compileJS() throws IOException {
+        String result = compilerService.compile("console.log('Hello from JS compiler');", "js");
+        assertEquals(result, "Hello from JS compiler");
+    }
+
+    @Test
+    public void compileJava() throws IOException {
+        String result = compilerService.compile(
+                "public class Main { " +
+                            "public static void main(String[] args) {" +
+                                "System.out.println(\"Hello from Java compiler\");" +
+                            "} " +
+                        "}", "java");
+        assertEquals(result, "Hello from Java compiler");
+    }
+
+    @Test
+    public void getTempFileName() throws IOException {
+        File file = File.createTempFile("temp", ".js");
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        assertNotNull(file.getName());
+    }
+
+}

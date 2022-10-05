@@ -1,0 +1,52 @@
+package com.bnta.codecompiler.services;
+
+import org.springframework.stereotype.Service;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
+
+@Service
+public class CompilerService {
+
+    private void saveFile(File file, String code) throws IOException {
+        PrintWriter pr = new PrintWriter(new FileWriter(file));
+        pr.print(code);
+        pr.close();
+    }
+
+    public Process startProcess(String command, String path) throws IOException {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        Process process = processBuilder.command(command, path).start();
+        return process;
+    }
+
+    private String readOutput(InputStream stream) {
+        String text = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+        System.out.println(text);
+        return text;
+    }
+
+    public String compile(String code, String lang) throws IOException {
+        //We're only allowing java and js for now...
+        System.out.println("attempting to compile " + lang + ": " + code);
+        String command = (lang.equals("js")) ? "node" : "java";
+        String ext = (lang.equals("js")) ? ".js" : ".java";
+        String tDir = System.getProperty("java.io.tmpdir");
+        // System.out.println(tDir);
+        File file = File.createTempFile("temp", ext);
+        String tempName = file.getName();
+        String fullPath = tDir + tempName;
+
+        //  System.out.println("The name is... " + file.getName());
+        saveFile(file, code);
+
+//        String fileContent = new Scanner(new File(fullPath)).useDelimiter("\\Z").next();
+//        System.out.println("read in: " + fileContent);
+
+        String result = readOutput(startProcess(command, fullPath).getInputStream());
+        System.out.println("captured result: " + result);
+        return result;
+    }
+
+}
