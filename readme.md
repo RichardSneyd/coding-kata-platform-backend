@@ -2,9 +2,9 @@
 
 to use the compiler, send a POST request to `{domain.com}/compile`. The Request body should include a `code` property
 as well as a `lang` property. Currently supported language compilers are: 
-- java (Java 18.0.2)
-- js (Node 16.16.0)
-- py (Python 3.9.13)
+- java (Java)
+- js (Node)
+- py (Python)
 
 ```json
 {
