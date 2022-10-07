@@ -42,4 +42,11 @@ public class CompilerController {
                 "java");
         return new ResponseEntity<>(new CodeReply(response, "java", true), HttpStatus.CREATED);
     }
+
+    @PostMapping("/test/python")
+    public ResponseEntity<CodeReply> testPython() throws IOException {
+        String response = compilerService.compile("print('hello world');",
+                "py");
+        return new ResponseEntity<>(new CodeReply(response, "py", true), HttpStatus.CREATED);
+    }
 }

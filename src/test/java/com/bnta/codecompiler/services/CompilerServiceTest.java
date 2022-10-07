@@ -38,6 +38,13 @@ public class CompilerServiceTest {
     }
 
     @Test
+    public void compilePython() throws IOException {
+        String result = compilerService.compile(
+                "print('Hello from Python compiler')", "py");
+        assertEquals(result, "Hello from Python compiler");
+    }
+
+    @Test
     public void getTempFileName() throws IOException {
         File file = File.createTempFile("temp", ".js");
         ProcessBuilder processBuilder = new ProcessBuilder();

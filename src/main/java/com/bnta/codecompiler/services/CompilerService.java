@@ -30,8 +30,9 @@ public class CompilerService {
     public String compile(String code, String lang) throws IOException {
         //We're only allowing java and js for now...
         System.out.println("attempting to compile " + lang + ": " + code);
-        String command = (lang.equals("js")) ? "node" : "java";
-        String ext = (lang.equals("js")) ? ".js" : ".java";
+        String command = lang.equals("js") ? "node" : lang.equals("java") ? "java" : "python3";
+       // String ext = (lang.equals("js")) ? ".js" : ".java";
+        String ext = "." + lang;
         String tDir = System.getProperty("java.io.tmpdir");
         // System.out.println(tDir);
         File file = File.createTempFile("temp", ext);
