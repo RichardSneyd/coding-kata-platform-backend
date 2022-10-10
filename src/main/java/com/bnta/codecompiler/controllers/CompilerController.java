@@ -19,7 +19,7 @@ public class CompilerController {
 
     @GetMapping()
     public String about(){
-        return "A remote compiler API";
+        return "A remote compiler API. Use a POST request with lang and code properties.";
     }
 
     @PostMapping
