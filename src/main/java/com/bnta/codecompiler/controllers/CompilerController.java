@@ -30,14 +30,14 @@ public class CompilerController {
         return new ResponseEntity<>(new CodeReply(response, codeMessage.getLang(), true), HttpStatus.OK);
     }
 
-    @PostMapping("/test/js")
+    @GetMapping("/test/js")
     public ResponseEntity<CodeReply> testJS() throws IOException {
         String response = compilerService.compile("console.log(\"hello from js test\")",
                 "js");
             return new ResponseEntity<>(new CodeReply(response, "js", true), HttpStatus.OK);
     }
 
-    @PostMapping("/test/java")
+    @GetMapping("/test/java")
     public ResponseEntity<CodeReply> testJava() throws IOException {
         String response = compilerService.compile("public class Main { " +
                         "public static void main(String[] args) {" +
@@ -48,7 +48,7 @@ public class CompilerController {
         return new ResponseEntity<>(new CodeReply(response, "java", true), HttpStatus.CREATED);
     }
 
-    @PostMapping("/test/python")
+    @GetMapping("/test/python")
     public ResponseEntity<CodeReply> testPython() throws IOException {
         String response = compilerService.compile("print('hello world');",
                 "py");

@@ -27,18 +27,25 @@ public class CompilerService {
         return text;
     }
 
-    public String compile(String code, String lang) throws IOException {
-        String command = lang.equals("js") ? "node" : lang.equals("java") ? "java" : "python3";
-        String ext = "." + lang;
-        String tDir = System.getProperty("java.io.tmpdir");
-        File file = File.createTempFile("temp", ext);
-        String tempName = file.getName();
-        String fullPath = tDir + tempName;
+    public String compile(String code, String lang) {
+        String result = "";
+        try {
+            String command = lang.equals("js") ? "node" : lang.equals("java") ? "java" : "python3";
+            String ext = "." + lang;
+            String tDir = System.getProperty("java.io.tmpdir");
+            File file = File.createTempFile("temp", ext);
+            String tempName = file.getName();
+            String fullPath = tDir + tempName;
 
-        saveFile(file, code);
+            saveFile(file, code);
 
-        String result = readOutput(startProcess(command, fullPath).getInputStream());
-        System.out.println("captured result: " + result);
+            result = readOutput(startProcess(command, fullPath).getInputStream());
+            System.out.println("captured result: " + result);
+        }
+        catch (Exception e) {
+            result = e.getMessage();
+        }
+
         return result;
     }
 
