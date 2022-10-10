@@ -17,6 +17,11 @@ public class CompilerController {
     @Autowired
     private CompilerService compilerService;
 
+    @GetMapping()
+    public String about(){
+        return "A remote compiler API";
+    }
+
     @PostMapping
     public ResponseEntity<CodeReply> compileAndReturnResult(@RequestBody CodeMessage codeMessage) throws IOException {
         System.out.println("message: " + codeMessage.toString());
