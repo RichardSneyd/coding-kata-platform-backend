@@ -54,4 +54,19 @@ public class CompilerController {
                 "py");
         return new ResponseEntity<>(new CodeReply(response, "py", true), HttpStatus.CREATED);
     }
+
+    @GetMapping("/where/js")
+    public String whereJS() {
+        return compilerService.where("node");
+    }
+
+    @GetMapping("/where/java")
+    public String whereJava() {
+        return compilerService.where("java");
+    }
+
+    @GetMapping("/where/python")
+    public String wherePython() {
+        return compilerService.where("python");
+    }
 }

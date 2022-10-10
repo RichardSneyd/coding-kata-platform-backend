@@ -49,4 +49,15 @@ public class CompilerService {
         return result;
     }
 
+    public String where(String command) {
+        String output;
+        try {
+            output = readOutput(startProcess("which", command).getInputStream());
+        }
+        catch (Exception e) {
+            output = e.toString();
+        }
+        return output;
+    }
+
 }
