@@ -53,11 +53,14 @@ public class CompilerService {
         String output;
         try {
             output = readOutput(startProcess("which", command).getInputStream());
+            return output;
         }
         catch (Exception e) {
-            output = e.toString();
+            output = "Error running 'where' on " + command + ": " + e.getMessage();
+            System.out.println(output);
+            return output;
         }
-        return output;
+
     }
 
 }
