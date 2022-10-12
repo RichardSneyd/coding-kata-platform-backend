@@ -27,7 +27,7 @@ public class CompilerServiceTest {
     }
 
     @Test
-    public void compileJava() throws IOException {
+    public void compileJava() {
         String result = compilerService.compile(
                 "public class Main { " +
                             "public static void main(String[] args) {" +

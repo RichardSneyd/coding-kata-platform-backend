@@ -60,4 +60,9 @@ public class CompilerController {
         return compilerService.where(command);
     }
 
+    @GetMapping("/echo/{message}")
+    public String echo(@PathVariable String message) {
+        return compilerService.echo(message);
+    }
+
 }
