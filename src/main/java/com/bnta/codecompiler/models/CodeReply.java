@@ -1,7 +1,7 @@
 package com.bnta.codecompiler.models;
 
 public class CodeReply {
-    private String message;
+    private String result;
     private Boolean correct;
     private String lang;
 
@@ -10,17 +10,17 @@ public class CodeReply {
 
     public CodeReply(String message, String lang, Boolean correct) {
 
-        this.message = message;
+        this.result = message;
         this.correct = correct;
         this.lang = lang;
     }
 
-    public String getMessage() {
-        return message;
+    public String getResult() {
+        return result;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setResult(String result) {
+        this.result = result;
     }
 
     public Boolean getCorrect() {
@@ -42,7 +42,7 @@ public class CodeReply {
     @Override
     public String toString() {
         return "CodeReply{" +
-                "message='" + message + '\'' +
+                "message='" + result + '\'' +
                 ", correct=" + correct +
                 ", lang='" + lang + '\'' +
                 '}';

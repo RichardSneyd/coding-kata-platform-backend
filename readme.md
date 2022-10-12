@@ -17,7 +17,7 @@ If you have provided syntactically valid code, you should get a JSON response in
 
 ```json
 {
-  "message": "Hello from Java POST test",
+  "result": "Hello from Java POST test",
   "correct": true,
   "lang": "java"
 }
