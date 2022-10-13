@@ -30,10 +30,10 @@ public class JSONTest {
                         new TestCase("{\"num1\":2,\"num2\":3}", "{\"result\":5}"),
                         new HashSet<TestCase>()
                 ),
-                new HashSet<String>(Arrays.asList(new String[]{"math"}))
+                new HashSet<String>(Arrays.asList("math"))
         );
         JsonNode node = JSON.parse(JSON.stringify(problem));
-        assertEquals(node.get("description").asText(), "My very easy problem");
+        assertEquals(node.get("description").asText(), "Add two numbers");
         assertEquals(node.get("difficulty").asInt(), 0);
     }
 

@@ -1,11 +1,18 @@
 package com.bnta.codecompiler.models;
 
+import javax.persistence.*;
 import java.util.Set;
 
+@Table
 public class ProblemSet {
-    private Set<Problem> problems;
+    @Id
+    private Long id;
+    @Column
     private Difficulty difficulty;
+    @ElementCollection
     private Set<String> tags;
+    @ManyToMany
+    private Set<Problem> problems;
 
     public ProblemSet(Set<Problem> problems, Difficulty difficulty, Set<String> tags) {
         this.problems = problems;

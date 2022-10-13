@@ -1,13 +1,21 @@
 package com.bnta.codecompiler.models;
 
+import javax.persistence.*;
 import java.util.Set;
 
+@Table
 public class Problem {
+    @Id
+    private Long id;
+    @Column
     private String description = "Solve me!";
+    @Column
     private Difficulty difficulty = Difficulty.EASY;
+    @OneToOne
     private TestSuite testSuite;
-    private String modelOutput = null;
+
     // tag the concepts this problem trains/tests, i.e 'objects', 'arrays',
+    @ElementCollection
     private Set<String> tags = null;
 
     public Problem(String description, Difficulty difficulty, TestSuite testSuite, Set<String> tags) {
@@ -18,14 +26,6 @@ public class Problem {
     }
 
     public Problem() {
-    }
-
-    public String getModelOutput() {
-        return modelOutput;
-    }
-
-    public void setModelOutput(String modelOutput) {
-        this.modelOutput = modelOutput;
     }
 
     public Set<String> getTags() {
