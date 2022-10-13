@@ -1,7 +1,19 @@
 package com.bnta.codecompiler.models;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Table
 public class TestCase {
+
+    @Id
+    private Long id;
+
+    @Column
     private String input;
+
+    @Column
     private String output;
 
     public TestCase(String input, String output) {

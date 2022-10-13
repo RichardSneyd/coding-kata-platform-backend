@@ -1,9 +1,15 @@
 package com.bnta.codecompiler.models;
 
+import javax.persistence.*;
 import java.util.Set;
 
+@Table
 public class TestSuite {
+    @Id
+    private Long id;
+    @OneToOne
     private TestCase publicCase;
+    @OneToMany
     private Set<TestCase> privateCases;
 
     public TestSuite(TestCase publicCase, Set<TestCase> privateCases) {
