@@ -1,14 +1,13 @@
 package com.bnta.codecompiler.models;
 
-
-public class CodeMessage {
+public class CodePojo {
     private String lang;
     private String code;
 
-    public CodeMessage() {
+    public CodePojo() {
     }
 
-    public CodeMessage(String code, String lang) {
+    public CodePojo(String code, String lang) {
         this.lang = lang;
         this.code = code;
     }

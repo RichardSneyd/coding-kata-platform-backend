@@ -1,7 +1,7 @@
 package com.bnta.codecompiler.controllers;
 
-import com.bnta.codecompiler.models.CodeMessage;
-import com.bnta.codecompiler.models.CodeReply;
+import com.bnta.codecompiler.models.CodePojo;
+import com.bnta.codecompiler.models.CodeResult;
 import com.bnta.codecompiler.services.CompilerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,36 +23,36 @@ public class CompilerController {
     }
 
     @PostMapping
-    public ResponseEntity<CodeReply> compileAndReturnResult(@RequestBody CodeMessage codeMessage) throws IOException {
+    public ResponseEntity<CodeResult> compile(@RequestBody CodePojo codeMessage) throws IOException {
         System.out.println("message: " + codeMessage.toString());
         String response = compilerService.compile(codeMessage.getCode(),
                 codeMessage.getLang());
-        return new ResponseEntity<>(new CodeReply(response, codeMessage.getLang(), true), HttpStatus.OK);
+        return new ResponseEntity<>(new CodeResult(response, codeMessage.getLang()), HttpStatus.OK);
     }
 
     @GetMapping("/test/js")
-    public ResponseEntity<CodeReply> testJS() throws IOException {
+    public ResponseEntity<CodeResult> testJS() throws IOException {
         String response = compilerService.compile("console.log(\"hello from js test\")",
                 "js");
-            return new ResponseEntity<>(new CodeReply(response, "js", true), HttpStatus.OK);
+            return new ResponseEntity<>(new CodeResult(response, "js"), HttpStatus.OK);
     }
 
     @GetMapping("/test/java")
-    public ResponseEntity<CodeReply> testJava() throws IOException {
+    public ResponseEntity<CodeResult> testJava() throws IOException {
         String response = compilerService.compile("public class Main { " +
                         "public static void main(String[] args) {" +
                         "System.out.println(\"Hello from java test\");" +
                         "} " +
                         "}",
                 "java");
-        return new ResponseEntity<>(new CodeReply(response, "java", true), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CodeResult(response, "java"), HttpStatus.CREATED);
     }
 
     @GetMapping("/test/python")
-    public ResponseEntity<CodeReply> testPython() throws IOException {
+    public ResponseEntity<CodeResult> testPython() throws IOException {
         String response = compilerService.compile("print('hello world');",
                 "py");
-        return new ResponseEntity<>(new CodeReply(response, "py", true), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CodeResult(response, "py"), HttpStatus.CREATED);
     }
 
     @GetMapping("/where/{command}")

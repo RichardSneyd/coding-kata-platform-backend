@@ -1,17 +1,14 @@
 package com.bnta.codecompiler.models;
 
-public class CodeReply {
+public class CodeResult {
     private String result;
-    private Boolean correct;
     private String lang;
 
-    public CodeReply() {
+    public CodeResult() {
     }
 
-    public CodeReply(String message, String lang, Boolean correct) {
-
-        this.result = message;
-        this.correct = correct;
+    public CodeResult(String result, String lang) {
+        this.result = result;
         this.lang = lang;
     }
 
@@ -21,14 +18,6 @@ public class CodeReply {
 
     public void setResult(String result) {
         this.result = result;
-    }
-
-    public Boolean getCorrect() {
-        return correct;
-    }
-
-    public void setCorrect(Boolean correct) {
-        this.correct = correct;
     }
 
     public String getLang() {
@@ -43,7 +32,6 @@ public class CodeReply {
     public String toString() {
         return "CodeReply{" +
                 "message='" + result + '\'' +
-                ", correct=" + correct +
                 ", lang='" + lang + '\'' +
                 '}';
     }
