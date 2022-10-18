@@ -3,18 +3,24 @@ package com.bnta.codecompiler.models;
 import javax.persistence.*;
 import java.util.Set;
 
-@Table
+@Entity
 public class ProblemSet {
     @Id
     private Long id;
     @Column
+    private String title;
+    @Column
+    private String description;
+    @Column
     private Difficulty difficulty;
     @ElementCollection
-    private Set<String> tags;
+    private Set<String> tags = null;
     @ManyToMany
     private Set<Problem> problems;
 
-    public ProblemSet(Set<Problem> problems, Difficulty difficulty, Set<String> tags) {
+    public ProblemSet(String title, String description, Set<Problem> problems, Difficulty difficulty, Set<String> tags) {
+        this.title = title;
+        this.description = description;
         this.problems = problems;
         this.difficulty = difficulty;
         this.tags = tags;
@@ -47,11 +53,4 @@ public class ProblemSet {
         this.tags = tags;
     }
 
-    public void addProblem(Problem problem) {
-        this.problems.add(problem);
-    }
-
-    public void removeProblem(Problem problem) {
-        this.problems.remove(problem);
-    }
 }

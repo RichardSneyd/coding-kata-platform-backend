@@ -1,4 +1,4 @@
-package com.bnta.codecompiler.services;
+package com.bnta.codecompiler.services.code;
 
 import org.springframework.stereotype.Service;
 

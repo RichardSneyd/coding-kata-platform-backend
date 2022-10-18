@@ -1,6 +1,6 @@
 package com.bnta.codecompiler.controllers;
 
-import com.bnta.codecompiler.models.CodeResult;
+import com.bnta.codecompiler.models.CodeResultPojo;
 import com.bnta.codecompiler.models.Solution;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/eval")
+@RequestMapping("/user/eval")
 public class EvalController {
 
     @GetMapping()
@@ -17,7 +17,7 @@ public class EvalController {
     }
 
     @PostMapping
-    public ResponseEntity<CodeResult> evaluate(@RequestBody Solution solution) throws IOException {
+    public ResponseEntity<CodeResultPojo> evaluate(@RequestBody Solution solution) throws IOException {
 //        System.out.println("message: " + codeMessage.toString());
 //        String response = compilerService.compile(codeMessage.getCode(),
 //                codeMessage.getLang());

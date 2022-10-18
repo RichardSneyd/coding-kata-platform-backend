@@ -3,7 +3,7 @@ package com.bnta.codecompiler.models;
 import javax.persistence.*;
 import java.util.Set;
 
-@Table
+@Entity
 public class TestSuite {
     @Id
     private Long id;

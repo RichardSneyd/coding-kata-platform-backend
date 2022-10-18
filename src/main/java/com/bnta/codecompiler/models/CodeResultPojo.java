@@ -1,13 +1,13 @@
 package com.bnta.codecompiler.models;
 
-public class CodeResult {
+public class CodeResultPojo {
     private String result;
     private String lang;
 
-    public CodeResult() {
+    public CodeResultPojo() {
     }
 
-    public CodeResult(String result, String lang) {
+    public CodeResultPojo(String result, String lang) {
         this.result = result;
         this.lang = lang;
     }

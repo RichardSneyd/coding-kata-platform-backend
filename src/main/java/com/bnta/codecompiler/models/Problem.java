@@ -3,10 +3,12 @@ package com.bnta.codecompiler.models;
 import javax.persistence.*;
 import java.util.Set;
 
-@Table
+@Entity
 public class Problem {
     @Id
     private Long id;
+    @Column
+    private String title;
     @Column
     private String description = "Solve me!";
     @Column
@@ -18,7 +20,8 @@ public class Problem {
     @ElementCollection
     private Set<String> tags = null;
 
-    public Problem(String description, Difficulty difficulty, TestSuite testSuite, Set<String> tags) {
+    public Problem(String title, String description, Difficulty difficulty, TestSuite testSuite, Set<String> tags) {
+        this.title = title;
         this.description = description;
         this.difficulty = difficulty;
         this.testSuite = testSuite;
@@ -26,6 +29,18 @@ public class Problem {
     }
 
     public Problem() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Set<String> getTags() {

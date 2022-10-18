@@ -1,12 +1,9 @@
 package com.bnta.codecompiler.models;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Table
-public class Solution extends CodeResult {
+@Entity
+public class Solution extends CodeResultPojo {
     @Id
     private Long id;
     @Column
@@ -17,13 +14,17 @@ public class Solution extends CodeResult {
     @ManyToOne
     private Problem problem;
 
+    @OneToMany
+    private User user;
+
     public Solution() {
     }
 
-    public Solution(String code, String result, String lang, Boolean correct) {
+    public Solution(String code, String result, String lang, Boolean correct, User user) {
         super(result, lang);
         this.code = code;
         this.correct = correct;
+        this.user = user;
     }
 
     public Boolean getCorrect() {
