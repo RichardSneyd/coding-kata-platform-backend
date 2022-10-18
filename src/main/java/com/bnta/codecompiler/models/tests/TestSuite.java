@@ -1,4 +1,4 @@
-package com.bnta.codecompiler.models;
+package com.bnta.codecompiler.models.tests;
 
 import javax.persistence.*;
 import java.util.Set;

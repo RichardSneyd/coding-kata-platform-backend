@@ -1,7 +1,7 @@
 package com.bnta.codecompiler.services.problems;
 
-import com.bnta.codecompiler.models.Difficulty;
-import com.bnta.codecompiler.models.Problem;
+import com.bnta.codecompiler.models.problems.Difficulty;
+import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.repositories.problems.IProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

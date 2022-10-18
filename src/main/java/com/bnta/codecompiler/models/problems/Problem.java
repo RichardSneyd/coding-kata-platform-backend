@@ -1,4 +1,6 @@
-package com.bnta.codecompiler.models;
+package com.bnta.codecompiler.models.problems;
+
+import com.bnta.codecompiler.models.tests.TestSuite;
 
 import javax.persistence.*;
 import java.util.Set;

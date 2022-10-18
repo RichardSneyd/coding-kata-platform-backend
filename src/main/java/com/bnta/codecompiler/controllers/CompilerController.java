@@ -1,7 +1,7 @@
 package com.bnta.codecompiler.controllers;
 
-import com.bnta.codecompiler.models.CodePojo;
-import com.bnta.codecompiler.models.CodeResultPojo;
+import com.bnta.codecompiler.models.code.CodePojo;
+import com.bnta.codecompiler.models.code.CodeResultPojo;
 import com.bnta.codecompiler.services.code.CompilerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

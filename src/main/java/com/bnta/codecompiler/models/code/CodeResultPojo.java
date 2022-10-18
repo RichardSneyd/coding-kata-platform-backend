@@ -1,4 +1,4 @@
-package com.bnta.codecompiler.models;
+package com.bnta.codecompiler.models.code;
 
 public class CodeResultPojo {
     private String result;

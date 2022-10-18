@@ -1,7 +1,7 @@
-package com.bnta.codecompiler.services.test_cases;
+package com.bnta.codecompiler.services.tests;
 
-import com.bnta.codecompiler.models.TestCase;
-import com.bnta.codecompiler.repositories.test_cases.ITestCaseRepository;
+import com.bnta.codecompiler.models.tests.TestCase;
+import com.bnta.codecompiler.repositories.tests.ITestCaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

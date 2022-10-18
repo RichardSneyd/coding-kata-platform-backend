@@ -1,4 +1,7 @@
-package com.bnta.codecompiler.models;
+package com.bnta.codecompiler.models.problems;
+
+import com.bnta.codecompiler.models.code.CodeResultPojo;
+import com.bnta.codecompiler.models.users.User;
 
 import javax.persistence.*;
 

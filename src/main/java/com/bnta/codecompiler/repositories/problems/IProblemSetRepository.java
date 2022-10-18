@@ -1,9 +1,7 @@
 package com.bnta.codecompiler.repositories.problems;
 
-import com.bnta.codecompiler.models.Difficulty;
-import com.bnta.codecompiler.models.Problem;
-import com.bnta.codecompiler.models.ProblemSet;
-import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import com.bnta.codecompiler.models.problems.Difficulty;
+import com.bnta.codecompiler.models.problems.ProblemSet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

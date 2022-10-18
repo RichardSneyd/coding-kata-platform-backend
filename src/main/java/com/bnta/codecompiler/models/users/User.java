@@ -1,9 +1,8 @@
-package com.bnta.codecompiler.models;
+package com.bnta.codecompiler.models.users;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 public class User {

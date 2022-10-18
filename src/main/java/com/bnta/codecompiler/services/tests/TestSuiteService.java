@@ -1,12 +1,11 @@
-package com.bnta.codecompiler.services.test_cases;
+package com.bnta.codecompiler.services.tests;
 
-import com.bnta.codecompiler.models.TestSuite;
-import com.bnta.codecompiler.repositories.test_cases.ITestSuiteRepository;
+import com.bnta.codecompiler.models.tests.TestSuite;
+import com.bnta.codecompiler.repositories.tests.ITestSuiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

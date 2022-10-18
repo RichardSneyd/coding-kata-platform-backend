@@ -1,4 +1,4 @@
-package com.bnta.codecompiler.models;
+package com.bnta.codecompiler.models.problems;
 
 public enum Difficulty {
     VERY_EASY,

@@ -1,5 +1,8 @@
 package com.bnta.codecompiler.utilities;
-import com.bnta.codecompiler.models.*;
+import com.bnta.codecompiler.models.problems.Difficulty;
+import com.bnta.codecompiler.models.problems.Problem;
+import com.bnta.codecompiler.models.tests.TestCase;
+import com.bnta.codecompiler.models.tests.TestSuite;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,8 @@
 package com.bnta.codecompiler.repositories.users;
 
-import com.bnta.codecompiler.models.User;
+import com.bnta.codecompiler.models.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

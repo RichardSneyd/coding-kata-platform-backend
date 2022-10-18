@@ -1,12 +1,11 @@
 package com.bnta.codecompiler.services.users;
 
-import com.bnta.codecompiler.models.User;
+import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

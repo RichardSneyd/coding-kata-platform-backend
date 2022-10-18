@@ -1,7 +1,7 @@
 package com.bnta.codecompiler.components;
 
-import com.bnta.codecompiler.models.Role;
-import com.bnta.codecompiler.models.User;
+import com.bnta.codecompiler.models.users.Role;
+import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

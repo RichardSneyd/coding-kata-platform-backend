@@ -1,7 +1,7 @@
 package com.bnta.codecompiler.controllers;
 
-import com.bnta.codecompiler.models.CodeResultPojo;
-import com.bnta.codecompiler.models.Solution;
+import com.bnta.codecompiler.models.code.CodeResultPojo;
+import com.bnta.codecompiler.models.problems.Solution;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
