@@ -25,7 +25,7 @@ public class EvalController {
 
     @GetMapping()
     public String about() {
-        return "Evaluation API. Use a POST request with lang and code properties.";
+        return "Evaluation API. Use a POST request with lang, code and userId properties in the request body.";
     }
 
     @PostMapping("/{problemId}")

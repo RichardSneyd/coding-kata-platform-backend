@@ -1,8 +1,10 @@
 package com.bnta.codecompiler.utilities;
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
+import com.bnta.codecompiler.models.problems.StartCode;
 import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.models.tests.TestSuite;
+import com.bnta.codecompiler.models.users.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,11 +30,12 @@ public class JSONTest {
 
     @Test
     public void testStringify() {
-        Problem problem = new Problem("Add two numbers", Difficulty.VERY_EASY,
+        Problem problem = new Problem("Add two numbers", "Add two numbers and return.", Difficulty.VERY_EASY,
                 new TestSuite(
-                        new TestCase("{\"num1\":2,\"num2\":3}", "{\"result\":5}"),
+                        new HashSet<TestCase>(),
                         new HashSet<TestCase>()
                 ),
+                new StartCode(),
                 new HashSet<String>(Arrays.asList("math"))
         );
         JsonNode node = JSON.parse(JSON.stringify(problem));
@@ -41,8 +44,10 @@ public class JSONTest {
     }
 
     @Test
-    public void testFromJson() {
+    public void testJsoneNodeToCLass() {
        // JsonNode node = JSON.parse(new CodePojo("console.log('hello world');", "js"));
-        JsonNode node = JSON.parse(simpleJsonString);
+       var json = JSON.stringify(new User());
+       var node = JSON.parse(json);
+       var user = JSON.jsonNodeToClass(node, User.class);
     }
 }

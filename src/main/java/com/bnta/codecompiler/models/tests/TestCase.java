@@ -1,13 +1,11 @@
 package com.bnta.codecompiler.models.tests;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Entity
+@Entity(name="test_cases")
 public class TestCase {
     @Id
+    @GeneratedValue
     private Long id;
     @Column
     private String input;

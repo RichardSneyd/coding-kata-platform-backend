@@ -5,9 +5,10 @@ import com.bnta.codecompiler.models.users.User;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name="solutions")
 public class Solution {
     @Id
+    @GeneratedValue
     private Long id;
     @Column
     private String code;

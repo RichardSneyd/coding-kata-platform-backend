@@ -1,9 +1,6 @@
 package com.bnta.codecompiler.components;
 
-import com.bnta.codecompiler.models.problems.StartCode;
-import com.bnta.codecompiler.models.problems.Difficulty;
-import com.bnta.codecompiler.models.problems.Problem;
-import com.bnta.codecompiler.models.problems.ProblemSet;
+import com.bnta.codecompiler.models.problems.*;
 import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.models.tests.TestSuite;
 import com.bnta.codecompiler.models.users.Role;
@@ -53,7 +50,7 @@ public class DataLoader implements ApplicationRunner {
         Problem[] problems = {
                 newProblem("Add values", "Create a function compute(a:int, b:int), which adds two values together and returns the result.",
                         Difficulty.VERY_EASY,
-                        newTestSuite(newTestCase("[10, 5]", "15"),
+                        newTestSuite(new HashSet<>(Arrays.asList(newTestCase("[10, 5]", "15"))),
                                 new HashSet<>(Arrays.asList(newTestCase("[15, 4]", "19")))
                         ),
                         newStartCode("const compute = (a, b)=> {\n\n}",
@@ -62,7 +59,7 @@ public class DataLoader implements ApplicationRunner {
                         new HashSet<>(Arrays.asList("arithmetic"))),
                 newProblem("Find product", "Create a function compute(vals: int[]), which accepts an array of integers and returns their product.",
                         Difficulty.VERY_EASY,
-                        newTestSuite(newTestCase("[10, 5, 2]", "100"),
+                        newTestSuite(new HashSet<>(Arrays.asList(newTestCase("[10, 5, 2]", "100"))),
                                 new HashSet<>(Arrays.asList(newTestCase("[5, 5, 3]", "75")))
                         ), newStartCode("const compute = (vals) => {\n\n}",
                         "",
@@ -80,12 +77,12 @@ public class DataLoader implements ApplicationRunner {
         return problemSetService.add(new ProblemSet(title, description, problems, difficulty, tags));
     }
 
-    private Solution newSolution(String code, String result, String lang, Boolean correct, User user){
-        return solutionService.add(new Solution(code, result, lang, correct, user));
+    private Solution newSolution(String code, String lang, Boolean correct, Problem problem, User user){
+        return solutionService.add(new Solution(code, lang, correct, problem, user));
     }
 
-    private TestSuite newTestSuite(TestCase publicCase, Set<TestCase> privateCases) {
-        return testSuiteService.add(new TestSuite(publicCase, privateCases));
+    private TestSuite newTestSuite(Set<TestCase> publicCases, Set<TestCase> privateCases) {
+        return testSuiteService.add(new TestSuite(publicCases, privateCases));
     }
 
     private TestCase newTestCase(String input, String output) {

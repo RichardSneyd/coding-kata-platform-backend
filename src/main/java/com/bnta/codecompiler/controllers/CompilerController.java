@@ -25,35 +25,34 @@ public class CompilerController {
     @PostMapping
     public ResponseEntity<CompileResult> compile(@RequestBody CompileInput compileInputPojo) throws IOException {
         System.out.println("message: " + compileInputPojo.toString());
-        CompileResult result = compilerService.compile(compileInputPojo.getCode(),
-                compileInputPojo.getLang());
+        CompileResult result = compilerService.compile(compileInputPojo);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/test/js")
     public ResponseEntity<CompileResult> testJS() throws IOException {
-        CompileResult result = compilerService.compile("console.log(\"hello from js test\")",
-                "js");
+        CompileResult result = compilerService.compile(new CompileInput("console.log(\"hello from js test\")",
+                "js"));
         result.setLang("js");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/test/java")
     public ResponseEntity<CompileResult> testJava() throws IOException {
-        CompileResult result = compilerService.compile("public class Main { " +
+        CompileResult result = compilerService.compile(new CompileInput("public class Main { " +
                         "public static void main(String[] args) {" +
                         "System.out.println(\"Hello from java test\");" +
                         "} " +
                         "}",
-                "java");
+                "java"));
         result.setLang("java");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/test/python")
     public ResponseEntity<CompileResult> testPython() throws IOException {
-        CompileResult result = compilerService.compile("print('hello world');",
-                "py");
+        CompileResult result = compilerService.compile(new CompileInput("print('hello world');",
+                "py"));
         result.setLang("py");
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }

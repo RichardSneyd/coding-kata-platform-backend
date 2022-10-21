@@ -5,9 +5,10 @@ import com.bnta.codecompiler.models.tests.TestSuite;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+@Entity(name="problems")
 public class Problem {
     @Id
+    @GeneratedValue
     private Long id;
     @Column
     private String title;

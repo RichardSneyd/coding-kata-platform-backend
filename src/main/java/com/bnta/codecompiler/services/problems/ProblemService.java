@@ -42,7 +42,7 @@ public class ProblemService {
     }
 
     public Optional<Set<Problem>> findByTag(String tag) {
-        return problemRepository.findByTags_tag(tag);
+        return problemRepository.findByTagsContains(tag);
     }
 
 

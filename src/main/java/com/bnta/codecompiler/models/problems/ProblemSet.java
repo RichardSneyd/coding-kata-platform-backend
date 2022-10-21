@@ -3,9 +3,10 @@ package com.bnta.codecompiler.models.problems;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+@Entity(name="problem_sets")
 public class ProblemSet {
     @Id
+    @GeneratedValue
     private Long id;
     @Column
     private String title;

@@ -1,5 +1,7 @@
 package com.bnta.codecompiler.services;
 
+import com.bnta.codecompiler.models.dtos.CompileInput;
+import com.bnta.codecompiler.models.dtos.CompileResult;
 import com.bnta.codecompiler.services.code.CompilerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,26 +22,26 @@ public class CompilerServiceTest {
 
     @Test
     public void compileJS() throws IOException {
-        String result = compilerService.compile("console.log('Hello from JS compiler');", "js");
-        assertEquals(result, "Hello from JS compiler");
+        var result = compilerService.compile(new CompileInput("console.log('Hello from JS compiler');", "js"));
+        assertEquals(result.getOutput(), "Hello from JS compiler");
     }
 
     @Test
     public void compileJava() {
-        String result = compilerService.compile(
+        var result = compilerService.compile(new CompileInput(
                 "public class Main { " +
                             "public static void main(String[] args) {" +
                                 "System.out.println(\"Hello from Java compiler\");" +
                             "} " +
-                        "}", "java");
-        assertEquals(result, "Hello from Java compiler");
+                        "}", "java"));
+        assertEquals(result.getOutput(), "Hello from Java compiler");
     }
 
     @Test
     public void compilePython() throws IOException {
-        String result = compilerService.compile(
-                "print('Hello from Python compiler')", "py");
-        assertEquals(result, "Hello from Python compiler");
+        var result = compilerService.compile(new CompileInput(
+                "print('Hello from Python compiler')", "py"));
+        assertEquals(result.getOutput(), "Hello from Python compiler");
     }
 
     @Test

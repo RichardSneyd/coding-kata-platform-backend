@@ -24,7 +24,7 @@ public class JSON {
         }
     }
 
-    public static <T> T fromJson(JsonNode node, Class<T> clazz) {
+    public static <T> T jsonNodeToClass(JsonNode node, Class<T> clazz) {
         try {
             return getDefaultObjectMapper().treeToValue(node, clazz);
         } catch (JsonProcessingException e) {

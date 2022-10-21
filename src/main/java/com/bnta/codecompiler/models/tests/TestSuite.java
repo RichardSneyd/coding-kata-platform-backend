@@ -3,9 +3,10 @@ package com.bnta.codecompiler.models.tests;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+@Entity(name="test_suites")
 public class TestSuite {
     @Id
+    @GeneratedValue
     private Long id;
     @OneToMany
     private Set<TestCase> publicCases;

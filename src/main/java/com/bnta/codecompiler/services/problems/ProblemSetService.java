@@ -46,7 +46,7 @@ public class ProblemSetService {
     }
 
     public Optional<Set<ProblemSet>> findByTag(String tag) {
-        return problemSetRepo.findByTags_tag(tag);
+        return problemSetRepo.findByTagsContains(tag);
     }
 
     public ProblemSetService addProblemToSet(Problem problem, ProblemSet set) {
