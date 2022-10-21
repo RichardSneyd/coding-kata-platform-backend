@@ -1,13 +1,13 @@
-package com.bnta.codecompiler.models.code;
+package com.bnta.codecompiler.models.dtos;
 
-public class CodePojo {
+public class CompileInputPojo {
     private String lang;
     private String code;
 
-    public CodePojo() {
+    public CompileInputPojo() {
     }
 
-    public CodePojo(String code, String lang) {
+    public CompileInputPojo(String code, String lang) {
         this.lang = lang;
         this.code = code;
     }
@@ -34,5 +34,10 @@ public class CodePojo {
                 "lang='" + lang + '\'' +
                 ", code='" + code + '\'' +
                 '}';
+    }
+
+    @Override
+    public CompileInputPojo clone() {
+        return new CompileInputPojo(this.code, this.lang);
     }
 }

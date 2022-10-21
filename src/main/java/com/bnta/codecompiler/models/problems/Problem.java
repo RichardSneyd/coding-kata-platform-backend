@@ -18,15 +18,19 @@ public class Problem {
     @OneToOne
     private TestSuite testSuite;
 
+    @OneToOne
+    private StartCode startCode;
+
     // tag the concepts this problem trains/tests, i.e 'objects', 'arrays',
     @ElementCollection
     private Set<String> tags = null;
 
-    public Problem(String title, String description, Difficulty difficulty, TestSuite testSuite, Set<String> tags) {
+    public Problem(String title, String description, Difficulty difficulty, TestSuite testSuite, StartCode startCode, Set<String> tags) {
         this.title = title;
         this.description = description;
         this.difficulty = difficulty;
         this.testSuite = testSuite;
+        this.startCode = startCode;
         this.tags = tags;
     }
 
@@ -75,5 +79,13 @@ public class Problem {
 
     public void setTestSuite(TestSuite testSuite) {
         this.testSuite = testSuite;
+    }
+
+    public StartCode getStartCode() {
+        return startCode;
+    }
+
+    public void setStartCode(StartCode startCode) {
+        this.startCode = startCode;
     }
 }

@@ -1,7 +1,7 @@
 package com.bnta.codecompiler.services.problems;
 
-import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
+import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.problems.ISolutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,7 @@
 package com.bnta.codecompiler.services.code;
 
+import com.bnta.codecompiler.models.dtos.CompileInputPojo;
+import com.bnta.codecompiler.models.dtos.CompileResult;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -15,7 +17,7 @@ public class CompilerService {
             pr.print(code);
             pr.close();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -43,22 +45,24 @@ public class CompilerService {
         return result;
     }
 
-    public String compile(String code, String lang) {
-        String result = "";
+    public CompileResult compile(CompileInputPojo input) {
+        CompileResult result = new CompileResult(input.getCode(), null, null, null, input.getLang());
         try {
-            String command = lang.equals("js") ? "node" : lang.equals("java") ? "java" : "python3";
+            String command = input.getLang().equals("js") ? "node" : input.getLang().equals("java") ? "java" : "python3";
            // command = where(command);
-            String ext = "." + lang;
+            String ext = "." + input.getLang();
             String tDir = System.getProperty("java.io.tmpdir");
             File file = File.createTempFile("temp", ext);
             String tempName = file.getName();
             String fullPath = tDir + File.separator + tempName;
 
-            saveFile(file, code);
-            result = shell(command, fullPath);
+            saveFile(file, input.getCode());
+            result.setOutput(shell(command, fullPath));
+            result.setCompiled(true);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-            result = e.getMessage();
+            e.printStackTrace();
+            result.setErrors(e.getMessage());
+            result.setCompiled(false);
         }
         return result;
     }

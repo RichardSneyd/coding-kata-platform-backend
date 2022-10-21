@@ -8,24 +8,24 @@ public class TestSuite {
     @Id
     private Long id;
     @OneToOne
-    private TestCase publicCase;
+    private Set<TestCase> publicCases;
     @OneToMany
     private Set<TestCase> privateCases;
 
-    public TestSuite(TestCase publicCase, Set<TestCase> privateCases) {
-        this.publicCase = publicCase;
+    public TestSuite(Set<TestCase> publicCases, Set<TestCase> privateCases) {
+        this.publicCases = publicCases;
         this.privateCases = privateCases;
     }
 
     public TestSuite() {
     }
 
-    public TestCase getPublicCase() {
-        return publicCase;
+    public Set<TestCase> getPublicCases() {
+        return publicCases;
     }
 
-    public void setPublicCase(TestCase publicCase) {
-        this.publicCase = publicCase;
+    public void setPublicCases(Set<TestCase> publicCases) {
+        this.publicCases = publicCases;
     }
 
     public Set<TestCase> getPrivateCases() {

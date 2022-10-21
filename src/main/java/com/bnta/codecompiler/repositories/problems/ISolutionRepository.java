@@ -1,7 +1,7 @@
 package com.bnta.codecompiler.repositories.problems;
 
-import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
+import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

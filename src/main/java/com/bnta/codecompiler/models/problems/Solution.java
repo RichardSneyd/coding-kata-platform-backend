@@ -1,40 +1,82 @@
 package com.bnta.codecompiler.models.problems;
 
-import com.bnta.codecompiler.models.code.CodeResultPojo;
+import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
 
 import javax.persistence.*;
 
 @Entity
-public class Solution extends CodeResultPojo {
+public class Solution {
     @Id
     private Long id;
-    @Column
-    private Boolean correct;
+
     @Column
     private String code;
-
-    @ManyToOne
+    @Column
+    private String lang;
+    @Column
+    private boolean correct;
+    @Column
     private Problem problem;
-
-    @OneToMany
+    @ManyToOne
     private User user;
+
+    public Solution(String code, String lang, boolean correct, Problem problem, User user) {
+        this.code = code;
+        this.lang = lang;
+        this.correct = correct;
+        this.problem = problem;
+        this.user = user;
+    }
 
     public Solution() {
     }
 
-    public Solution(String code, String result, String lang, Boolean correct, User user) {
-        super(result, lang);
-        this.code = code;
-        this.correct = correct;
-        this.user = user;
+    public Long getId() {
+        return id;
     }
 
-    public Boolean getCorrect() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public boolean isCorrect() {
         return correct;
     }
 
-    public void setCorrect(Boolean correct) {
+    public void setCorrect(boolean correct) {
         this.correct = correct;
+    }
+
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public void setProblem(Problem problem) {
+        this.problem = problem;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

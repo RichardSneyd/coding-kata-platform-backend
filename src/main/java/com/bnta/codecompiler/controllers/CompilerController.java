@@ -1,7 +1,7 @@
 package com.bnta.codecompiler.controllers;
 
-import com.bnta.codecompiler.models.code.CodePojo;
-import com.bnta.codecompiler.models.code.CodeResultPojo;
+import com.bnta.codecompiler.models.dtos.CompileInputPojo;
+import com.bnta.codecompiler.models.dtos.CompileResult;
 import com.bnta.codecompiler.services.code.CompilerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,41 +18,44 @@ public class CompilerController {
     private CompilerService compilerService;
 
     @GetMapping()
-    public String about(){
+    public String about() {
         return "A remote compiler API. Use a POST request with lang and code properties.";
     }
 
     @PostMapping
-    public ResponseEntity<CodeResultPojo> compile(@RequestBody CodePojo codeMessage) throws IOException {
-        System.out.println("message: " + codeMessage.toString());
-        String response = compilerService.compile(codeMessage.getCode(),
-                codeMessage.getLang());
-        return new ResponseEntity<>(new CodeResultPojo(response, codeMessage.getLang()), HttpStatus.OK);
+    public ResponseEntity<CompileResult> compile(@RequestBody CompileInputPojo compileInputPojo) throws IOException {
+        System.out.println("message: " + compileInputPojo.toString());
+        CompileResult result = compilerService.compile(compileInputPojo.getCode(),
+                compileInputPojo.getLang());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/test/js")
-    public ResponseEntity<CodeResultPojo> testJS() throws IOException {
-        String response = compilerService.compile("console.log(\"hello from js test\")",
+    public ResponseEntity<CompileResult> testJS() throws IOException {
+        CompileResult result = compilerService.compile("console.log(\"hello from js test\")",
                 "js");
-            return new ResponseEntity<>(new CodeResultPojo(response, "js"), HttpStatus.OK);
+        result.setLang("js");
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/test/java")
-    public ResponseEntity<CodeResultPojo> testJava() throws IOException {
-        String response = compilerService.compile("public class Main { " +
+    public ResponseEntity<CompileResult> testJava() throws IOException {
+        CompileResult result = compilerService.compile("public class Main { " +
                         "public static void main(String[] args) {" +
                         "System.out.println(\"Hello from java test\");" +
                         "} " +
                         "}",
                 "java");
-        return new ResponseEntity<>(new CodeResultPojo(response, "java"), HttpStatus.CREATED);
+        result.setLang("java");
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/test/python")
-    public ResponseEntity<CodeResultPojo> testPython() throws IOException {
-        String response = compilerService.compile("print('hello world');",
+    public ResponseEntity<CompileResult> testPython() throws IOException {
+        CompileResult result = compilerService.compile("print('hello world');",
                 "py");
-        return new ResponseEntity<>(new CodeResultPojo(response, "py"), HttpStatus.CREATED);
+        result.setLang("py");
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @GetMapping("/where/{command}")
