@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity(name="problems")
 public class Problem {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @Column
     private String title;

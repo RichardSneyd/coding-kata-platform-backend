@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity(name="test_cases")
 public class TestCase {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @Column
     private String input;

@@ -6,7 +6,7 @@ import java.util.Set;
 @Entity(name="test_suites")
 public class TestSuite {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @OneToMany
     private Set<TestCase> publicCases;

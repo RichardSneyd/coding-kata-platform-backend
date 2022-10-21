@@ -6,7 +6,7 @@ import java.util.Set;
 @Entity(name="problem_sets")
 public class ProblemSet {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @Column
     private String title;
