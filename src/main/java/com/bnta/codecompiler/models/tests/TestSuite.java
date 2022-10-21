@@ -7,7 +7,7 @@ import java.util.Set;
 public class TestSuite {
     @Id
     private Long id;
-    @OneToOne
+    @OneToMany
     private Set<TestCase> publicCases;
     @OneToMany
     private Set<TestCase> privateCases;
@@ -36,8 +36,4 @@ public class TestSuite {
         this.privateCases = privateCases;
     }
 
-    public TestSuite addPrivateCase(TestCase privateCase) {
-        this.privateCases.add(privateCase);
-        return this;
-    }
 }

@@ -17,10 +17,8 @@ public class Problem {
     private Difficulty difficulty = Difficulty.EASY;
     @OneToOne
     private TestSuite testSuite;
-
     @OneToOne
     private StartCode startCode;
-
     // tag the concepts this problem trains/tests, i.e 'objects', 'arrays',
     @ElementCollection
     private Set<String> tags = null;

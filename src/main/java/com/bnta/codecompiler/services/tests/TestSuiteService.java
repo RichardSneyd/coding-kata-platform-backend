@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.services.tests;
 
+import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.models.tests.TestSuite;
 import com.bnta.codecompiler.repositories.tests.ITestSuiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,25 @@ public class TestSuiteService {
     public Set<TestSuite> findAll() {
         return new HashSet<>(testSuiteRepo.findAll());
     }
+
+    public TestSuiteService addPublicTest(TestCase testCase, TestSuite testSuite) {
+        testSuite.getPublicCases().add(testCase);
+        return this;
+    }
+
+    public TestSuiteService addPublicTest(TestCase testCase, Long testSuiteId) throws Exception {
+        return addPublicTest(testCase, findById(testSuiteId));
+    }
+
+    public TestSuiteService addPrivateTest(TestCase testCase, TestSuite testSuite) {
+        testSuite.getPrivateCases().add(testCase);
+        return this;
+    }
+
+    public TestSuiteService addPrivateTest(TestCase testCase, Long testSuiteId) throws Exception {
+        return addPrivateTest(testCase, findById(testSuiteId));
+    }
+
+
+
 }

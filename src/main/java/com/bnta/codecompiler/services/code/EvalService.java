@@ -16,8 +16,9 @@ public class EvalService {
     @Autowired
     CompilerService compiler;
 
-    public EvalResult evaluate(CompileInputPojo compileInputPojo, Problem problem) {
+    public EvalResult evaluate(CompileInput compileInputPojo, Problem problem) {
         EvalResult evalResult = new EvalResult();
+        evalResult.setProblem(problem);
         List<CompileResult> compileResults = new ArrayList<>();
 
        evalResult.setPublicTestResults(runTestCases(problem.getTestSuite().getPublicCases(), compileInputPojo));
@@ -26,14 +27,14 @@ public class EvalService {
        return evalResult;
     }
 
-    public boolean evaluateTestCases(Set<TestCase> testCases, CompileInputPojo compileInputPojo) {
+    public boolean evaluateTestCases(Set<TestCase> testCases, CompileInput compileInputPojo) {
         var results = runTestCases(testCases, compileInputPojo);
         // todo: check each result against the problem, and return true if all pass
 
         return false;
     }
 
-    public List<TestCaseResult> runTestCases(Set<TestCase> testCases, CompileInputPojo compileInputPojo) {
+    public List<TestCaseResult> runTestCases(Set<TestCase> testCases, CompileInput compileInputPojo) {
         List<TestCaseResult> testResults = new ArrayList<>();
         for(var testCase : testCases) {
             var compileResult = compileWithTestInput(testCase, compileInputPojo);
@@ -44,7 +45,7 @@ public class EvalService {
         return testResults;
     }
 
-    public CompileResult compileWithTestInput(TestCase testCase, CompileInputPojo compileInputPojo){
+    public CompileResult compileWithTestInput(TestCase testCase, CompileInput compileInputPojo){
         var compileInput = compileInputPojo.clone();
         compileInput.setCode(wrap(compileInput.getCode(), compileInput.getLang(), testCase.getInput()));
 

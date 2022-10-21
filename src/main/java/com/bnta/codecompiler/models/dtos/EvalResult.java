@@ -1,16 +1,22 @@
 package com.bnta.codecompiler.models.dtos;
 
+import com.bnta.codecompiler.models.problems.Problem;
+
 import java.util.List;
 
 public class EvalResult {
     private boolean successful;
+
     private boolean privateTestsPassed;
     private List<TestCaseResult> publicTestResults;
 
-    public EvalResult(boolean successful, boolean privateTestsPassed, List<TestCaseResult> publicTestResults) {
+    private Problem problem;
+
+    public EvalResult(boolean successful, boolean privateTestsPassed, List<TestCaseResult> publicTestResults, Problem problem) {
         this.successful = successful;
         this.privateTestsPassed = privateTestsPassed;
         this.publicTestResults = publicTestResults;
+        this.problem = problem;
     }
 
     public EvalResult() {
@@ -38,5 +44,13 @@ public class EvalResult {
 
     public void setPublicTestResults(List<TestCaseResult> publicTestResults) {
         this.publicTestResults = publicTestResults;
+    }
+
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public void setProblem(Problem problem) {
+        this.problem = problem;
     }
 }

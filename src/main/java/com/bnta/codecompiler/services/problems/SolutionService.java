@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.services.problems;
 
+import com.bnta.codecompiler.models.dtos.EvalResult;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;

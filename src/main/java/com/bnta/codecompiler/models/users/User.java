@@ -8,16 +8,12 @@ import javax.persistence.Id;
 public class User {
     @Id
     private Long id;
-
     @Column
     private String uname;
-
     @Column
     private String password;
-
     @Column
     private String cohort = null;
-
     @Column
     private Role role = Role.USER;
 

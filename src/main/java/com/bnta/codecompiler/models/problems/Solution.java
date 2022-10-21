@@ -9,14 +9,13 @@ import javax.persistence.*;
 public class Solution {
     @Id
     private Long id;
-
     @Column
     private String code;
     @Column
     private String lang;
     @Column
     private boolean correct;
-    @Column
+    @ManyToOne
     private Problem problem;
     @ManyToOne
     private User user;

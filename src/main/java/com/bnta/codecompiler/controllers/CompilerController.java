@@ -1,6 +1,6 @@
 package com.bnta.codecompiler.controllers;
 
-import com.bnta.codecompiler.models.dtos.CompileInputPojo;
+import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.dtos.CompileResult;
 import com.bnta.codecompiler.services.code.CompilerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class CompilerController {
     }
 
     @PostMapping
-    public ResponseEntity<CompileResult> compile(@RequestBody CompileInputPojo compileInputPojo) throws IOException {
+    public ResponseEntity<CompileResult> compile(@RequestBody CompileInput compileInputPojo) throws IOException {
         System.out.println("message: " + compileInputPojo.toString());
         CompileResult result = compilerService.compile(compileInputPojo.getCode(),
                 compileInputPojo.getLang());

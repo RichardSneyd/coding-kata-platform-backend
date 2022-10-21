@@ -1,6 +1,6 @@
 package com.bnta.codecompiler.services.code;
 
-import com.bnta.codecompiler.models.dtos.CompileInputPojo;
+import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.dtos.CompileResult;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +45,7 @@ public class CompilerService {
         return result;
     }
 
-    public CompileResult compile(CompileInputPojo input) {
+    public CompileResult compile(CompileInput input) {
         CompileResult result = new CompileResult(input.getCode(), null, null, null, input.getLang());
         try {
             String command = input.getLang().equals("js") ? "node" : input.getLang().equals("java") ? "java" : "python3";

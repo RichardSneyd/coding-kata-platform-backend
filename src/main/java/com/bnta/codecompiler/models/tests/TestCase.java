@@ -7,13 +7,10 @@ import javax.persistence.Table;
 
 @Entity
 public class TestCase {
-
     @Id
     private Long id;
-
     @Column
     private String input;
-
     @Column
     private String output;
 
