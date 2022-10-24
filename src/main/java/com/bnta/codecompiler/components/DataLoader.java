@@ -44,7 +44,7 @@ public class DataLoader implements ApplicationRunner {
 
         User[] users = {
                 newUser("richard", "fakepassword", null, Role.ADMIN),
-                newUser("fakestudent", "phonypassword", "C7", Role.ADMIN)
+                newUser("fakestudent", "phonypassword", "C7", Role.USER)
         };
 
         Problem[] problems = {
@@ -56,7 +56,7 @@ public class DataLoader implements ApplicationRunner {
                         newStartCode("const compute = (a, b)=> {\n\n}",
                                 "def computer(a, b):\n\nreturn",
                                 ""),
-                        new HashSet<>(Arrays.asList("arithmetic"))),
+                        new HashSet<>(Arrays.asList("arithmetic", "adding"))),
                 newProblem("Find product", "Create a function compute(vals: int[]), which accepts an array of integers and returns their product.",
                         Difficulty.VERY_EASY,
                         newTestSuite(new HashSet<>(Arrays.asList(newTestCase("[10, 5, 2]", "100"))),
@@ -64,7 +64,7 @@ public class DataLoader implements ApplicationRunner {
                         ), newStartCode("const compute = (vals) => {\n\n}",
                         "",
                         ""),
-                        new HashSet<>(Arrays.asList("arithmetic")))
+                        new HashSet<>(Arrays.asList("arithmetic", "product")))
         };
 
     }

@@ -38,18 +38,19 @@ public class CompilerService {
         return text;
     }
 
-    private String readAll(Process process) {
-        String result = readOutput(process.getInputStream());
-        String errorMsg = readOutput(process.getErrorStream());
-        if (errorMsg != null && !errorMsg.equals("")) result = result +  "\n" + errorMsg;
-        return result;
+    private CompileResult readAll(Process process, CompileResult compileResult) {
+        compileResult.setOutput(readOutput(process.getInputStream()));
+        compileResult.setErrors(readOutput(process.getErrorStream()));
+        if(!(compileResult.getErrors().equals("") || compileResult.getErrors() == null)) compileResult.setCompiled(false);
+        else compileResult.setCompiled(true);
+        return compileResult;
     }
 
     public CompileResult compile(CompileInput input) {
-        CompileResult result = new CompileResult(input.getCode(), null, null, null, input.getLang());
+        CompileResult result = new CompileResult(input.getCode(), null, null, false, input.getLang());
         try {
             String command = input.getLang().equals("js") ? "node" : input.getLang().equals("java") ? "java" : "python3";
-           // command = where(command);
+            // command = where(command);
             String ext = "." + input.getLang();
             String tDir = System.getProperty("java.io.tmpdir");
             File file = File.createTempFile("temp", ext);
@@ -57,8 +58,7 @@ public class CompilerService {
             String fullPath = tDir + File.separator + tempName;
 
             saveFile(file, input.getCode());
-            result.setOutput(shell(command, fullPath));
-            result.setCompiled(true);
+            result = shell(command, fullPath, result);
         } catch (IOException e) {
             e.printStackTrace();
             result.setErrors(e.getMessage());
@@ -67,25 +67,26 @@ public class CompilerService {
         return result;
     }
 
-    public String shell(String command, String args) {
-        return readAll(startProcess(command, args));
+    public CompileResult shell(String command, String args, CompileResult result) {
+        return readAll(startProcess(command, args), result);
     }
 
-    public String where(String command) {
-        String output;
+    public CompileResult where(String command) {
+        CompileResult result = new CompileResult();
         try {
-            output = readAll(startProcess("which", command));
-            return output;
+            result = readAll(startProcess("which", command), result);
+            return result;
         } catch (Exception e) {
-            output = "Error running 'where' on " + command + ": " + e.getMessage();
-            System.out.println(output);
-            return output;
+            result.setCompiled(false);
+            result.setErrors("Error running 'where' on " + command + ": " + e.getMessage());
+            e.printStackTrace();
+            return result;
         }
 
     }
 
-    public String echo(String message) {
-        return readAll(startProcess("echo", message));
+    public CompileResult echo(String message) {
+        return readAll(startProcess("echo", message), new CompileResult());
     }
 
 }

@@ -33,7 +33,6 @@ public class CompilerController {
     public ResponseEntity<CompileResult> testJS() throws IOException {
         CompileResult result = compilerService.compile(new CompileInput("console.log(\"hello from js test\")",
                 "js"));
-        result.setLang("js");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -45,25 +44,23 @@ public class CompilerController {
                         "} " +
                         "}",
                 "java"));
-        result.setLang("java");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/test/python")
     public ResponseEntity<CompileResult> testPython() throws IOException {
-        CompileResult result = compilerService.compile(new CompileInput("print('hello world');",
+        CompileResult result = compilerService.compile(new CompileInput("print('hello world';",
                 "py"));
-        result.setLang("py");
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @GetMapping("/where/{command}")
-    public String whereJS(@PathVariable String command) {
+    public CompileResult whereJS(@PathVariable String command) {
         return compilerService.where(command);
     }
 
     @GetMapping("/echo/{message}")
-    public String echo(@PathVariable String message) {
+    public CompileResult echo(@PathVariable String message) {
         return compilerService.echo(message);
     }
 

@@ -87,4 +87,8 @@ public class Problem {
     public void setStartCode(StartCode startCode) {
         this.startCode = startCode;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

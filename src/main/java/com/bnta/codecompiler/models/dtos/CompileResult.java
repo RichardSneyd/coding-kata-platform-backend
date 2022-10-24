@@ -3,7 +3,7 @@ package com.bnta.codecompiler.models.dtos;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-//todo: probably doesn't need to be an entity, more of a DTO
+
 @Entity
 public class CompileResult {
     @Id
@@ -17,7 +17,7 @@ public class CompileResult {
     @Column
     private String code;
     @Column
-    private boolean compiled = true;
+    private boolean compiled;
 
     public CompileResult(String code, String output, String errors, Boolean compiled, String lang) {
         this.code = code;
