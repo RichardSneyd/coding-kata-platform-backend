@@ -4,6 +4,7 @@ import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity(name="solutions")
 public class Solution {
@@ -16,6 +17,8 @@ public class Solution {
     private String lang;
     @Column
     private boolean correct;
+    @Column
+    private LocalDate submissionDate;
     @ManyToOne
     private Problem problem;
     @ManyToOne
@@ -27,6 +30,7 @@ public class Solution {
         this.correct = correct;
         this.problem = problem;
         this.user = user;
+        this.submissionDate = LocalDate.now();
     }
 
     public Solution() {
@@ -80,5 +84,11 @@ public class Solution {
         this.user = user;
     }
 
+    public LocalDate getSubmissionDate() {
+        return submissionDate;
+    }
 
+    public void setSubmissionDate(LocalDate submissionDate) {
+        this.submissionDate = submissionDate;
+    }
 }

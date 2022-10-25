@@ -19,24 +19,19 @@ public class EvalService {
     public EvalResult evaluate(CompileInput compileInputPojo, Problem problem) {
         EvalResult evalResult = new EvalResult();
         evalResult.setProblem(problem);
-        List<CompileResult> compileResults = new ArrayList<>();
 
-       evalResult.setPublicTestResults(runTestCases(problem.getTestSuite().getPublicCases(), compileInputPojo));
-       var privateResults = runTestCases(problem.getTestSuite().getPrivateCases(), compileInputPojo);
-
-       return evalResult;
-    }
-
-    public boolean evaluateTestCases(Set<TestCase> testCases, CompileInput compileInputPojo) {
-        var results = runTestCases(testCases, compileInputPojo);
-        // todo: check each result against the problem, and return true if all pass
-
-        return false;
+        evalResult.setPublicTestResults(runTestCases(problem.getTestSuite().getPublicCases(), compileInputPojo));
+        var privateResults = runTestCases(problem.getTestSuite().getPrivateCases(), compileInputPojo);
+        evalResult.setPrivateTestsPassed(privateResults.stream().allMatch(result -> result.isCorrect()));
+        evalResult.setSuccessful(evalResult.isPrivateTestsPassed() &&
+                evalResult.getPublicTestResults().stream()
+                        .allMatch(result -> result.isCorrect()));
+        return evalResult;
     }
 
     public List<TestCaseResult> runTestCases(Set<TestCase> testCases, CompileInput compileInputPojo) {
         List<TestCaseResult> testResults = new ArrayList<>();
-        for(var testCase : testCases) {
+        for (var testCase : testCases) {
             var compileResult = compileWithTestInput(testCase, compileInputPojo);
             var correct = testCase.getOutput().equals(compileResult.getOutput());
             testResults.add(new TestCaseResult(compileResult, correct));
@@ -45,7 +40,7 @@ public class EvalService {
         return testResults;
     }
 
-    public CompileResult compileWithTestInput(TestCase testCase, CompileInput compileInputPojo){
+    public CompileResult compileWithTestInput(TestCase testCase, CompileInput compileInputPojo) {
         var compileInput = compileInputPojo.clone();
         compileInput.setCode(wrap(compileInput.getCode(), compileInput.getLang(), testCase.getInput()));
 
@@ -53,7 +48,7 @@ public class EvalService {
     }
 
     private String wrap(String src, String lang, String input) {
-        switch(lang) {
+        switch (lang) {
             case "java":
                 return wrapJava(src, input);
             case "js":
@@ -68,10 +63,10 @@ public class EvalService {
     private String wrapJava(String src, String input) {
         var inputVals = JSON.parse(input);
         String argsString = "";
-       // inputVals.as
+        // inputVals.as
         String prefix = "public class Main { \n" +
                 "public static void main(String[] args) { \n" +
-                    "System.out.println(solution(";
+                "System.out.println(solution(";
         String suffix = "));\n }";
         return prefix + argsString + suffix + src + "\n }";
     }
@@ -84,7 +79,7 @@ public class EvalService {
     }
 
     private String wrapPython(String src, String input) {
-        return src + "print(solution(" + input + "))" ;
+        return src + "print(solution(" + input + "))";
     }
 
 

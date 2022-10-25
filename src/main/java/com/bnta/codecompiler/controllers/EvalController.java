@@ -2,12 +2,14 @@ package com.bnta.codecompiler.controllers;
 
 import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.dtos.EvalInput;
+import com.bnta.codecompiler.models.dtos.EvalResult;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.services.code.EvalService;
 import com.bnta.codecompiler.services.problems.ProblemService;
 import com.bnta.codecompiler.services.problems.SolutionService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +31,8 @@ public class EvalController {
     }
 
     @PostMapping("/{problemId}")
-    public ResponseEntity<Solution> evaluate(@RequestBody EvalInput evalInput,
-                                             @PathVariable Long problemId) {
+    public ResponseEntity<EvalResult> evaluate(@RequestBody EvalInput evalInput,
+                                               @PathVariable Long problemId) {
         try {
             var user = userService.findById(evalInput.getUserId());
             var evalResult = evalService.evaluate(evalInput, problemService.findById(problemId));
@@ -38,11 +40,11 @@ public class EvalController {
                 solutionService.add(new Solution(evalInput.getCode(), evalInput.getLang(),
                         evalResult.isSuccessful(), evalResult.getProblem(), user));
             }
+            return new ResponseEntity<>(evalResult, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            //todo: return not found error code
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return null;
     }
 }

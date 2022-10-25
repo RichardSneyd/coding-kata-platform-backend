@@ -23,27 +23,7 @@ public class ProblemsAdminController {
     @Autowired
     private ProblemSetService problemSetService;
 
-    @GetMapping
-    public Set<Problem> allProblems() {
-        return problemService.findAll();
-    }
 
-    @GetMapping("/tag/{tag}")
-    public Set<Problem> byTag(@PathVariable String tag) {
-        return problemService.findByTag(tag).get();
-    }
-
-    @GetMapping("/tags")
-    public Set<String> allTags() {
-        Set<String> tags = new HashSet();
-        problemService.findAll().stream().map(problem -> problem.getTags()).collect(Collectors.toSet()).forEach(tags::addAll);
-        return tags;
-    }
-
-    @GetMapping("/difficulty/{difficulty}")
-    public Set<Problem> byDifficulty(@PathVariable("difficulty") Difficulty difficulty) {
-        return problemService.findByDifficulty(difficulty).get();
-    }
 
     @PostMapping("/")
     public Problem newProblem(@RequestBody Problem problem) {

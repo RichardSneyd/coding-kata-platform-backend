@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.controllers;
 
+import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.ProblemSet;
 import com.bnta.codecompiler.services.problems.ProblemService;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/users/problems")
+@RequestMapping("/user/problems")
 public class ProblemsUserController {
     @Autowired
     ProblemService problemService;
@@ -26,9 +29,31 @@ public class ProblemsUserController {
     ProblemSetService problemSetService;
 
     @GetMapping
-    public ResponseEntity<Set<Problem>> getAllProblems(){
-        Set<Problem> problems = problemService.findAll();
-        return new ResponseEntity<>(problems, HttpStatus.FOUND);
+    public Set<Problem> allProblems() {
+        return problemService.findAll();
+    }
+
+    @GetMapping("/tag/{tag}")
+    public ResponseEntity<Set<Problem>> byTag(@PathVariable String tag) {
+        Optional<Set<Problem>> optional = problemService.findByTag(tag);
+        if(optional.isPresent() && optional.get().size() > 0) {
+            return new ResponseEntity<>(optional.get(), HttpStatus.FOUND);
+        }
+        else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/tags")
+    public Set<String> allTags() {
+        Set<String> tags = new HashSet();
+        problemService.findAll().stream().map(problem -> problem.getTags()).collect(Collectors.toSet()).forEach(tags::addAll);
+        return tags;
+    }
+
+    @GetMapping("/difficulty/{difficulty}")
+    public ResponseEntity<Set<Problem>> byDifficulty(@PathVariable("difficulty") Difficulty difficulty) {
+        var optional = problemService.findByDifficulty(difficulty);
+        if(optional.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        else return new ResponseEntity<>(optional.get(), HttpStatus.FOUND);
     }
 
     @GetMapping("/{id}")
@@ -43,16 +68,7 @@ public class ProblemsUserController {
         }
     }
 
-    @GetMapping("/{tag}")
-    public ResponseEntity<Set<Problem>> getProblemsByTag(@PathVariable String tag) {
-        Optional<Set<Problem>> optional = problemService.findByTag(tag);
-        if(optional.isPresent() && optional.get().size() > 0) {
-            return new ResponseEntity<>(optional.get(), HttpStatus.FOUND);
-        }
-        else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/sets/")
+    @GetMapping("/sets")
     public ResponseEntity<Set<ProblemSet>> getAllProblemSets(){
         Set<ProblemSet> problemSets = problemSetService.findAll();
         return new ResponseEntity<>(problemSets, HttpStatus.FOUND);

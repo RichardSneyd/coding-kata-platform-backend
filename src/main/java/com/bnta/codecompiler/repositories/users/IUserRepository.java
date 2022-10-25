@@ -9,4 +9,8 @@ import java.util.Set;
 public interface IUserRepository extends JpaRepository<User, Long> {
     //todo: add derived queries as needed
     Optional<Set<User>> findByCohort(String cohort);
+
+    Optional<Set<User>> findByOrderByScoreDesc();
+
+    Optional<Set<User>> findByCohortOrderByScoreDesc(String cohort);
 }

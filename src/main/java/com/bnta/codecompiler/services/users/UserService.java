@@ -1,5 +1,7 @@
 package com.bnta.codecompiler.services.users;
 
+import com.bnta.codecompiler.models.problems.Difficulty;
+import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,24 @@ public class UserService {
 
     public Optional<Set<User>> findAllFromCohort(String cohort) {
         return userRepository.findByCohort(cohort);
+    }
+    public Optional<Set<User>> globalLeaderboard() {
+        return userRepository.findByOrderByScoreDesc();
+    }
+
+    public Optional<Set<User>> cohortLeaderboard(String cohort) {
+        return userRepository.findByCohortOrderByScoreDesc(cohort.toUpperCase());
+    }
+
+    public User addSolution(User user, Solution solution) {
+        user.getSolutions().add(solution);
+        increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
+        return userRepository.save(user);
+    }
+
+    public User increaseScore(User user, long amount) {
+        user.setScore(user.getScore() + amount);
+        return userRepository.save(user);
     }
 
 }

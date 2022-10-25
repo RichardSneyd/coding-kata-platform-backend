@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.configurations;
 
-import com.bnta.codecompiler.components.converters.StringToEnumConverter;
+import com.bnta.codecompiler.components.converters.StringToDifficultyConverter;
+import com.bnta.codecompiler.components.converters.StringToRoleConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -19,7 +20,8 @@ public class SpringGlobalConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new StringToEnumConverter());
+        registry.addConverter(new StringToDifficultyConverter());
+        registry.addConverter(new StringToRoleConverter());
     }
 
 
