@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.models.users;
 
 import com.bnta.codecompiler.models.problems.Solution;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -57,6 +58,7 @@ public class User {
         this.uname = uname;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

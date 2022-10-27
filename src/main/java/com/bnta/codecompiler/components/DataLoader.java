@@ -5,10 +5,7 @@ import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.models.tests.TestSuite;
 import com.bnta.codecompiler.models.users.Role;
 import com.bnta.codecompiler.models.users.User;
-import com.bnta.codecompiler.services.problems.ProblemService;
-import com.bnta.codecompiler.services.problems.ProblemSetService;
-import com.bnta.codecompiler.services.problems.SolutionService;
-import com.bnta.codecompiler.services.problems.StartCodeService;
+import com.bnta.codecompiler.services.problems.*;
 import com.bnta.codecompiler.services.tests.TestCaseService;
 import com.bnta.codecompiler.services.tests.TestSuiteService;
 import com.bnta.codecompiler.services.users.UserService;
@@ -17,9 +14,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -37,6 +32,8 @@ public class DataLoader implements ApplicationRunner {
     TestCaseService testCaseService;
     @Autowired
     StartCodeService startCodeService;
+    @Autowired
+    DataService ds;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -48,28 +45,48 @@ public class DataLoader implements ApplicationRunner {
         };
 
         Problem[] problems = {
-                newProblem("Add values", "Create a function compute(a:int, b:int), which adds two values together and returns the result.",
+                newProblem("addValues", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
                         Difficulty.VERY_EASY,
-                        newTestSuite(new HashSet<>(Arrays.asList(newTestCase("[10, 5]", "15"))),
-                                new HashSet<>(Arrays.asList(newTestCase("[15, 4]", "19")))
+                        newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
+                                        List.of(ds.of(10), ds.of(5)), ds.of(15)))),
+                                new HashSet<>(Arrays.asList(newTestCase(
+                                        List.of(ds.of(15), ds.of(4)), ds.of(19))))
                         ),
-                        newStartCode("const compute = (a, b)=> {\n\n}",
-                                "def computer(a, b):\n\nreturn",
+                        newStartCode("const addValues = (a, b)=> {\n\n}",
+                                "def addValues(a, b):\n\nreturn",
                                 ""),
                         new HashSet<>(Arrays.asList("arithmetic", "adding"))),
-                newProblem("Find product", "Create a function compute(vals: int[]), which accepts an array of integers and returns their product.",
+
+                newProblem("sum", "Create a function, sum(vals: int[]), which returns the sum of all integers in a given array.",
                         Difficulty.VERY_EASY,
-                        newTestSuite(new HashSet<>(Arrays.asList(newTestCase("[10, 5, 2]", "100"))),
-                                new HashSet<>(Arrays.asList(newTestCase("[5, 5, 3]", "75")))
-                        ), newStartCode("const compute = (vals) => {\n\n}",
-                        "",
-                        ""),
+                        newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
+                                        List.of(ds.of(new Integer[]{10, 5, 15})), ds.of(30)))),
+                                new HashSet<>(Arrays.asList(newTestCase(
+                                        List.of(ds.of(new Integer[]{15, 4, -8})), ds.of(11))))
+                        ),
+                        newStartCode("const addValues = (a, b)=> {\n\n}",
+                                "def addValues(a, b):\n\nreturn",
+                                ""),
+                        new HashSet<>(Arrays.asList("arithmetic", "adding"))),
+
+                newProblem("getProduct", "Create a function, getProduct(vals: int[]), which accepts an array of integers and returns their product.",
+                        Difficulty.VERY_EASY,
+                        newTestSuite(new HashSet<>(
+                                        Arrays.asList(newTestCase(List.of(
+                                                ds.of(new Integer[]{10, 5, 2})), ds.of(100)))),
+                                new HashSet<>(
+                                        Arrays.asList(newTestCase(
+                                                List.of(ds.of(new Integer[]{5, 5, 3})),
+                                                ds.of(75))))
+                        ), newStartCode("const getProduct = (vals) => {\n\n}",
+                                "",
+                                ""),
                         new HashSet<>(Arrays.asList("arithmetic", "product")))
         };
 
     }
 
-    private Problem newProblem(String title, String desc, Difficulty diff, TestSuite testSuite, StartCode startCode, Set<String> tags){
+    private Problem newProblem(String title, String desc, Difficulty diff, TestSuite testSuite, StartCode startCode, Set<String> tags) {
         return problemService.add(new Problem(title, desc, diff, testSuite, startCode, tags));
     }
 
@@ -77,7 +94,7 @@ public class DataLoader implements ApplicationRunner {
         return problemSetService.add(new ProblemSet(title, description, problems, difficulty, tags));
     }
 
-    private Solution newSolution(String code, String lang, Boolean correct, Problem problem, User user){
+    private Solution newSolution(String code, String lang, Boolean correct, Problem problem, User user) {
         return solutionService.add(new Solution(code, lang, correct, problem, user));
     }
 
@@ -85,8 +102,8 @@ public class DataLoader implements ApplicationRunner {
         return testSuiteService.add(new TestSuite(publicCases, privateCases));
     }
 
-    private TestCase newTestCase(String input, String output) {
-        return testCaseService.add(new TestCase(input, output));
+    private TestCase newTestCase(List<Data> inputs, Data output) {
+        return testCaseService.add(new TestCase(inputs, output));
     }
 
     private StartCode newStartCode(String js, String py, String java) {
@@ -96,4 +113,5 @@ public class DataLoader implements ApplicationRunner {
     private User newUser(String uname, String password, String cohort, Role role) {
         return userService.add(new User(uname, password, cohort, role));
     }
+
 }

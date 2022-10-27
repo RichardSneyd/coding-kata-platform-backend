@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.services.tests;
 
+import com.bnta.codecompiler.models.problems.Data;
 import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.repositories.tests.ITestCaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,15 @@ public class TestCaseService {
     public void remove(Long id) throws Exception {
         TestCase testCase = findById(id);
         testCaseRepo.delete(testCase);
+    }
+
+    public TestCase addArg(Data arg, TestCase testCase) {
+        testCase.getInputs().add(arg);
+        return testCase;
+    }
+
+    public TestCase addArg(Data arg, Long id) throws Exception {
+        return addArg(arg, findById(id));
     }
 
 }

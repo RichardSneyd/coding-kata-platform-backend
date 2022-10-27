@@ -1,38 +1,49 @@
 package com.bnta.codecompiler.models.tests;
 
+import com.bnta.codecompiler.models.problems.Data;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name="test_cases")
 public class TestCase {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private String input;
-    @Column
-    private String output;
+    @OneToMany
+    private List<Data> inputs;
+    @OneToOne
+    private Data output;
 
-    public TestCase(String input, String output) {
-        this.input = input;
+    public TestCase(List<Data> inputs, Data output) {
+        this.inputs = inputs;
         this.output = output;
     }
 
     public TestCase() {
     }
 
-    public String getInput() {
-        return input;
+    public Long getId() {
+        return id;
     }
 
-    public void setInput(String input) {
-        this.input = input;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getOutput() {
+    public List<Data> getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(List<Data> inputs) {
+        this.inputs = inputs;
+    }
+
+    public Data getOutput() {
         return output;
     }
 
-    public void setOutput(String output) {
+    public void setOutput(Data output) {
         this.output = output;
     }
 }

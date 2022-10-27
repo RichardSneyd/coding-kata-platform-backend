@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JavaParser {
-
-
     public static List<String> removeLinesWith(List<String> lines, List<String> subs) {
         lines = Stream.of(lines.toArray(new String[0])).filter(line -> {
             for(var sub : subs) {

@@ -3,13 +3,15 @@ package com.bnta.codecompiler.services.code;
 import com.bnta.codecompiler.models.dtos.*;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.tests.TestCase;
-import com.bnta.codecompiler.utilities.JSON;
+import com.bnta.codecompiler.utilities.DataParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static com.bnta.codecompiler.utilities.DataParser.generateSrc;
 
 @Service
 public class EvalService {
@@ -20,67 +22,43 @@ public class EvalService {
         EvalResult evalResult = new EvalResult();
         evalResult.setProblem(problem);
 
-        evalResult.setPublicTestResults(runTestCases(problem.getTestSuite().getPublicCases(), compileInputPojo));
-        var privateResults = runTestCases(problem.getTestSuite().getPrivateCases(), compileInputPojo);
-        evalResult.setPrivateTestsPassed(privateResults.stream().allMatch(result -> result.isCorrect()));
+        evalResult.setPublicTestResults(runTestCases(problem.getTitle(),
+                problem.getTestSuite().getPublicCases(), compileInputPojo));
+        var privateResults = runTestCases(problem.getTitle(),
+                problem.getTestSuite().getPrivateCases(), compileInputPojo);
+        evalResult.setPrivateTestsPassed(privateResults.stream()
+                .allMatch(result -> result.isCorrect()));
         evalResult.setSuccessful(evalResult.isPrivateTestsPassed() &&
                 evalResult.getPublicTestResults().stream()
                         .allMatch(result -> result.isCorrect()));
         return evalResult;
     }
 
-    public List<TestCaseResult> runTestCases(Set<TestCase> testCases, CompileInput compileInputPojo) {
+    public List<TestCaseResult> runTestCases(String functionName, Set<TestCase> testCases,
+                                             CompileInput compileInputPojo) {
         List<TestCaseResult> testResults = new ArrayList<>();
         for (var testCase : testCases) {
-            var compileResult = compileWithTestInput(testCase, compileInputPojo);
-            var correct = testCase.getOutput().equals(compileResult.getOutput());
+            var compileResult = compileWithTestInput(functionName, testCase, compileInputPojo);
+            var correct = isDataMatch(testCase.getOutput().getValue(),
+                    compileResult.getOutput());
             testResults.add(new TestCaseResult(compileResult, correct));
         }
 
         return testResults;
     }
 
-    public CompileResult compileWithTestInput(TestCase testCase, CompileInput compileInputPojo) {
+    public CompileResult compileWithTestInput(String functionName, TestCase testCase,
+                                              CompileInput compileInputPojo) {
         var compileInput = compileInputPojo.clone();
-        compileInput.setCode(wrap(compileInput.getCode(), compileInput.getLang(), testCase.getInput()));
+        compileInput.setCode(generateSrc(functionName, compileInput.getCode(), compileInput.getLang(),
+                testCase.getInputs(), testCase.getOutput().getDataType()));
 
         return compiler.compile(compileInput);
     }
 
-    private String wrap(String src, String lang, String input) {
-        switch (lang) {
-            case "java":
-                return wrapJava(src, input);
-            case "js":
-                return wrapJs(src, input);
-            case "py":
-                return wrapPython(src, input);
-            default:
-                return src;
-        }
+
+
+    private boolean isDataMatch(String expected, String actual) {
+        return DataParser.standardise(expected) == DataParser.standardise(actual);
     }
-
-    private String wrapJava(String src, String input) {
-        var inputVals = JSON.parse(input);
-        String argsString = "";
-        // inputVals.as
-        String prefix = "public class Main { \n" +
-                "public static void main(String[] args) { \n" +
-                "System.out.println(solution(";
-        String suffix = "));\n }";
-        return prefix + argsString + suffix + src + "\n }";
-    }
-
-
-    private String wrapJs(String src, String input) {
-        String prefix = "console.log(solution(";
-        String suffix = "));";
-        return src + prefix + input + suffix;
-    }
-
-    private String wrapPython(String src, String input) {
-        return src + "print(solution(" + input + "))";
-    }
-
-
 }
