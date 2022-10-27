@@ -3,7 +3,7 @@ package com.bnta.codecompiler.services.code;
 import com.bnta.codecompiler.models.dtos.*;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.tests.TestCase;
-import com.bnta.codecompiler.utilities.DataParser;
+import com.bnta.codecompiler.utilities.SrcParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.bnta.codecompiler.utilities.DataParser.generateSrc;
+import static com.bnta.codecompiler.utilities.SrcParser.generateSrc;
 
 @Service
 public class EvalService {
@@ -59,6 +59,6 @@ public class EvalService {
 
 
     private boolean isDataMatch(String expected, String actual) {
-        return DataParser.standardise(expected) == DataParser.standardise(actual);
+        return SrcParser.standardiseArgFormat(expected) == SrcParser.standardiseArgFormat(actual);
     }
 }

@@ -1,9 +1,5 @@
 package com.bnta.codecompiler.models.problems;
 
-import com.bnta.codecompiler.utilities.DataParser;
-
-import java.util.Arrays;
-
 public enum DataType {
     INT,
     INT_ARRAY,

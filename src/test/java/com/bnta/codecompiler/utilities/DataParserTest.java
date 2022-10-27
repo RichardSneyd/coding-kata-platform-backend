@@ -25,13 +25,13 @@ public class DataParserTest {
 
     @Test
     public void testStandarise() {
-        assertThat(DataParser.standardise(Arrays.toString(new int[]{0, 1, 4, 5}))).isEqualTo("0,1,4,5");
-        assertThat(DataParser.standardise(Arrays.toString(new String[]{"Dog", "Cat", "Horse"}))).isEqualTo("Dog,Cat,Horse");
+        assertThat(SrcParser.standardiseArgFormat(Arrays.toString(new int[]{0, 1, 4, 5}))).isEqualTo("0,1,4,5");
+        assertThat(SrcParser.standardiseArgFormat(Arrays.toString(new String[]{"Dog", "Cat", "Horse"}))).isEqualTo("Dog,Cat,Horse");
     }
 
     @Test
     public void testToArgs() {
-        assertThat(DataParser.toArgs(List.of(
+        assertThat(SrcParser.toArgs(List.of(
                 new Data("Dog,Cat,Fish", DataType.STRING_ARRAY),
                         new Data("50", DataType.INT)
                 ),
@@ -41,7 +41,7 @@ public class DataParserTest {
 
     @Test
     public void testToArgument() {
-        assertThat(DataParser.toArgument(
+        assertThat(SrcParser.toArgument(
                 new Data("Dog,Cat,Fish", DataType.STRING_ARRAY),
                 "java"))
                 .isEqualTo("new String[]{\"Dog\",\"Cat\",\"Fish\"}");
@@ -49,7 +49,7 @@ public class DataParserTest {
 
     @Test
     public void testToMethodCall() {
-        assertThat(DataParser.toMethodCall("sum", List.of(
+        assertThat(SrcParser.toMethodCall("sum", List.of(
                         new Data("Dog,Cat,Fish", DataType.STRING_ARRAY),
                         new Data("50", DataType.INT)),
                 "java"))
@@ -59,7 +59,7 @@ public class DataParserTest {
 
     @Test
     public void testGenerateSrc() {
-        assertThat(DataParser.generateSrc("sum", "public class Main {" +
+        assertThat(SrcParser.generateSrc("sum", "public class Main {" +
                 "public int sum(int[] vals){" +
                 "int result = 0;" +
                 "for(var val : vals) {result += val;}" +
@@ -85,7 +85,7 @@ public class DataParserTest {
                    "return a + b;" +
                 "} " +
                 "}";
-        assertThat(DataParser.wrapJava(
+        assertThat(SrcParser.wrapJava(
                 src, List.of(
                         new Data("5", DataType.INT),
                         new Data("5", DataType.INT)),
@@ -104,7 +104,7 @@ public class DataParserTest {
     public void testWrapJs() {
         String src = "function solution(a, b){\n" +
                 "return a + b;\n}";
-        assertThat(DataParser.wrapJs(
+        assertThat(SrcParser.wrapJs(
                 src, List.of(
                         new Data("5", DataType.INT),
                         new Data("5", DataType.INT)
@@ -116,7 +116,7 @@ public class DataParserTest {
     public void testWrapPython() {
         String src = "fun solution(a, b):\n" +
                 "       return a + b\n";
-        assertThat(DataParser.wrapPython(
+        assertThat(SrcParser.wrapPython(
                 src, List.of(
                         new Data("5", DataType.INT),
                         new Data("5", DataType.INT)
@@ -126,63 +126,63 @@ public class DataParserTest {
 
     @Test
     public void testGetType() {
-        assertThat(DataParser.getType(DataType.BOOLEAN_ARRAY))
+        assertThat(SrcParser.getType(DataType.BOOLEAN_ARRAY))
                 .isEqualTo("boolean");
-        assertThat(DataParser.getType(DataType.INT_ARRAY))
+        assertThat(SrcParser.getType(DataType.INT_ARRAY))
                 .isEqualTo("int");
-        assertThat(DataParser.getType(DataType.FLOAT_ARRAY))
+        assertThat(SrcParser.getType(DataType.FLOAT_ARRAY))
                 .isEqualTo("float");
-        assertThat(DataParser.getType(DataType.STRING_ARRAY))
+        assertThat(SrcParser.getType(DataType.STRING_ARRAY))
                 .isEqualTo("String");
     }
 
     @Test
     public void testWrapArray() {
-        assertThat(DataParser.wrapArray(sampleStringArr, "js", "String"))
+        assertThat(SrcParser.wrapArray(sampleStringArr, "js", "String"))
                 .isEqualTo("[\"Dog\",\"Cat\",\"Horse\"]");
-        assertThat(DataParser.wrapArray(sampleStringArr, "java", "String"))
+        assertThat(SrcParser.wrapArray(sampleStringArr, "java", "String"))
                 .isEqualTo("new String[]{\"Dog\",\"Cat\",\"Horse\"}");
-        assertThat(DataParser.wrapArray(sampleIntArr, "java", "int"))
+        assertThat(SrcParser.wrapArray(sampleIntArr, "java", "int"))
                 .isEqualTo("new int[]{1,2,3,4}");
-        assertThat(DataParser.wrapArray(sampleIntArr, "js", "int"))
+        assertThat(SrcParser.wrapArray(sampleIntArr, "js", "int"))
                 .isEqualTo("[1,2,3,4]");
-        assertThat(DataParser.wrapArray(sampleBooleanArr, "java", "boolean"))
+        assertThat(SrcParser.wrapArray(sampleBooleanArr, "java", "boolean"))
                 .isEqualTo("new boolean[]{true,false,true}");
-        assertThat(DataParser.wrapArray(sampleBooleanArr, "js", "boolean"))
+        assertThat(SrcParser.wrapArray(sampleBooleanArr, "js", "boolean"))
                 .isEqualTo("[true,false,true]");
     }
 
     @Test
     public void testWrapJsArray() {
-        assertThat(DataParser.wrapJsArray(sampleStringArr))
+        assertThat(SrcParser.wrapJsArray(sampleStringArr))
                 .isEqualTo("[Dog,Cat,Horse]");
     }
 
     @Test
     public void javaTypedArray() {
-        assertThat(DataParser.javaTypedArray(sampleStringArr, "String"))
+        assertThat(SrcParser.javaTypedArray(sampleStringArr, "String"))
                 .isEqualTo("new String[]{Dog,Cat,Horse}");
-        assertThat(DataParser.javaTypedArray("1,2,3,4", "int"))
+        assertThat(SrcParser.javaTypedArray("1,2,3,4", "int"))
                 .isEqualTo("new int[]{1,2,3,4}");
     }
 
     @Test
     public void testWrapJavaArray() {
-        assertThat(DataParser.wrapJavaArray(sampleStringArr, "String"))
+        assertThat(SrcParser.wrapJavaArray(sampleStringArr, "String"))
                 .isEqualTo("{Dog,Cat,Horse}");
-        assertThat(DataParser.wrapJavaArray("1,2,3,4", "int"))
+        assertThat(SrcParser.wrapJavaArray("1,2,3,4", "int"))
                 .isEqualTo("{1,2,3,4}");
     }
 
     @Test
     public void testAddQuotesToArr() {
-        assertThat(DataParser.addQuotesToArr(sampleStringArr))
+        assertThat(SrcParser.addQuotesToArr(sampleStringArr))
                 .isEqualTo("\"Dog\",\"Cat\",\"Horse\"");
     }
 
     @Test
     public void testWrapString() {
-        assertThat(DataParser.wrapString("Hello World"))
+        assertThat(SrcParser.wrapString("Hello World"))
                 .isEqualTo("\"Hello World\"");
     }
 

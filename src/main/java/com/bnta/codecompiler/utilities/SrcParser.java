@@ -7,11 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DataParser {
+public class SrcParser {
     public static  void echo(String val) {
-        System.out.println(standardise(val));
+        System.out.println(standardiseArgFormat(val));
     }
-    public static String standardise(String str) {
+    public static String standardiseArgFormat(String str) {
         return str.replaceAll("['\" {}\\[\\]]", "");
     }
 
@@ -21,9 +21,7 @@ public class DataParser {
                 return data.getValue();
             case STRING:
                 return wrapString(data.getValue());
-            case INT_ARRAY, FLOAT_ARRAY, BOOLEAN_ARRAY:
-                return wrapArray(data.getValue(), lang, getType(data.getDataType()));
-            case STRING_ARRAY:
+            case INT_ARRAY, FLOAT_ARRAY, BOOLEAN_ARRAY, STRING_ARRAY:
                 return wrapArray(data.getValue(), lang, getType(data.getDataType()));
                 default:
                     return null;
@@ -63,7 +61,7 @@ public class DataParser {
     }
 
     public static String wrapJava(String src, List<Data> inputs, DataType type) {
-        var insert = DataParser.toMethodCall("solution", inputs, "java");
+        var insert = SrcParser.toMethodCall("solution", inputs, "java");
         switch (type) {
             case INT_ARRAY, FLOAT_ARRAY, STRING_ARRAY, BOOLEAN_ARRAY:
                 src = "import java.util.Arrays; " + src;
@@ -77,13 +75,13 @@ public class DataParser {
     }
 
     public static String wrapJs(String src, List<Data> inputs) {
-        var insert = DataParser .toMethodCall("solution", inputs, "js");
+        var insert = SrcParser.toMethodCall("solution", inputs, "js");
         return src + "\nconsole.log(" + insert + ");";
 
     }
 
     public static String wrapPython(String src, List<Data> inputs) {
-        var insert = DataParser .toMethodCall("solution", inputs, "py");
+        var insert = SrcParser.toMethodCall("solution", inputs, "py");
         return src + "\nprint(" + insert + ")";
     }
 
@@ -121,7 +119,7 @@ public class DataParser {
 
 
     public static String addQuotesToArr(String val) {
-        return Arrays.stream(val.split(",")).map(DataParser::wrapString).collect(Collectors.joining(","));
+        return Arrays.stream(val.split(",")).map(SrcParser::wrapString).collect(Collectors.joining(","));
     }
 
     public static String wrapString(String val) { return  "\"" + val + "\"";}
