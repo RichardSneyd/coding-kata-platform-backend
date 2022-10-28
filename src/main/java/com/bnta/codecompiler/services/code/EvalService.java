@@ -56,8 +56,6 @@ public class EvalService {
         return compiler.compile(compileInput);
     }
 
-
-
     public boolean isDataMatch(String expected, String actual) {
         return SrcParser.standardiseArgFormat(expected).equals(SrcParser.standardiseArgFormat(actual));
     }
