@@ -71,7 +71,8 @@ public class SrcParser {
                 "public static void main(String[] args){" +
                         "System.out.println(" + insert +
                         ");}";
-        return src.substring(0, src.lastIndexOf("}")) + insert + "}";
+        var lastIndex = src.lastIndexOf("}") > -1 ? src.lastIndexOf("}") : 1;
+        return src.substring(0, lastIndex) + insert + "}";
     }
 
     public static String wrapJs(String src, List<Data> inputs) {

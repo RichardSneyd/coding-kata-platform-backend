@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Entity(name="solutions")
 public class Solution {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @Column
     private String code;

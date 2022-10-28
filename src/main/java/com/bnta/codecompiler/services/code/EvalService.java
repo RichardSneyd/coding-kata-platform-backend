@@ -38,7 +38,7 @@ public class EvalService {
                                              CompileInput compileInputPojo) {
         List<TestCaseResult> testResults = new ArrayList<>();
         for (var testCase : testCases) {
-            var compileResult = compileWithTestInput(functionName, testCase, compileInputPojo);
+            var compileResult = executeTestCase(functionName, testCase, compileInputPojo);
             var correct = isDataMatch(testCase.getOutput().getValue(),
                     compileResult.getOutput());
             testResults.add(new TestCaseResult(compileResult, correct));
@@ -47,8 +47,8 @@ public class EvalService {
         return testResults;
     }
 
-    public CompileResult compileWithTestInput(String functionName, TestCase testCase,
-                                              CompileInput compileInputPojo) {
+    public CompileResult executeTestCase(String functionName, TestCase testCase,
+                                         CompileInput compileInputPojo) {
         var compileInput = compileInputPojo.clone();
         compileInput.setCode(generateSrc(functionName, compileInput.getCode(), compileInput.getLang(),
                 testCase.getInputs(), testCase.getOutput().getDataType()));
@@ -58,7 +58,7 @@ public class EvalService {
 
 
 
-    private boolean isDataMatch(String expected, String actual) {
-        return SrcParser.standardiseArgFormat(expected) == SrcParser.standardiseArgFormat(actual);
+    public boolean isDataMatch(String expected, String actual) {
+        return SrcParser.standardiseArgFormat(expected).equals(SrcParser.standardiseArgFormat(actual));
     }
 }

@@ -39,7 +39,7 @@ public class JSONTest {
                 new HashSet<String>(Arrays.asList("math"))
         );
         JsonNode node = JSON.parse(JSON.stringify(problem));
-        assertEquals(node.get("description").asText(), "Add two numbers");
+        assertEquals(node.get("description").asText(), "Add two numbers and return.");
         assertEquals(node.get("difficulty").asInt(), 0);
     }
 
