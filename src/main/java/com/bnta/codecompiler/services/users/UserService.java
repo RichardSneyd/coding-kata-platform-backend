@@ -1,22 +1,31 @@
 package com.bnta.codecompiler.services.users;
 
-import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Solution;
+import com.bnta.codecompiler.models.users.Role;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
     @Autowired
     IUserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder encoder;
+
     public User add(User user) {
+        // encrypt password before saving any user
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

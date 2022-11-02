@@ -2,6 +2,7 @@ package com.bnta.codecompiler.models.users;
 
 import com.bnta.codecompiler.models.problems.Solution;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.jfr.DataAmount;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String uname;
+    private String username;
     @Column
     private String password;
     @Column
@@ -30,7 +31,7 @@ public class User {
     private Set<Solution> solutions;
 
     public User(String uname, String password, String cohort, Role role) {
-        this.uname = uname;
+        this.username = uname;
         this.password = password;
         this.cohort = cohort;
         if(role != null) this.role = role;
@@ -50,12 +51,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUname() {
-        return uname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUname(String uname) {
-        this.uname = uname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @JsonIgnore

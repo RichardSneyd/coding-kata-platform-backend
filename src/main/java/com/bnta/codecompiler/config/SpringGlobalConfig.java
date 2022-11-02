@@ -1,4 +1,4 @@
-package com.bnta.codecompiler.configurations;
+package com.bnta.codecompiler.config;
 
 import com.bnta.codecompiler.components.converters.StringToDifficultyConverter;
 import com.bnta.codecompiler.components.converters.StringToRoleConverter;

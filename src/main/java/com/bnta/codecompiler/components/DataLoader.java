@@ -36,7 +36,7 @@ public class DataLoader implements ApplicationRunner {
     DataService ds;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         // use the factory methods ONLY, i.e 'newUser', 'newSolution', NOT 'new User' or 'new Solution'.
 
         User[] users = {
