@@ -22,7 +22,7 @@ public class UserSecurityService implements UserDetailsService {
         User user = userRepository.findByUsername(username);
         if(user == null) throw new UsernameNotFoundException("User " + username + " not found in DB");
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), List.of(
+        return new SpringSecurityUser(user.getUsername(), user.getId(), user.getPassword(), List.of(
                 new SimpleGrantedAuthority(user.getRole().toString())
         ));
     }
