@@ -255,3 +255,8 @@ The Controller has been written to loop through all of the testcases, inputs etc
     "tags": null
 }
 ```
+
+# Difficulty Settings
+Possible difficulty values are `VERY_EASY`, `EASY`, `MEDIUM`, `HARD`, `VERY_HARD`.
+
+
