@@ -45,7 +45,7 @@ public class DataLoader implements ApplicationRunner {
         };
 
         Problem[] problems = {
-                newProblem("addValues", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
+                newProblem("add", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
                         Difficulty.VERY_EASY,
                         newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
                                         List.of(ds.of(10), ds.of(5)), ds.of(15)))),

@@ -4,7 +4,7 @@
 - Make sure that Java, node, and python3 are all installed on your computer (they are accessed via ProcessBuilder internally to compile/exec)
 
 # Authentication and Authorisation
-Auth is handled by Spring Security and JWT. Before you can use any of the below functionality, a login request with a username and password must be provided. If login is successful, a Jwt access_token is returned in the following format : 
+Auth is handled by Spring Security and JWT. There are 2 roles, `ADMIN` and `USER`, assigned on creation of a user record. Before you can use any of the below functionality, a login request with a username and password must be provided. If login is successful, a Jwt access_token is returned in the following format : 
 ```json
 {
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWtlc3R1ZGVudCIsInJvbGVzIjpbIlVTRVIiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2xvZ2luIiwiZXhwIjoxNjY3NTc2NTk0LCJ1c2VySWQiOjJ9.go4em7DFZ8Cp_ZEZnnDfiUKzC9I_uRqpomYteCj_USM",
@@ -53,6 +53,103 @@ then return a `EvalResult`, which will either be successful, or not. POST reques
 ```json
 {
   "lang": "java",
-  "code": "public class Main {public static void main(String[] args) {System.out.println(\"Hello from Java POST test\");}}"
+  "code": "public class Main {public static void main(String[] args) {System.out.println(\"Hello from Java POST test\");}}",
+  "userId": 1
 }
 ```
+The response body will be of the `EvalResult` format:
+
+```json
+{
+    "successful": true,
+    "privateTestsPassed": true,
+    "publicTestResults": [
+        {
+            "compileResult": {
+                "id": null,
+                "output": "15",
+                "errors": "",
+                "lang": "java",
+                "code": "public class Main {public int solution(int a, int b) {return a + b;}public static void main(String[] args){System.out.println(new Main().solution(10, 5));}}",
+                "compiled": true
+            },
+            "correct": true
+        }
+    ],
+    "problem": {
+        "id": 1,
+        "title": "add",
+        "description": "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
+        "difficulty": "VERY_EASY",
+        "testSuite": {
+            "publicCases": [
+                {
+                    "id": 1,
+                    "inputs": [
+                        {
+                            "id": 1,
+                            "value": "10",
+                            "dataType": "INT"
+                        },
+                        {
+                            "id": 2,
+                            "value": "5",
+                            "dataType": "INT"
+                        }
+                    ],
+                    "output": {
+                        "id": 3,
+                        "value": "15",
+                        "dataType": "INT"
+                    }
+                }
+            ],
+            "privateCases": [
+                {
+                    "id": 2,
+                    "inputs": [
+                        {
+                            "id": 4,
+                            "value": "15",
+                            "dataType": "INT"
+                        },
+                        {
+                            "id": 5,
+                            "value": "4",
+                            "dataType": "INT"
+                        }
+                    ],
+                    "output": {
+                        "id": 6,
+                        "value": "19",
+                        "dataType": "INT"
+                    }
+                }
+            ]
+        },
+        "startCode": {
+            "id": 1,
+            "js": "const addValues = (a, b)=> {\n\n}",
+            "py": "def addValues(a, b):\n\nreturn",
+            "java": ""
+        },
+        "tags": [
+            "adding",
+            "arithmetic"
+        ]
+    }
+}
+```
+
+# Problems
+Problems are assigned a difficulty level. They can also be assigned tags. In addition to the usual GET routes, you can get them by tag or difficulty:
+
+Get all: GET `/user/problems`
+Get by id: GET `/user/problems/{problemId}`
+Get by tag: GET `/user/problems/tag/{tag}`
+Get by difficulty: GET `/user/problems/difficulty/{difficulty}`
+
+## Create a problem like so: 
+Create new: POST `admin/problems/`
+
+

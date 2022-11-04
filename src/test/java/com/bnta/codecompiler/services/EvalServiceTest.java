@@ -37,11 +37,7 @@ public class EvalServiceTest {
 
     @BeforeEach
     public void setUp() {
-        javaInput = new CompileInput("public class Main {" +
-                "public int solution(int a, int b) {" +
-                "return a + b;" +
-                "}" +
-                "}", "java");
+        javaInput = new CompileInput("public class Main {public int add(int a, int b) {return a + b;}}", "java");
         jsInput = new CompileInput("const add = (a, b)=> a + b;", "js");
         pyInput = new CompileInput("def add(a, b):\n\s" +
                 "return a + b\n\n", "py");
