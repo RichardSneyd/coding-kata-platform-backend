@@ -45,8 +45,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
        var user = (SpringSecurityUser)authResult.getPrincipal();
-       // var dbUser = userService.findByPassword();
-        Algorithm algo = Algorithm.HMAC256("secret".getBytes());
+        Algorithm algo = Algorithm.HMAC256("bnta_secret".getBytes());
         String access_token = JWT.create().withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())

@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.config;
 
 import com.bnta.codecompiler.filters.CustomAuthenticationFilter;
+import com.bnta.codecompiler.filters.CustomAuthorisationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,8 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration @EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -35,18 +38,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        var caf = new CustomAuthenticationFilter((authenticationManagerBean()));
+        caf.setFilterProcessesUrl("/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.authorizeRequests()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
-//                .antMatchers("/").permitAll()
-//                .and().formLogin();
+        http.authorizeRequests()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/**").permitAll()
+                        .anyRequest().authenticated();
 
-      //  http.authorizeRequests().antMatchers("/**").permitAll();
-
-        http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+        //    http.authorizeRequests().anyRequest().permitAll();
+        http.addFilter(caf);
+        http.addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 
