@@ -53,7 +53,7 @@ then return a `EvalResult`, which will either be successful, or not. POST reques
 ```json
 {
   "lang": "java",
-  "code": "public class Main {public static void main(String[] args) {System.out.println(\"Hello from Java POST test\");}}",
+  "code": "public class Main {public int add(int a, int b) {return a + b;}}",
   "userId": 1
 }
 ```
