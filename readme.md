@@ -152,4 +152,106 @@ Get by difficulty: GET `/user/problems/difficulty/{difficulty}`
 ## Create a problem like so: 
 Create new: POST `admin/problems/`
 
+```json
+{
+  "title": "add",
+  "description": "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
+  "difficulty": "VERY_EASY",
+  "testSuite": {
+    "publicCases": [
+      {
+        "inputs": [
+          {
+            "value": "10",
+            "dataType": "INT"
+          },
+          {
+            "value": "5",
+            "dataType": "INT"
+          }
+        ],
+        "output": {
+          "value": "15",
+          "dataType": "INT"
+        }
+      }
+    ],
+    "privateCases": [
+      {
+        "inputs": [
+          {
+            "value": "15",
+            "dataType": "INT"
+          },
+          {
+            "value": "4",
+            "dataType": "INT"
+          }
+        ],
+        "output": {
+          "value": "19",
+          "dataType": "INT"
+        }
+      }
+    ]
+  }
+}
+```
+The Controller has been written to loop through all of the testcases, inputs etc, and save them to the respective repos. If you have provided the data in the proper format, you will get a Problem response, complete with the id's for all of the inner objects (TestSuite, TestCase, Data):
 
+```json
+{
+    "id": 4,
+    "title": "add",
+    "description": "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
+    "difficulty": "VERY_EASY",
+    "testSuite": {
+        "publicCases": [
+            {
+                "id": 7,
+                "inputs": [
+                    {
+                        "id": 15,
+                        "value": "10",
+                        "dataType": "INT"
+                    },
+                    {
+                        "id": 16,
+                        "value": "5",
+                        "dataType": "INT"
+                    }
+                ],
+                "output": {
+                    "id": 17,
+                    "value": "15",
+                    "dataType": "INT"
+                }
+            }
+        ],
+        "privateCases": [
+            {
+                "id": 8,
+                "inputs": [
+                    {
+                        "id": 18,
+                        "value": "15",
+                        "dataType": "INT"
+                    },
+                    {
+                        "id": 19,
+                        "value": "4",
+                        "dataType": "INT"
+                    }
+                ],
+                "output": {
+                    "id": 20,
+                    "value": "19",
+                    "dataType": "INT"
+                }
+            }
+        ]
+    },
+    "startCode": null,
+    "tags": null
+}
+```

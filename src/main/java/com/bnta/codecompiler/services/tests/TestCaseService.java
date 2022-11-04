@@ -3,6 +3,7 @@ package com.bnta.codecompiler.services.tests;
 import com.bnta.codecompiler.models.problems.Data;
 import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.repositories.tests.ITestCaseRepository;
+import com.bnta.codecompiler.services.problems.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,14 @@ import java.util.Set;
 public class TestCaseService {
     @Autowired
     private ITestCaseRepository testCaseRepo;
+    @Autowired
+    private DataService dataService;
 
     public TestCase add(TestCase testCase) {
+        for(var data : testCase.getInputs()) {
+            dataService.add(data);
+        }
+        dataService.add(testCase.getOutput());
         return testCaseRepo.save(testCase);
     }
 

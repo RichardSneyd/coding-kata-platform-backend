@@ -14,8 +14,18 @@ import java.util.Set;
 public class TestSuiteService {
     @Autowired
     ITestSuiteRepository testSuiteRepo;
+    @Autowired
+    TestCaseService testCaseService;
 
-    public TestSuite add(TestSuite testSuite) { return testSuiteRepo.save(testSuite); }
+    public TestSuite add(TestSuite testSuite) {
+        for(var testCase : testSuite.getPublicCases()) {
+            testCaseService.add(testCase);
+        }
+        for(var testCase : testSuite.getPrivateCases()) {
+            testCaseService.add(testCase);
+        }
+        return testSuiteRepo.save(testSuite);
+    }
     public TestSuite findById(Long id) throws Exception {
         Optional<TestSuite> optional = testSuiteRepo.findById(id);
         if(optional.isEmpty()) throw new Exception("No test suite with id: " + id);
