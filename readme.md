@@ -145,8 +145,11 @@ The response body will be of the `EvalResult` format:
 Problems are assigned a difficulty level. They can also be assigned tags. In addition to the usual GET routes, you can get them by tag or difficulty:
 
 Get all: GET `/user/problems`
+
 Get by id: GET `/user/problems/{problemId}`
+
 Get by tag: GET `/user/problems/tag/{tag}`
+
 Get by difficulty: GET `/user/problems/difficulty/{difficulty}`
 
 ## Create a problem like so: 
