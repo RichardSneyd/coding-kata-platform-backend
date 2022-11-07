@@ -1,6 +1,5 @@
 package com.bnta.codecompiler.controllers;
 
-import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.dtos.EvalInput;
 import com.bnta.codecompiler.models.dtos.EvalResult;
 import com.bnta.codecompiler.models.problems.Solution;

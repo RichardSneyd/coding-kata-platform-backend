@@ -260,6 +260,10 @@ The Controller has been written to loop through all of the testcases, inputs etc
 ```
 
 # Difficulty Settings
-Possible difficulty values are `VERY_EASY`, `EASY`, `MEDIUM`, `HARD`, `VERY_HARD`.
+Possible difficulty values are: 
+`VERY_EASY`, `EASY`, `MEDIUM`, `HARD`, `VERY_HARD`.
 
+# Input and Output Values
+Values can be of the following 8 types, as defined in the DATATYPE Enum:
+`INT`, `INT_ARRAY`, `STRING`, `STRING_ARRAY`, `FLOAT`, `FLOAT_ARRAY`, `BOOLEAN`, `BOOLEAN_ARRAY`
 

@@ -2,11 +2,11 @@ package com.bnta.codecompiler.models.users;
 
 import com.bnta.codecompiler.models.problems.Solution;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jdk.jfr.DataAmount;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name="users")
@@ -19,9 +19,11 @@ public class User {
     @Column
     private String password;
     @Column
-    private String cohort = null;
+    private String email;
     @Column
-    private Role role = Role.USER;
+    private String cohort = null;
+    @ElementCollection
+    private List<Role> roles = List.of(Role.USER);
     @Column
     private long score;
     @Column
@@ -30,11 +32,12 @@ public class User {
     @OneToMany
     private Set<Solution> solutions;
 
-    public User(String uname, String password, String cohort, Role role) {
+    public User(String uname, String email, String password, String cohort, List<Role> roles) {
         this.username = uname;
         this.password = password;
+        this.email = email;
         this.cohort = cohort;
-        if(role != null) this.role = role;
+        if(roles != null) this.roles = roles;
         this.solutions = new HashSet();
         this.score = 0;
         this.joinDate = LocalDate.now();
@@ -76,12 +79,12 @@ public class User {
         this.cohort = cohort;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public Set<Solution> getSolutions() {
@@ -106,5 +109,13 @@ public class User {
 
     public void setJoinDate(LocalDate joinDate) {
         this.joinDate = joinDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

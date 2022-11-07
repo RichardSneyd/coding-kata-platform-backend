@@ -40,8 +40,8 @@ public class DataLoader implements ApplicationRunner {
         // use the factory methods ONLY, i.e 'newUser', 'newSolution', NOT 'new User' or 'new Solution'.
 
         User[] users = {
-                newUser("richard", "fakepassword", null, Role.ADMIN),
-                newUser("fakestudent", "phonypassword", "C7", Role.USER)
+                newUser("richard", "richard@fake.com", "fakepassword", null, List.of(Role.ADMIN)),
+                newUser("fakestudent", "student@fake.com" ,"phonypassword", "C7", List.of(Role.USER))
         };
 
         Problem[] problems = {
@@ -110,8 +110,8 @@ public class DataLoader implements ApplicationRunner {
         return startCodeService.add(new StartCode(js, py, java));
     }
 
-    private User newUser(String uname, String password, String cohort, Role role) {
-        return userService.add(new User(uname, password, cohort, role));
+    private User newUser(String uname, String email, String password, String cohort, List<Role> roles) {
+        return userService.add(new User(uname, email, password, cohort, roles));
     }
 
 }
