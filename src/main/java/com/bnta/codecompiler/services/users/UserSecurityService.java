@@ -23,13 +23,9 @@ public class UserSecurityService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if(user == null) throw new UsernameNotFoundException("User " + username + " not found in DB");
-        System.out.println("Roles: " + user.getRoles().get(0));
         List<SimpleGrantedAuthority> authorities  = user.getRoles().stream()
-                .map(role -> {
-                    System.out.println("Role in map: " + role);
-                    return new SimpleGrantedAuthority(role.toString());})
+                .map(role -> new SimpleGrantedAuthority(role.toString()))
                 .collect(Collectors.toList());
-        System.out.println("authorities: " + authorities);
         return new SpringSecurityUser(user.getUsername(), user.getId(), user.getPassword(),
                authorities);
     }
