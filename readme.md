@@ -287,7 +287,7 @@ Forgot password (request reset email): GET `/user/users/password/forgot/{userId}
 
 Reset Password (call from reset form): POST `/user/users/password/reset`
 
-the reset expects a json payload of type `PasswordResetInput`. Provide the secret you received from the Forgot password response:
+the reset expects a json payload of type `PasswordResetInput`. Provide the secret you received in the reset email (it's a request param in the url):
 
 ```json
 
