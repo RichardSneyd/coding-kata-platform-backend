@@ -16,11 +16,13 @@ This access token must be included in the `Authorization` header in all subseque
 
 # CompileController
 
-to use the compiler directly (not to test solutions to problems since EvalController handles that. More as a playground), send a POST request to `/user/compile`. The Request body should include a `code` property
+to use the compiler directly (not to test solutions to problems since EvalController handles that.), send a POST request to `/user/compile`. The Request body should include a `code` property
 as well as a `lang` property. Currently supported languages are: 
 - 'java' (Java)
 - 'js' (Node)
 - 'py' (Python)
+
+This can be used with a 'run' button to allow the user to run their code with logs for debugging, as logs must be removed or commented out before submitting code to the EvalController.
 
 Use the file-extension of the language in the lang property, as indicated above.
 
@@ -48,7 +50,7 @@ the compiled result in the DB. We only do that when through the EvalController):
 # EvalController 
 
 This is arguably the most important part of the API - where we submit candidate solutions, and evaluate them against the `TestSuite` of a specified `Problem`,
-then return a `EvalResult`, which will either be successful, or not. POST request to: `/user/eval/{problemId}`, with following JSON format:
+then return a `EvalResult`, which will either be successful, or not. No comments allowed in the code when submitting to EvalController, as they will mess up the output evaluation. POST request to: `/user/eval/{problemId}`, with following JSON format:
 
 ```json
 {
