@@ -301,8 +301,25 @@ Values can be of the following 8 types, as defined in the DATATYPE Enum:
 
 Only accounts with the ADMIN permission can create new users.
 
-New User: POST `/admin/users/`
+New User: POST `/admin/users/`, with in input of the format:
 
+```json
+{
+  "username": "fakestudent",
+  "email": "fake@phony.com",
+  "cohort": {
+    "id": 1
+  },
+  "roles": [
+    "USER"
+  ],
+  "startDate": "2022-11-08"
+}
+```
+
+The user will be issued an email to set up their own password.
+
+## Get Users & Leaderboards
 Global Leaderboard: GET `/user/users/leaderboard`
 
 Leaderboard by Cohort Id: GET `user/users/leaderboard/{cohortId}`
