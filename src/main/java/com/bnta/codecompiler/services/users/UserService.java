@@ -56,8 +56,12 @@ public class UserService {
         return userRepository.findByOrderByScoreDesc();
     }
 
-    public Optional<Set<User>> cohortLeaderboard(String cohortName) {
+    public Optional<Set<User>> cohortLeaderboardByName(String cohortName) {
         return userRepository.findByCohort_NameOrderByScoreDesc(cohortName.toUpperCase());
+    }
+
+    public Optional<Set<User>> cohortLeaderboardById(Long cohortId) {
+        return userRepository.findByCohort_IdOrderByScoreDesc(cohortId);
     }
 
     public User addSolution(User user, Solution solution) {

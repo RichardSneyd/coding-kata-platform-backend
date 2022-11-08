@@ -13,6 +13,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     Optional<Set<User>> findByOrderByScoreDesc();
 
     Optional<Set<User>> findByCohort_NameOrderByScoreDesc(String cohort);
+    Optional<Set<User>> findByCohort_IdOrderByScoreDesc(Long cohortId);
+
 
     User findByUsername(String username);
 }

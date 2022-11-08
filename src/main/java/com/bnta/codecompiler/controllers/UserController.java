@@ -57,8 +57,13 @@ public class UserController {
         return ResponseEntity.ok().body(userService.globalLeaderboard().get());
     }
 
-    @GetMapping("/leaderboard/{cohort}")
-    public ResponseEntity<?> cohortLeaderboard(@PathVariable String cohort) {
-        return ResponseEntity.ok().body(userService.cohortLeaderboard(cohort));
+    @GetMapping("/leaderboard/cohort-name/{cohort}")
+    public ResponseEntity<?> cohortLeaderboardByName(@PathVariable String cohort) {
+        return ResponseEntity.ok().body(userService.cohortLeaderboardByName(cohort));
+    }
+
+    @GetMapping("/leaderboard/{cohortId}")
+    public ResponseEntity<?> cohortLeaderboardById(@PathVariable Long cohortId) {
+        return ResponseEntity.ok().body(userService.cohortLeaderboardById(cohortId));
     }
 }
