@@ -279,7 +279,8 @@ New User: POST `/admin/users/`
 
 Global Leaderboard: GET `/user/users/leaderboard`
 
-Cohort Leaderboard: GET `user/users/leaderboard/{cohort}`
+Leaderboard by Cohort Id: GET `user/users/leaderboard/{cohortId}`
+Leaderboard by Cohort Name: GET `user/users/leaderboard/cohort-name/{cohortName}`
 
 # Password Reset
 
