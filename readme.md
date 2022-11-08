@@ -276,6 +276,7 @@ Only accounts with the ADMIN permission can create new users.
 New User: POST `/admin/users/`
 
 Global Leaderboard: GET `/user/users/leaderboard`
+
 Cohort Leaderboard: GET `user/users/leaderboard/{cohort}`
 
 # Password Reset
