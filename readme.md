@@ -2,14 +2,11 @@
 
 - Create a PostreSQL db called `lms_db`
 - The above db should be accessible via username: `postgres` , password: `bnta_db_2022`
-- Make sure that Java, node, and python3 are all installed on your computer (they are accessed via ProcessBuilder
-  internally to compile/exec)
+- Make sure that Java, node, and python3 are all installed on your computer (they are accessed via ProcessBuilder internally to compile/exec)
 
 # Authentication and Authorisation
 
-Auth is handled by Spring Security and JWT. There are 2 roles, `ADMIN` and `USER`, assigned on creation of a user
-record. Before you can use any of the below functionality, a login request with a username and password must be
-provided. If login is successful, a Jwt access_token is returned in the following format :
+Auth is handled by Spring Security and JWT. There are 2 roles, `ADMIN` and `USER`, assigned on creation of a user record. Before you can use any of the below functionality, a login request with a username and password must be provided. If login is successful, a Jwt access_token is returned:
 
 ```json
 {
@@ -19,22 +16,17 @@ provided. If login is successful, a Jwt access_token is returned in the followin
 
 ```
 
-This access token must be included in the `Authorization` header in all subsequent API calls., prefixed by `'Bearer '`,
-to indicate to Spring Security that this token belongs to the user in question. This process can be handled by a
-service, to avoid repetition for every axios/fetch call.
+This access token must be included in the `Authorization` header in all subsequent API calls., prefixed by `'Bearer '`, to indicate to Spring Security that this token belongs to the user in question. This process can be handled by a service, to avoid repetition for every axios/fetch call.
 
 # CompileController
 
-to use the compiler directly (not to test solutions to problems since EvalController handles that.), send a POST request
-to `/user/compile`. The Request body should include a `code` property
-as well as a `lang` property. Currently supported languages are:
+to use the compiler directly (not to test solutions to problems since EvalController handles that.), send a POST request to `/user/compile`. The Request body should include a `code` property as well as a `lang` property. Currently supported languages are:
 
 - 'java' (Java)
 - 'js' (Node)
 - 'py' (Python)
 
-This can be used with a 'run' button to allow the user to run their code with logs for debugging, as logs must be
-removed or commented out before submitting code to the EvalController.
+This can be used with a 'run' button to allow the user to run their code with logs for debugging, as logs must be removed or commented out before submitting code to the EvalController.
 
 Use the file-extension of the language in the lang property, as indicated above.
 
@@ -45,9 +37,7 @@ Use the file-extension of the language in the lang property, as indicated above.
 }
 ```
 
-If you have provided syntactically valid code, you should get a JSON response in the format of a CompileResult object (
-id is null since we don't save
-the compiled result in the DB. We only do that when through the EvalController):
+If you have provided syntactically valid code, you should get a JSON response in the format of a CompileResult object (id is null since we don't save the compiled result in the DB. We only do that when through the EvalController):
 
 ```json
 {
@@ -62,10 +52,8 @@ the compiled result in the DB. We only do that when through the EvalController):
 
 # EvalController
 
-This is arguably the most important part of the API - where we submit candidate solutions, and evaluate them against
-the `TestSuite` of a specified `Problem`,
-then return a `EvalResult`, which will either be successful, or not. No logging allowed in the code when submitting to
-EvalController, or they will mess up the output evaluation. POST request to: `/user/eval/{problemId}`, with following
+This is arguably the most important part of the API - where we submit attempted solutions, and evaluate them against the `TestSuite` of a specified `Problem`,
+then return a `EvalResult`, which will either be successful, or not. No logging allowed in the code when submitting to EvalController, or they will mess up the output evaluation. POST request to: `/user/eval/{problemId}`, with following
 JSON format:
 
 ```json
@@ -165,7 +153,7 @@ if the eval was successful, a `Solution` record will have been added to the DB a
 
 # Problems
 
-Problems are assigned a difficulty level. They can also be assigned tags. In addition to the usual GET routes, you can
+All problems are assigned a difficulty level. They can also be assigned tags. In addition to the usual GET routes, you can
 get them by tag or difficulty:
 
 Get all: GET `/user/problems`
@@ -176,7 +164,7 @@ Get by tag: GET `/user/problems/tag/{tag}`
 
 Get by difficulty: GET `/user/problems/difficulty/{difficulty}`
 
-## Create a problem like so:
+## Create a problem:
 
 Create new: POST `admin/problems/`
 
@@ -287,12 +275,12 @@ id's for all the inner objects (TestSuite, TestCase, Data...):
 }
 ```
 
-# Difficulty Settings
+## Difficulty Settings
 
 Possible difficulty values are:
 `VERY_EASY`, `EASY`, `MEDIUM`, `HARD`, `VERY_HARD`.
 
-# Input and Output Values
+## Input and Output Values
 
 Values can be of the following 8 types, as defined in the DATATYPE Enum:
 `INT`, `INT_ARRAY`, `STRING`, `STRING_ARRAY`, `FLOAT`, `FLOAT_ARRAY`, `BOOLEAN`, `BOOLEAN_ARRAY`
@@ -325,7 +313,7 @@ Global Leaderboard: GET `/user/users/leaderboard`
 Leaderboard by Cohort Id: GET `user/users/leaderboard/{cohortId}`
 Leaderboard by Cohort Name: GET `user/users/leaderboard/cohort-name/{cohortName}`
 
-# Password Reset
+## Password Reset
 
 Forgot password (request reset email): GET `/user/users/password/forgot/{userId}`
 
