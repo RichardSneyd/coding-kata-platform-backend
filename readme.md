@@ -139,7 +139,10 @@ The response body will be of the `EvalResult` format:
         ]
     }
 }
+
 ```
+
+if the eval was successful, a `Solution` record will have been added to the DB as well.
 
 # Problems
 Problems are assigned a difficulty level. They can also be assigned tags. In addition to the usual GET routes, you can get them by tag or difficulty:
@@ -200,7 +203,7 @@ Create new: POST `admin/problems/`
   }
 }
 ```
-The Controller has been written to loop through all of the testcases, inputs etc, and save them to the respective repos. If you have provided the data in the proper format, you will get a Problem response, complete with the id's for all of the inner objects (TestSuite, TestCase, Data):
+The Controller and Service have been written to loop through all the testCases, inputs etc., and save them to the respective repos. If you have provided the data in the proper format, you will get a Problem response, complete with the id's for all the inner objects (TestSuite, TestCase, Data...):
 
 ```json
 {
@@ -266,4 +269,32 @@ Possible difficulty values are:
 # Input and Output Values
 Values can be of the following 8 types, as defined in the DATATYPE Enum:
 `INT`, `INT_ARRAY`, `STRING`, `STRING_ARRAY`, `FLOAT`, `FLOAT_ARRAY`, `BOOLEAN`, `BOOLEAN_ARRAY`
+
+# Users
+Only accounts with the ADMIN permission can create new users.
+
+New User: POST `/admin/users/`
+
+Global Leaderboard: GET `/user/users/leaderboard`
+Cohort Leaderboard: GET `user/users/leaderboard/{cohort}`
+
+# Password Reset
+
+Forgot password (request reset email): GET `/user/users/password/forgot/{userId}`
+
+Reset Password (call from reset form): POST `/user/users/password/reset`
+
+the reset expects a json payload of type `PasswordResetInput`. Provide the secret you received from the Forgot password response:
+
+```json
+
+{
+  "userId": 1,
+  "secret": "dfqwpeoiasdafdklnqiwenfaisdn",
+  "newPassword": "blablabla"
+}
+```
+
+
+
 

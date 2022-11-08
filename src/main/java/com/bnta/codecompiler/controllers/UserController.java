@@ -52,4 +52,14 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @GetMapping("/leaderboard")
+    public ResponseEntity<?> globalLeaderboard() {
+        return ResponseEntity.ok().body(userService.globalLeaderboard().get());
+    }
+
+    @GetMapping("/leaderboard/{cohort}")
+    public ResponseEntity<?> cohortLeaderboard(@PathVariable String cohort) {
+        return ResponseEntity.ok().body(userService.cohortLeaderboard(cohort));
+    }
 }
