@@ -6,6 +6,7 @@ import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class UserController {
     @Autowired
     private MailSenderService mailService;
     @Autowired
-    private PasswordEncoder encoder;
+    private BCryptPasswordEncoder encoder;
 
 
     @GetMapping("/password/forgot/{userId}")
@@ -26,7 +27,7 @@ public class UserController {
         try {
             var user = userService.findById(userId);
             var secret = encoder.encode(user.getUsername());
-            String formLink = "http://...";
+            String formLink = "http://";
             mailService.sendEmail(user.getEmail(), "Password reset link", "Use this link to reset your password: " +
                     formLink + "?secret=" + secret);
             return ResponseEntity.ok("Thank you. We've sent an email with reset instructions.");
@@ -39,7 +40,9 @@ public class UserController {
     public ResponseEntity<?> resetPassword(@RequestBody PasswordResetInput pr) {
         try {
             var user = userService.findById(pr.getUserId());
-            if(!encoder.encode(user.getUsername()).equals(pr.getSecret())) {
+            if(!encoder.matches(user.getUsername(), pr.getSecret())) {
+                System.out.println("got: " + pr.getSecret());
+                System.out.println("required: " + encoder.encode(user.getUsername()));
                 throw new Exception("Wrong secret provided");
             }
             user.setPassword(encoder.encode(pr.getNewPassword()));

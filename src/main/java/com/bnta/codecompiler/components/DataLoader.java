@@ -40,8 +40,8 @@ public class DataLoader implements ApplicationRunner {
         // use the factory methods ONLY, i.e 'newUser', 'newSolution', NOT 'new User' or 'new Solution'.
 
         User[] users = {
-                newUser("richard", "richard@fake.com", "fakepassword", null, List.of(Role.ADMIN)),
-                newUser("fakestudent", "student@fake.com" ,"phonypassword", "C7", List.of(Role.USER))
+                newUser("richard", "richardsneyd@hotmail.com", "fakepassword", null, List.of(Role.ADMIN)),
+                newUser("fakestudent", "richardsneyd@hotmail.com" ,"phonypassword", "C7", List.of(Role.USER))
         };
 
         Problem[] problems = {
