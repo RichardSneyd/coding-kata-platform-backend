@@ -14,7 +14,6 @@ public class Cohort {
     private LocalDate startDate;
 
     public Cohort(String name) {
-        this.id = id;
         this.name = name;
         this.startDate = LocalDate.now();
     }
