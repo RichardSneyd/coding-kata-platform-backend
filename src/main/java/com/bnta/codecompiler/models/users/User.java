@@ -22,7 +22,7 @@ public class User {
     private String email;
     @Column
     private String cohort = null;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles = List.of(Role.USER);
     @Column
     private long score;
