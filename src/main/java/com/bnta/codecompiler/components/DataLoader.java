@@ -3,11 +3,13 @@ package com.bnta.codecompiler.components;
 import com.bnta.codecompiler.models.problems.*;
 import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.models.tests.TestSuite;
+import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.models.users.Role;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.services.problems.*;
 import com.bnta.codecompiler.services.tests.TestCaseService;
 import com.bnta.codecompiler.services.tests.TestSuiteService;
+import com.bnta.codecompiler.services.users.CohortService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -20,6 +22,8 @@ import java.util.*;
 public class DataLoader implements ApplicationRunner {
     @Autowired
     UserService userService;
+    @Autowired
+    CohortService cohortService;
     @Autowired
     ProblemService problemService;
     @Autowired
@@ -35,13 +39,16 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     DataService ds;
 
+
     @Override
     public void run(ApplicationArguments args) {
         // use the factory methods ONLY, i.e 'newUser', 'newSolution', NOT 'new User' or 'new Solution'.
-
+        Cohort[] cohorts = {
+               newCohort("C7")
+        };
         User[] users = {
                 newUser("richard", "richardsneyd@hotmail.com", "fakepassword", null, List.of(Role.ADMIN)),
-                newUser("fakestudent", "richardsneyd@hotmail.com" ,"phonypassword", "C7", List.of(Role.USER))
+                newUser("fakestudent", "richardsneyd@hotmail.com" ,"phonypassword", cohorts[0], List.of(Role.USER))
         };
 
         Problem[] problems = {
@@ -110,7 +117,11 @@ public class DataLoader implements ApplicationRunner {
         return startCodeService.add(new StartCode(js, py, java));
     }
 
-    private User newUser(String uname, String email, String password, String cohort, List<Role> roles) {
+    private Cohort newCohort(String name) {
+        return cohortService.add(new Cohort(name));
+    }
+
+    private User newUser(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         return userService.add(new User(uname, email, password, cohort, roles));
     }
 

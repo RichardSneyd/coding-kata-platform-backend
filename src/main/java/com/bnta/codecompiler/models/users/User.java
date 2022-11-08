@@ -20,8 +20,8 @@ public class User {
     private String password;
     @Column
     private String email;
-    @Column
-    private String cohort = null;
+    @ManyToOne
+    private Cohort cohort;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles = List.of(Role.USER);
     @Column
@@ -32,13 +32,13 @@ public class User {
     @OneToMany
     private Set<Solution> solutions;
 
-    public User(String uname, String email, String password, String cohort, List<Role> roles) {
+    public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.username = uname;
         this.password = password;
         this.email = email;
         this.cohort = cohort;
         if(roles != null) this.roles = roles;
-        this.solutions = new HashSet();
+        this.solutions = new HashSet<>();
         this.score = 0;
         this.joinDate = LocalDate.now();
     }
@@ -71,11 +71,11 @@ public class User {
         this.password = password;
     }
 
-    public String getCohort() {
+    public Cohort getCohort() {
         return cohort;
     }
 
-    public void setCohort(String cohort) {
+    public void setCohort(Cohort cohort) {
         this.cohort = cohort;
     }
 

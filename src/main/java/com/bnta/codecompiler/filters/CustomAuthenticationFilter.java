@@ -47,7 +47,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
        var user = (SpringSecurityUser)authResult.getPrincipal();
         Algorithm algo = Algorithm.HMAC256("bnta_secret".getBytes());
         String access_token = JWT.create().withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 7 * 25 * 60 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("userId", user.getUserId())
                 .withClaim("roles", user.getAuthorities().stream()
@@ -55,7 +55,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .sign(algo);
 
         String refresh_token = JWT.create().withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 28 * 24 * 60 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
