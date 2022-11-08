@@ -299,7 +299,7 @@ Values can be of the following 8 types, as defined in the DATATYPE Enum:
 
 # Users
 
-Only accounts with the ADMIN permission can create new users.
+Only ADMIN accounts can create new users.
 
 New User: POST `/admin/users/`, with in input of the format:
 
