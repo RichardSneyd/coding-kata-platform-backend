@@ -50,7 +50,7 @@ the compiled result in the DB. We only do that when through the EvalController):
 # EvalController 
 
 This is arguably the most important part of the API - where we submit candidate solutions, and evaluate them against the `TestSuite` of a specified `Problem`,
-then return a `EvalResult`, which will either be successful, or not. No comments allowed in the code when submitting to EvalController, as they will mess up the output evaluation. POST request to: `/user/eval/{problemId}`, with following JSON format:
+then return a `EvalResult`, which will either be successful, or not. No logging allowed in the code when submitting to EvalController, or they will mess up the output evaluation. POST request to: `/user/eval/{problemId}`, with following JSON format:
 
 ```json
 {
