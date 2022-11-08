@@ -22,8 +22,7 @@ public class CodeCompilerApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void sendMail() {
-	//	mailSenderService.sendEmail("richardsneyd@hotmail.com", "test email", "It worked!");
+	   //	mailSenderService.sendEmail("richardsneyd@hotmail.com", "test email", "It worked!");
 	}
-
 
 }
