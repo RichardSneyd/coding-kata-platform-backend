@@ -287,7 +287,7 @@ Values can be of the following 8 types, as defined in the DATATYPE Enum:
 
 # Users
 
-Only ADMIN accounts can create new users.
+Only ADMIN accounts can create new users. While you can create new users individually here, such as for ADMIN accounts (trainers etc), it is generally best practice to create USER accounts (students) when you create a new cohort via the CohortController, documented below. This is the fastest and most efficient approach.
 
 New User: POST `/admin/users/`, with in input of the format:
 
@@ -336,7 +336,7 @@ Cohorts can only be created by ADMIN users:
 
 POST `/admin/cohorts`
 
-The payload should follow this format:
+You can create the cohort members at the same time, as demonstarted below. The payload should follow this format:
 
 ```json
 {
