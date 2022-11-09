@@ -336,11 +336,44 @@ Cohorts can only be created by ADMIN users:
 
 POST `/admin/cohorts`
 
-The payload should include a name property only.
+The payload should include a name property.
 
 ```json
 {
-  "name": "C7"
+  "name": "C7",
+  "members": [
+    {
+      "username": "JoeBloggs",
+      "email": "joebloggs@nowhere.com"
+    },
+    {
+      "username": "CaptainCrisps",
+      "email": "captaincrisps@nowhere.com"
+    }
+  ]
+}
+```
+If successful, you will be returned a cohort object complete with startDate and id properties. Any new members submitted will also have been processed: 
+
+```json
+{
+  "id": 1,
+  "name": "C7",
+  "startDate": "2022-11-08",
+  "members": [
+    {
+      "id": 1,
+      "username": "JoeBloggs",
+      "email": "joebloggs@nowhere.com",
+      "joinDate": "2022-11-08"
+    },
+    {
+      "id": 1,
+      "username": "CaptainCrisps",
+      "email": "captaincrisps@nowhere.com",
+      "joinDate": "2022-11-08"
+    }
+  ]
 }
 ```
 

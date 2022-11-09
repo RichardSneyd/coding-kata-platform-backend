@@ -1,7 +1,12 @@
 package com.bnta.codecompiler.models.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cohort {
@@ -13,12 +18,24 @@ public class Cohort {
     @Column
     private LocalDate startDate;
 
-    public Cohort(String name) {
+    @JsonIgnoreProperties({"cohort"})
+    @OneToMany(mappedBy="cohort")
+    private List<User> members;
+
+
+    public Cohort(String name, List<User> members) {
         this.name = name;
+        this.members = members != null ? members : new ArrayList<>();
         this.startDate = LocalDate.now();
     }
 
+    public Cohort (String name) {
+        this.name = name;
+        this.members = new ArrayList<>();
+    }
+
     public Cohort() {
+        this.members = new ArrayList<>();
     }
 
     public Long getId() {
@@ -43,5 +60,13 @@ public class Cohort {
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public List<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
     }
 }
