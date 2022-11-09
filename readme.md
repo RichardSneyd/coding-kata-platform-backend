@@ -308,10 +308,11 @@ New User: POST `/admin/users/`, with in input of the format:
 The user will be issued an email to set up their own password.
 
 ## Get Users & Leaderboards
+All Users: GET `/admin/users`
 Global Leaderboard: GET `/user/users/leaderboard`
-
 Leaderboard by Cohort Id: GET `user/users/leaderboard/{cohortId}`
 Leaderboard by Cohort Name: GET `user/users/leaderboard/cohort-name/{cohortName}`
+
 
 These routes will return User objects:
 
