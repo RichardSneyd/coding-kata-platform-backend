@@ -17,11 +17,12 @@ public class CohortService {
     UserService userService;
 
     public Cohort add(Cohort cohort) {
+        cohortRepo.save(cohort);
         for(var m : cohort.getMembers()) {
-         //   m.setCohort(cohort);
+            m.setCohort(cohort);
             userService.add(m);
         }
-        return  cohortRepo.save(cohort);
+        return cohort;
     }
 
     public List<Cohort> find() {

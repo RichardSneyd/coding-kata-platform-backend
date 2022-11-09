@@ -21,7 +21,7 @@ public class CohortController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(cohortService.find());
+        return ResponseEntity.ok().body(cohortService.find(id));
     }
 
     @GetMapping("/by-name/{name}")

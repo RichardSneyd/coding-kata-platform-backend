@@ -313,6 +313,65 @@ Global Leaderboard: GET `/user/users/leaderboard`
 Leaderboard by Cohort Id: GET `user/users/leaderboard/{cohortId}`
 Leaderboard by Cohort Name: GET `user/users/leaderboard/cohort-name/{cohortName}`
 
+These routes will return User objects:
+
+```json
+[
+    {
+        "id": 3,
+        "username": "JoeBlogs",
+        "email": "joeblogs@hotmail.com",
+        "cohort": null,
+        "roles": [
+            "USER"
+        ],
+        "score": 0,
+        "joinDate": "2022-11-09",
+        "solutions": []
+    },
+    {
+        "id": 1,
+        "username": "richard",
+        "email": "richard@fakeaddress.com",
+        "cohort": null,
+        "roles": [
+            "ADMIN"
+        ],
+        "score": 0,
+        "joinDate": "2022-11-09",
+        "solutions": []
+    },
+    {
+        "id": 2,
+        "username": "fakestudent",
+        "email": "student@fakeaddress.com",
+        "cohort": {
+            "id": 1,
+            "name": "C7",
+            "startDate": "2022-11-09"
+        },
+        "roles": [
+            "USER"
+        ],
+        "score": 0,
+        "joinDate": "2022-11-09",
+        "solutions": []
+    },
+    {
+        "id": 4,
+        "username": "CaptainCrisps",
+        "email": "captaincrisps@nowhere.com",
+        "cohort": null,
+        "roles": [
+            "USER"
+        ],
+        "score": 0,
+        "joinDate": "2022-11-09",
+        "solutions": []
+    }
+]
+```
+
 ## Password Reset
 
 Forgot password (request reset email): GET `/user/users/password/forgot/{userId}`
@@ -396,12 +455,49 @@ All: GET `user/cohorts`
   {
     "id": 1,
     "name": "C7",
-    "startDate": "2022-11-08"
+    "startDate": "2022-11-09",
+    "members": [
+      {
+        "id": 2,
+        "username": "fakestudent",
+        "email": "student@fakeaddress.com",
+        "roles": [
+          "USER"
+        ],
+        "score": 0,
+        "joinDate": "2022-11-09",
+        "solutions": []
+      }
+    ]
   },
   {
     "id": 2,
     "name": "C8",
-    "startDate": "2022-11-08"
+    "startDate": "2022-11-09",
+    "members": [
+      {
+        "id": 3,
+        "username": "JoeBlogs",
+        "email": "joeblogs@hotmail.com",
+        "roles": [
+          "USER"
+        ],
+        "score": 0,
+        "joinDate": "2022-11-09",
+        "solutions": []
+      },
+      {
+        "id": 4,
+        "username": "CaptainCrisps",
+        "email": "captaincrisps@nowhere.com",
+        "roles": [
+          "USER"
+        ],
+        "score": 0,
+        "joinDate": "2022-11-09",
+        "solutions": []
+      }
+    ]
   }
 ]
 ```
