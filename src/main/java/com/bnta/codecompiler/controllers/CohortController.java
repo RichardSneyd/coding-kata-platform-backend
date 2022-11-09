@@ -31,7 +31,6 @@ public class CohortController {
 
     @PostMapping
     public ResponseEntity<?> addNew(@RequestBody Cohort cohort) {
-
-        return
+        return ResponseEntity.ok().body(cohortService.add(cohort));
     }
 }
