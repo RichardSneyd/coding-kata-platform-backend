@@ -28,7 +28,7 @@ public class UserService {
 
     public User add(User user) {
         // encrypt password before saving any user
-        if(user.getPassword() == null) user.setPassword("temppassword_0184");
+        if(user.getPassword() == null) updatePassword(user, "temppassword_0184");
         updatePassword(user, user.getPassword());
         userRepository.save(user);
         try {
@@ -91,13 +91,14 @@ public class UserService {
 
     public void requestPasswordReset(User user) throws Exception {
         var secret = encoder.encode(user.getUsername());
-        String formLink = "http://";
+        String formLink = "http://ourdomain.com/user/rest";
         mailService.sendEmail(user.getEmail(), "Password reset link", "Use this link to reset your password: " +
                 formLink + "?secret=" + secret);
     }
 
     public User updatePassword(User user, String newPassword) {
         user.setPassword(encoder.encode(newPassword));
+        update(user);
         return user;
     }
 
