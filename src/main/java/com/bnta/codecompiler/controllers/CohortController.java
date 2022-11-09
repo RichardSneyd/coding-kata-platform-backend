@@ -28,9 +28,4 @@ public class CohortController {
     public ResponseEntity<?> getByName(@PathVariable String name) {
         return ResponseEntity.ok().body(cohortService.find());
     }
-
-    @PostMapping
-    public ResponseEntity<?> addNew(@RequestBody Cohort cohort) {
-        return ResponseEntity.ok().body(cohortService.add(cohort));
-    }
 }

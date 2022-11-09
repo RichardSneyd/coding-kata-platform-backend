@@ -4,7 +4,9 @@ import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.Role;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
+import com.bnta.codecompiler.services.email.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,14 +21,22 @@ import java.util.*;
 public class UserService {
     @Autowired
     IUserRepository userRepository;
-
     @Autowired
     PasswordEncoder encoder;
+    @Autowired
+    MailSenderService mailService;
 
     public User add(User user) {
         // encrypt password before saving any user
-        user.setPassword(encoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        if(user.getPassword() == null) user.setPassword("temppassword_0184");
+        updatePassword(user, user.getPassword());
+        userRepository.save(user);
+        try {
+            requestPasswordReset(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     public void delete(User user) {
@@ -73,6 +83,22 @@ public class UserService {
     public User increaseScore(User user, long amount) {
         user.setScore(user.getScore() + amount);
         return userRepository.save(user);
+    }
+
+    public void requestPasswordReset(Long userId) throws Exception {
+        requestPasswordReset(findById(userId));
+    }
+
+    public void requestPasswordReset(User user) throws Exception {
+        var secret = encoder.encode(user.getUsername());
+        String formLink = "http://";
+        mailService.sendEmail(user.getEmail(), "Password reset link", "Use this link to reset your password: " +
+                formLink + "?secret=" + secret);
+    }
+
+    public User updatePassword(User user, String newPassword) {
+        user.setPassword(encoder.encode(newPassword));
+        return user;
     }
 
 }

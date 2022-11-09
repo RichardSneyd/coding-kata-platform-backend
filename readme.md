@@ -336,15 +336,15 @@ Cohorts can only be created by ADMIN users:
 
 POST `/admin/cohorts`
 
-The payload should include a name property.
+The payload should follow this format:
 
 ```json
 {
-  "name": "C7",
+  "name": "C8",
   "members": [
     {
-      "username": "JoeBloggs",
-      "email": "joebloggs@nowhere.com"
+      "username": "JoeBlogs",
+      "email": "joeblogs@hotmail.com"
     },
     {
       "username": "CaptainCrisps",
@@ -353,39 +353,40 @@ The payload should include a name property.
   ]
 }
 ```
-If successful, you will be returned a cohort object complete with startDate and id properties. Any new members submitted will also have been processed: 
+If successful, you will be returned a cohort object complete with startDate and id properties. Any new members submitted will also have been processed, and emailed to set their own password: 
 
 ```json
 {
-  "id": 1,
-  "name": "C7",
-  "startDate": "2022-11-08",
+  "id": 2,
+  "name": "C8",
+  "startDate": "2022-11-09",
   "members": [
     {
-      "id": 1,
+      "id": 3,
       "username": "JoeBloggs",
-      "email": "joebloggs@nowhere.com",
-      "joinDate": "2022-11-08"
+      "email": "richardsneyd@hotmail.com",
+      "roles": [
+        "USER"
+      ],
+      "score": 0,
+      "joinDate": "2022-11-09",
+      "solutions": []
     },
     {
-      "id": 1,
+      "id": 4,
       "username": "CaptainCrisps",
       "email": "captaincrisps@nowhere.com",
-      "joinDate": "2022-11-08"
+      "roles": [
+        "USER"
+      ],
+      "score": 0,
+      "joinDate": "2022-11-09",
+      "solutions": []
     }
   ]
 }
 ```
 
-An id and startDate will be assigned automatically, and the Cohort object returned:
-
-```json
-{
-  "id": 1,
-  "name": "C7",
-  "startDate": "2022-11-08"
-}
-```
 ## Get  Cohorts
 
 All: GET `user/cohorts` 

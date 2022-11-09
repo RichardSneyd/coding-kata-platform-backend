@@ -24,15 +24,11 @@ public class UserController {
     @GetMapping("/password/forgot/{userId}")
     public ResponseEntity<?> forgotPassword(@PathVariable Long userId) {
         try {
-            var user = userService.findById(userId);
-            var secret = encoder.encode(user.getUsername());
-            String formLink = "http://";
-            mailService.sendEmail(user.getEmail(), "Password reset link", "Use this link to reset your password: " +
-                    formLink + "?secret=" + secret);
-            return ResponseEntity.ok("Thank you. We've sent an email with reset instructions.");
+          userService.requestPasswordReset(userId);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+        return ResponseEntity.ok("Thank you. We've sent an email with reset instructions.");
     }
 
     @PostMapping("/password/reset")

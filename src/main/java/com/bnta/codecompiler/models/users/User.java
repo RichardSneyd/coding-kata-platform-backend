@@ -35,17 +35,22 @@ public class User {
     private Set<Solution> solutions;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
+        this.init();
         this.username = uname;
         this.password = password;
         this.email = email;
         this.cohort = cohort;
         if(roles != null) this.roles = roles;
-        this.solutions = new HashSet<>();
         this.score = 0;
-        this.joinDate = LocalDate.now();
     }
 
     public User() {
+       init();
+    }
+
+    private void init() {
+        this.joinDate = LocalDate.now();
+        this.solutions = new HashSet<>();
     }
 
     public Long getId() {

@@ -18,7 +18,7 @@ public class CohortService {
 
     public Cohort add(Cohort cohort) {
         for(var m : cohort.getMembers()) {
-            m.setCohort(cohort);
+         //   m.setCohort(cohort);
             userService.add(m);
         }
         return  cohortRepo.save(cohort);

@@ -19,23 +19,28 @@ public class Cohort {
     private LocalDate startDate;
 
     @JsonIgnoreProperties({"cohort"})
-    @OneToMany(mappedBy="cohort")
+    @OneToMany(mappedBy = "cohort")
     private List<User> members;
 
 
     public Cohort(String name, List<User> members) {
+        this.init();
         this.name = name;
         this.members = members != null ? members : new ArrayList<>();
-        this.startDate = LocalDate.now();
     }
 
-    public Cohort (String name) {
+    public Cohort(String name) {
         this.name = name;
-        this.members = new ArrayList<>();
+        this.init();
     }
 
     public Cohort() {
+        this.init();
+    }
+
+    private void init() {
         this.members = new ArrayList<>();
+        this.startDate = LocalDate.now();
     }
 
     public Long getId() {
