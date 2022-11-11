@@ -13,16 +13,9 @@ import org.springframework.context.event.EventListener;
 @ImportResource({"classpath*:application-context.xml"})
 @EnableAutoConfiguration
 public class CodeCompilerApplication {
-	@Autowired
-	private MailSenderService mailSenderService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CodeCompilerApplication.class, args);
-	}
-
-	@EventListener(ApplicationReadyEvent.class)
-	public void sendMail() {
-	   //	mailSenderService.sendEmail("richardsneyd@hotmail.com", "test email", "It worked!");
 	}
 
 }

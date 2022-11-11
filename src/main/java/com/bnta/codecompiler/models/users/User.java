@@ -1,11 +1,13 @@
 package com.bnta.codecompiler.models.users;
 
+import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,9 +32,10 @@ public class User {
     private long score;
     @Column
     private LocalDate joinDate;
-
     @OneToMany
     private Set<Solution> solutions;
+    @ManyToMany(cascade = {})
+    private List<Problem> completedProblems;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.init();
@@ -51,6 +54,7 @@ public class User {
     private void init() {
         this.joinDate = LocalDate.now();
         this.solutions = new HashSet<>();
+        this.completedProblems = new ArrayList<>();
     }
 
     public Long getId() {
@@ -124,5 +128,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Problem> getCompletedProblems() {
+        return completedProblems;
+    }
+
+    public void setCompletedProblems(List<Problem> completedProblems) {
+        this.completedProblems = completedProblems;
     }
 }

@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.services.users;
 
+import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.Role;
 import com.bnta.codecompiler.models.users.User;
@@ -98,6 +99,12 @@ public class UserService {
 
     public User updatePassword(User user, String newPassword) {
         user.setPassword(encoder.encode(newPassword));
+        update(user);
+        return user;
+    }
+
+    public User addCompletedProblem(User user, Problem problem) {
+        user.getCompletedProblems().add(problem);
         update(user);
         return user;
     }
