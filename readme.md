@@ -329,6 +329,7 @@ These routes will return User objects:
         "roles": [
             "USER"
         ],
+        "completedProblems": [],
         "score": 0,
         "joinDate": "2022-11-09",
         "solutions": []
@@ -338,6 +339,7 @@ These routes will return User objects:
         "username": "richard",
         "email": "richard@fakeaddress.com",
         "cohort": null,
+        "completedProblems": [],
         "roles": [
             "ADMIN"
         ],
@@ -353,7 +355,8 @@ These routes will return User objects:
             "id": 1,
             "name": "C7",
             "startDate": "2022-11-09"
-        },
+        }, 
+        "completedProblems": [],
         "roles": [
             "USER"
         ],
@@ -366,6 +369,7 @@ These routes will return User objects:
         "username": "CaptainCrisps",
         "email": "captaincrisps@nowhere.com",
         "cohort": null,
+        "completedProblems": [],
         "roles": [
             "USER"
         ],
