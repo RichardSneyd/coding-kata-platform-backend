@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.services.users;
 
+import com.bnta.codecompiler.config.GlobalSettings;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.Role;
@@ -92,7 +93,7 @@ public class UserService {
 
     public void requestPasswordReset(User user) throws Exception {
         var secret = encoder.encode(user.getUsername());
-        String formLink = "http://ourdomain.com/user/rest";
+        String formLink = GlobalSettings.getFrontEndOrigin() + "/user/reset-password";
         mailService.sendEmail(user.getEmail(), "Password reset link", "Use this link to reset your password: " +
                 formLink + "?secret=" + secret);
     }
