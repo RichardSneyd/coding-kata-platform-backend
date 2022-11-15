@@ -2,7 +2,10 @@ package com.bnta.codecompiler.services.problems;
 
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
+import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.repositories.problems.IProblemRepository;
+import com.bnta.codecompiler.services.tests.TestCaseService;
+import com.bnta.codecompiler.services.tests.TestSuiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +17,12 @@ import java.util.Set;
 public class ProblemService {
     @Autowired
     IProblemRepository problemRepository;
+    @Autowired
+    TestSuiteService testSuiteService;
+
 
     public Problem add(Problem problem) {
+        problem.setTestSuite(testSuiteService.add(problem.getTestSuite()));
         return problemRepository.save(problem);
     }
 

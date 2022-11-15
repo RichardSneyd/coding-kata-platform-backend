@@ -1,12 +1,15 @@
 package com.bnta.codecompiler.models.users;
 
+import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jdk.jfr.DataAmount;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name="users")
@@ -19,28 +22,39 @@ public class User {
     @Column
     private String password;
     @Column
-    private String cohort = null;
-    @Column
-    private Role role = Role.USER;
+    private String email;
+    @JsonIgnoreProperties({"members"})
+    @ManyToOne
+    private Cohort cohort;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Role> roles = List.of(Role.USER);
     @Column
     private long score;
     @Column
     private LocalDate joinDate;
-
     @OneToMany
     private Set<Solution> solutions;
+    @ManyToMany(cascade = {})
+    private List<Problem> completedProblems;
 
-    public User(String uname, String password, String cohort, Role role) {
+    public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
+        this.init();
         this.username = uname;
         this.password = password;
+        this.email = email;
         this.cohort = cohort;
-        if(role != null) this.role = role;
-        this.solutions = new HashSet();
+        if(roles != null) this.roles = roles;
         this.score = 0;
-        this.joinDate = LocalDate.now();
     }
 
     public User() {
+       init();
+    }
+
+    private void init() {
+        this.joinDate = LocalDate.now();
+        this.solutions = new HashSet<>();
+        this.completedProblems = new ArrayList<>();
     }
 
     public Long getId() {
@@ -68,20 +82,20 @@ public class User {
         this.password = password;
     }
 
-    public String getCohort() {
+    public Cohort getCohort() {
         return cohort;
     }
 
-    public void setCohort(String cohort) {
+    public void setCohort(Cohort cohort) {
         this.cohort = cohort;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public Set<Solution> getSolutions() {
@@ -106,5 +120,21 @@ public class User {
 
     public void setJoinDate(LocalDate joinDate) {
         this.joinDate = joinDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Problem> getCompletedProblems() {
+        return completedProblems;
+    }
+
+    public void setCompletedProblems(List<Problem> completedProblems) {
+        this.completedProblems = completedProblems;
     }
 }

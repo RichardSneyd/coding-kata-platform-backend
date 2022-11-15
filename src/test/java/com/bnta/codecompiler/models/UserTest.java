@@ -5,6 +5,8 @@ import com.bnta.codecompiler.models.users.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class UserTest {
@@ -13,13 +15,13 @@ public class UserTest {
 
     @BeforeEach
     public  void setUp() {
-        admin = new User("RichardSneyd", "1234", null, Role.ADMIN);
-        user = new User("student", "4567", "C7", Role.USER);
+        admin = new User("RichardSneyd", "richard@fake.com",  "1234", null, List.of(Role.ADMIN));
+        user = new User("student", "student@fake.com", "4567", "C7", List.of(Role.USER));
 
     }
     @Test
     public void getRoleAsString(){
-        assertThat(admin.getRole().toString()).isEqualTo("ADMIN");
-        assertThat(user.getRole().toString()).isEqualTo("USER");
+        assertThat(admin.getRoles().get(0).toString()).isEqualTo("ADMIN");
+        assertThat(user.getRoles().get(0).toString()).isEqualTo("USER");
     }
 }

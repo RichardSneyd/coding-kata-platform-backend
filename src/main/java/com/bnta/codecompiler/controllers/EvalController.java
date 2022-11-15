@@ -1,6 +1,5 @@
 package com.bnta.codecompiler.controllers;
 
-import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.dtos.EvalInput;
 import com.bnta.codecompiler.models.dtos.EvalResult;
 import com.bnta.codecompiler.models.problems.Solution;
@@ -35,8 +34,10 @@ public class EvalController {
                                                @PathVariable Long problemId) {
         try {
             var user = userService.findById(evalInput.getUserId());
-            var evalResult = evalService.evaluate(evalInput, problemService.findById(problemId));
+            var problem = problemService.findById(problemId);
+            var evalResult = evalService.evaluate(evalInput, problem);
             if (evalResult.isSuccessful()) {
+                userService.addCompletedProblem(user, problem);
                 solutionService.add(new Solution(evalInput.getCode(), evalInput.getLang(),
                         evalResult.isSuccessful(), evalResult.getProblem(), user));
             }
