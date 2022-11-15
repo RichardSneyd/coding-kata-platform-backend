@@ -6,6 +6,7 @@ import com.bnta.codecompiler.models.problems.ProblemSet;
 import com.bnta.codecompiler.services.problems.ProblemService;
 import com.bnta.codecompiler.services.problems.ProblemSetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -30,8 +31,10 @@ public class ProblemsAdminController {
         return problemService.add(problem);
     }
 
-    @PostMapping("/sets/")
-    public ProblemSet newProblemSet(@RequestBody ProblemSet problemSet) {
-        return problemSetService.add(problemSet);
+    @PostMapping("/sets")
+    public ResponseEntity<?> newProblemSet(@RequestBody ProblemSet problemSet) {
+        problemSet = problemSetService.add(problemSet);
+
+        return ResponseEntity.ok().body(problemSet);
     }
 }

@@ -37,5 +37,10 @@ public class UserAdminController {
         }
     }
 
+    @GetMapping("/leaderboard")
+    public ResponseEntity<?> globalLeaderboard() {
+        return ResponseEntity.ok().body(userService.globalLeaderboard().get());
+    }
+
 
 }

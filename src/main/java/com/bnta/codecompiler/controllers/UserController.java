@@ -48,11 +48,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/leaderboard")
-    public ResponseEntity<?> globalLeaderboard() {
-        return ResponseEntity.ok().body(userService.globalLeaderboard().get());
-    }
-
     @GetMapping("/leaderboard/cohort-name/{cohort}")
     public ResponseEntity<?> cohortLeaderboardByName(@PathVariable String cohort) {
         return ResponseEntity.ok().body(userService.cohortLeaderboardByName(cohort));

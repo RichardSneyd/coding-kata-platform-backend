@@ -275,6 +275,28 @@ id's for all the inner objects (TestSuite, TestCase, Data...):
 }
 ```
 
+
+# Problem Sets
+Problem Sets are basically groups of problems, with a title and description for the group.
+
+Get all: GET `/user/problems/sets`
+Get by Id: GET `/user/problems/sets/{id}`
+
+Make new set: POST `/admin/problems/sets`
+
+Payload example:
+
+```json
+{
+  "title": "Loops 101",
+  "description": "A group of problems to practice the fundamentals of loops",
+  "problems": [
+    {"id":  1},
+    {"id": 2}
+  ]
+}
+```
+
 ## Difficulty Settings
 
 Possible difficulty values are:
@@ -310,7 +332,7 @@ The user will be issued an email to set up their own password.
 ## Get Users & Leaderboards
 All Users: GET `/admin/users`
 
-Global Leaderboard: GET `/user/users/leaderboard`
+Global Leaderboard: GET `/admin/users/leaderboard`
 
 Leaderboard by Cohort Id: GET `user/users/leaderboard/{cohortId}`
 
