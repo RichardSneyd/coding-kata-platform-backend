@@ -125,4 +125,11 @@ public class SrcParser {
 
     public static String wrapString(String val) { return  "\"" + val + "\"";}
 
+    public static String removeLogs(String src, String lang) {
+        String pattern = lang == "java" ? "System.out.println(.*?);"
+                : lang == "js" ? "console.log(.*?)(\\)|\\);)"
+                : "print([ \\(])(.*?)\\)";
+        return src.replaceAll(pattern, "");
+    }
+
 }

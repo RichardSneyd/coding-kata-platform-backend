@@ -7,6 +7,8 @@ import java.util.List;
 public class EvalResult {
     private boolean successful;
     private boolean privateTestsPassed;
+
+    private List<TestCaseResult> publicTestResultsWithLogs;
     private List<TestCaseResult> publicTestResults;
 
     private Problem problem;
