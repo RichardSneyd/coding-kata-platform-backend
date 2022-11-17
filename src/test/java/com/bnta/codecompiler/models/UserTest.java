@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.models;
 
+import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.models.users.Role;
 import com.bnta.codecompiler.models.users.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,7 @@ public class UserTest {
     @BeforeEach
     public  void setUp() {
         admin = new User("RichardSneyd", "richard@fake.com",  "1234", null, List.of(Role.ADMIN));
-        user = new User("student", "student@fake.com", "4567", "C7", List.of(Role.USER));
+        user = new User("student", "student@fake.com", "4567", new Cohort("C7"), List.of(Role.USER));
 
     }
     @Test
