@@ -64,7 +64,7 @@ JSON format:
 }
 ```
 
-The response body will be of the `EvalResult` format. The code is automatically sanitised for logging before being evaluated. The result of running the test **with** the users logs can be accessed in the `resultsWithLogs` property. The test results after the logs have been automatically removed, are accessed via `publicTestResults`:
+The response body will be of the `EvalResult` format. The code is automatically sanitised for logging before being evaluated. The result of running the test **with** the users logs can be accessed in the `testResultsWithLogs` property. This allows us to feed back to them the output from their manual debugging/testing. The test results after the logs have been automatically removed, are accessed via `publicTestResults`:
 
 ```json
 {
@@ -83,7 +83,7 @@ The response body will be of the `EvalResult` format. The code is automatically 
       "correct": true
     }
   ],
-  "resultsWithLogs": [
+  "testResultsWithLogs": [
     {
       "compileResult": {
         "id": null,
