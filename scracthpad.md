@@ -24,3 +24,6 @@ String:
 Boolean:
 - isHungry(name: string): boolean (return true if name begins with H or h)
 - countSheep(sheeps: boolean[]) int (return how many sheep are in a pen. true means the sheep is there.)
+
+Functions/methods:
+- 

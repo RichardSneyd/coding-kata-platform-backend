@@ -13,7 +13,7 @@ public class Cohort {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(unique = true)
     private String name;
     @Column
     private LocalDate startDate;
