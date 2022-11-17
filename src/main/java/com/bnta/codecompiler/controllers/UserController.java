@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping("/password/forgot/{userId}")
     public ResponseEntity<?> forgotPassword(@PathVariable Long userId) {
         try {
-          userService.requestPasswordReset(userId);
+            userService.requestPasswordReset(userId);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -35,7 +35,7 @@ public class UserController {
     public ResponseEntity<?> resetPassword(@RequestBody PasswordResetInput pr) {
         try {
             var user = userService.findById(pr.getUserId());
-            if(!encoder.matches(user.getUsername(), pr.getSecret())) {
+            if (!encoder.matches(user.getUsername(), pr.getSecret())) {
                 System.out.println("got: " + pr.getSecret());
                 System.out.println("required: " + encoder.encode(user.getUsername()));
                 throw new Exception("Wrong secret provided");
@@ -56,5 +56,14 @@ public class UserController {
     @GetMapping("/leaderboard/{cohortId}")
     public ResponseEntity<?> cohortLeaderboardById(@PathVariable Long cohortId) {
         return ResponseEntity.ok().body(userService.cohortLeaderboardById(cohortId));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable Long userId) {
+        try {
+            return ResponseEntity.ok().body(userService.findById(userId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user with id " + userId);
+        }
     }
 }

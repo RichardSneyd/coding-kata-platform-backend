@@ -332,6 +332,8 @@ The user will be issued an email to set up their own password.
 ## Get Users & Leaderboards
 All Users: GET `/admin/users`
 
+User by id: GET `/user/users/{userId}`
+
 Global Leaderboard: GET `/admin/users/leaderboard`
 
 Leaderboard by Cohort Id: GET `user/users/leaderboard/{cohortId}`
