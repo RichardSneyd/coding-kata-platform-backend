@@ -64,7 +64,7 @@ JSON format:
 }
 ```
 
-The response body will be of the `EvalResult` format:
+The response body will be of the `EvalResult` format. The code is automatically sanitised for logging before being evaluated. The result of running the test **with** the users logs can be accessed in the `resultsWithLogs` property. The test results after the logs have been automatically removed, are accessed via `publicTestResults`:
 
 ```json
 {
@@ -81,6 +81,19 @@ The response body will be of the `EvalResult` format:
         "compiled": true
       },
       "correct": true
+    }
+  ],
+  "resultsWithLogs": [
+    {
+      "compileResult": {
+        "id": null,
+        "output": "user logs\n15",
+        "errors": "",
+        "lang": "java",
+        "code": "public class Main {public int solution(int a, int b) {System.out.println(\"user logs\"); return a + b;}public static void main(String[] args){System.out.println(new Main().solution(10, 5));}}",
+        "compiled": true
+      },
+      "correct": false
     }
   ],
   "problem": {
