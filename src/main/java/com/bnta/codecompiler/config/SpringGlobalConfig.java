@@ -24,7 +24,7 @@ public class SpringGlobalConfig implements WebMvcConfigurer {
                 "https://localhost:3000",
                 "http://localhost",
                 "https://localhost"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -43,7 +43,6 @@ public class SpringGlobalConfig implements WebMvcConfigurer {
         registry.addConverter(new StringToDifficultyConverter());
         registry.addConverter(new StringToRoleConverter());
     }
-
 
 
 }
