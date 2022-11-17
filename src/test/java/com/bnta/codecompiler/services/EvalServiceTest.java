@@ -29,8 +29,11 @@ public class EvalServiceTest {
     private EvalService evalService;
 
     private CompileInput javaInput;
+    private CompileInput javaInputPolluted;
     private CompileInput jsInput;
+    private CompileInput jsInputPolluted;
     private CompileInput pyInput;
+    private CompileInput pyInputPolluted;
 
     private List<TestCase> testCases;
     private List<TestCase> privateCases;
@@ -38,9 +41,12 @@ public class EvalServiceTest {
     @BeforeEach
     public void setUp() {
         javaInput = new CompileInput("public class Main {public int add(int a, int b) {return a + b;}}", "java");
+        javaInputPolluted = new CompileInput("public class Main {public int add(int a, int b) {System.out.println(\"horse\"); return a + b;}}", "java");
         jsInput = new CompileInput("const add = (a, b)=> a + b;", "js");
-        pyInput = new CompileInput("def add(a, b):\n\s" +
-                "return a + b\n\n", "py");
+        jsInputPolluted = new CompileInput("const add = (a, b)=> {console.log('user pollution js'); return a + b; }", "js");
+        pyInput = new CompileInput("def add(a, b):\n\sreturn a + b\n\n", "py");
+        pyInputPolluted = new CompileInput("def add(a, b):\n\sprint(\"user pollution\")\n\sreturn a + b\n\n", "py");
+
         testCases = List.of(
                 new TestCase(List.of(
                         new Data("5", DataType.INT),
@@ -67,11 +73,12 @@ public class EvalServiceTest {
                 new TestSuite(new HashSet<>(testCases),
                         new HashSet<>(privateCases)), new StartCode(),
                 new HashSet<>(List.of("tag1", "tag2")));
-        var compileInputs = new CompileInput[]{javaInput, jsInput, pyInput};
+        var compileInputs = new CompileInput[]{javaInputPolluted, jsInputPolluted, pyInputPolluted};
         for (var input : compileInputs) {
             var result = evalService.evaluate(input, problem);
             assertThat(result).isNotNull();
             assertThat(result.isSuccessful()).isTrue();
+            assertThat(result.getTestResultsWithLogs().get(0).isCorrect()).isFalse();
         }
     }
 

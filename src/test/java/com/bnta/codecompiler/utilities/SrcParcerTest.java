@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class DataParserTest {
+public class SrcParcerTest {
     private String sampleStringArr;
     private String sampleBooleanArr;
     private String sampleIntArr;
@@ -32,7 +32,7 @@ public class DataParserTest {
     @Test
     public void testToArgs() {
         assertThat(SrcParser.toArgs(List.of(
-                new Data("Dog,Cat,Fish", DataType.STRING_ARRAY),
+                        new Data("Dog,Cat,Fish", DataType.STRING_ARRAY),
                         new Data("50", DataType.INT)
                 ),
                 "java"))
@@ -82,22 +82,22 @@ public class DataParserTest {
     public void testWrapJava() {
         String src = "public class Main {" +
                 "public String solution(a, b) {" +
-                   "return a + b;" +
+                "return a + b;" +
                 "} " +
                 "}";
         assertThat(SrcParser.wrapJava(
                 src, List.of(
                         new Data("5", DataType.INT),
                         new Data("5", DataType.INT)),
-                        DataType.INT
-                )).isEqualTo("public class Main {" +
-   "public String solution(a, b) {" +
-            "return a + b;" +
-        "} " +
-        "public static void main(String[] args){" +
-            "System.out.println(new Main().solution(5, 5));" +
-        "}" +
-    "}");
+                DataType.INT
+        )).isEqualTo("public class Main {" +
+                "public String solution(a, b) {" +
+                "return a + b;" +
+                "} " +
+                "public static void main(String[] args){" +
+                "System.out.println(new Main().solution(5, 5));" +
+                "}" +
+                "}");
     }
 
     @Test
@@ -186,4 +186,22 @@ public class DataParserTest {
                 .isEqualTo("\"Hello World\"");
     }
 
+    @Test
+    public void testRemoveLogsJava() {
+        var src = "public class App { \nSystem.out.println(\"sdfsds\");}";
+        assertThat(SrcParser.removeLogs(src, "java")).isEqualTo("public class App { \n}");
+
+    }
+
+    @Test
+    public void testRemoveLogsJs() {
+        var src = "function Horse(name) {console.log('hello world')}console.log(\"hello badger\")";
+        assertThat(SrcParser.removeLogs(src, "js")).isEqualTo("function Horse(name) {}");
+    }
+
+    @Test
+    public void testRemoveLogsPy() {
+        var src = "def my_function(fname):\n\sprint(fname)\n\sprint(\"Horse\")";
+        assertThat(SrcParser.removeLogs(src, "py")).isEqualTo("def my_function(fname):\n\s\n\s");
+    }
 }

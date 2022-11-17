@@ -21,7 +21,11 @@ public class EvalService {
     public EvalResult evaluate(CompileInput compileInputPojo, Problem problem) {
         EvalResult evalResult = new EvalResult();
         evalResult.setProblem(problem);
+        evalResult.setTestResultsWithLogs(runTestCases(problem.getTitle(),
+                problem.getTestSuite().getPublicCases(), compileInputPojo));
 
+        // remove user-inserted logs before evaluating, or user output Stdout may pollute the result
+        compileInputPojo.setCode(SrcParser.removeLogs(compileInputPojo.getCode(), compileInputPojo.getLang()));
         evalResult.setPublicTestResults(runTestCases(problem.getTitle(),
                 problem.getTestSuite().getPublicCases(), compileInputPojo));
         var privateResults = runTestCases(problem.getTitle(),

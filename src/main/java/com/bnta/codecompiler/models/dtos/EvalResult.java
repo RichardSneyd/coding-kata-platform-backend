@@ -8,15 +8,16 @@ public class EvalResult {
     private boolean successful;
     private boolean privateTestsPassed;
 
-    private List<TestCaseResult> publicTestResultsWithLogs;
+    private List<TestCaseResult> testResultsWithLogs;
     private List<TestCaseResult> publicTestResults;
 
     private Problem problem;
 
-    public EvalResult(boolean successful, boolean privateTestsPassed, List<TestCaseResult> publicTestResults, Problem problem) {
+    public EvalResult(boolean successful, boolean privateTestsPassed, List<TestCaseResult> publicTestResults, List<TestCaseResult> testResultsWithLogs, Problem problem) {
         this.successful = successful;
         this.privateTestsPassed = privateTestsPassed;
         this.publicTestResults = publicTestResults;
+        this.testResultsWithLogs = testResultsWithLogs;
         this.problem = problem;
     }
 
@@ -53,5 +54,13 @@ public class EvalResult {
 
     public void setProblem(Problem problem) {
         this.problem = problem;
+    }
+
+    public List<TestCaseResult> getTestResultsWithLogs() {
+        return testResultsWithLogs;
+    }
+
+    public void setTestResultsWithLogs(List<TestCaseResult> testResultsWithLogs) {
+        this.testResultsWithLogs = testResultsWithLogs;
     }
 }
