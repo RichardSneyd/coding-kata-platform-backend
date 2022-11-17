@@ -1,9 +1,11 @@
 package com.bnta.codecompiler.utilities;
+import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.StartCode;
 import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.models.tests.TestSuite;
+import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.models.users.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,8 +48,8 @@ public class JSONTest {
     @Test
     public void testJsoneNodeToCLass() {
        // JsonNode node = JSON.parse(new CodePojo("console.log('hello world');", "js"));
-       var json = JSON.stringify(new User());
+       var json = JSON.stringify(new CompileInput());
        var node = JSON.parse(json);
-       var user = JSON.jsonNodeToClass(node, User.class);
+       var user = JSON.jsonNodeToClass(node, CompileInput.class);
     }
 }
