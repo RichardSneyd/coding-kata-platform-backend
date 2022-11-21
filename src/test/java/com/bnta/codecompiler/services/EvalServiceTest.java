@@ -74,11 +74,16 @@ public class EvalServiceTest {
                         new HashSet<>(privateCases)), new StartCode(),
                 new HashSet<>(List.of("tag1", "tag2")));
         var compileInputs = new CompileInput[]{javaInputPolluted, jsInputPolluted, pyInputPolluted};
-        for (var input : compileInputs) {
-            var result = evalService.evaluate(input, problem);
-            assertThat(result).isNotNull();
-            assertThat(result.isSuccessful()).isTrue();
-            assertThat(result.getTestResultsWithLogs().get(0).isCorrect()).isFalse();
+        try {
+            for (var input : compileInputs) {
+                var result = evalService.evaluate(input, problem);
+                assertThat(result).isNotNull();
+                assertThat(result.isSuccessful()).isTrue();
+                assertThat(result.getTestResultsWithLogs().get(0).isCorrect()).isFalse();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

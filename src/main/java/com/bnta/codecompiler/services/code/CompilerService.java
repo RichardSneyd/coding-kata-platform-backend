@@ -2,6 +2,7 @@ package com.bnta.codecompiler.services.code;
 
 import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.dtos.CompileResult;
+import com.bnta.codecompiler.utilities.SafetyFilter;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -46,7 +47,10 @@ public class CompilerService {
         return compileResult;
     }
 
-    public CompileResult compile(CompileInput input) {
+    public CompileResult compile(CompileInput input) throws Exception {
+        if(!SafetyFilter.isInputSafe(input)) {
+            throw new Exception("Dangerous or possible malicious code detected");
+        }
         CompileResult result = new CompileResult(input.getCode(), null, null, false, input.getLang());
         try {
             String command = input.getLang().equals("js") ? "node" : input.getLang().equals("java") ? "java" : "python3";

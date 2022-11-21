@@ -3,6 +3,7 @@ package com.bnta.codecompiler.services.code;
 import com.bnta.codecompiler.models.dtos.*;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.tests.TestCase;
+import com.bnta.codecompiler.utilities.SafetyFilter;
 import com.bnta.codecompiler.utilities.SrcParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,10 @@ public class EvalService {
     @Autowired
     CompilerService compiler;
 
-    public EvalResult evaluate(CompileInput compileInputPojo, Problem problem) {
+    public EvalResult evaluate(CompileInput compileInputPojo, Problem problem) throws Exception {
+        if(!SafetyFilter.isInputSafe(compileInputPojo)) {
+            throw new Exception("Dangerous or possible malicious code detected");
+        }
         EvalResult evalResult = new EvalResult();
         evalResult.setProblem(problem);
         evalResult.setTestResultsWithLogs(runTestCases(problem.getTitle(),
@@ -56,8 +60,13 @@ public class EvalService {
         var compileInput = compileInputPojo.clone();
         compileInput.setCode(generateSrc(functionName, compileInput.getCode(), compileInput.getLang(),
                 testCase.getInputs(), testCase.getOutput().getDataType()));
+        try {
+            return compiler.compile(compileInput);
 
-        return compiler.compile(compileInput);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean isDataMatch(String expected, String actual) {

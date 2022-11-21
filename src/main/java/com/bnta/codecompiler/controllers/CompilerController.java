@@ -23,21 +23,35 @@ public class CompilerController {
     }
 
     @PostMapping
-    public ResponseEntity<CompileResult> compile(@RequestBody CompileInput compileInputPojo) throws IOException {
+    public ResponseEntity<?> compile(@RequestBody CompileInput compileInputPojo) throws IOException {
         System.out.println("message: " + compileInputPojo.toString());
+        try {
         CompileResult result = compilerService.compile(compileInputPojo);
         return new ResponseEntity<>(result, HttpStatus.OK);
+
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        }
     }
 
     @GetMapping("/test/js")
-    public ResponseEntity<CompileResult> testJS() throws IOException {
+    public ResponseEntity<?> testJS() throws IOException {
+        try {
         CompileResult result = compilerService.compile(new CompileInput("console.log(\"hello from js test\")",
                 "js"));
         return new ResponseEntity<>(result, HttpStatus.OK);
+
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        }
     }
 
     @GetMapping("/test/java")
-    public ResponseEntity<CompileResult> testJava() throws IOException {
+    public ResponseEntity<?> testJava() throws IOException {
+        try {
+
         CompileResult result = compilerService.compile(new CompileInput("public class Main { " +
                         "public static void main(String[] args) {" +
                         "System.out.println(\"Hello from java test\");" +
@@ -45,13 +59,23 @@ public class CompilerController {
                         "}",
                 "java"));
         return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        }
     }
 
     @GetMapping("/test/python")
-    public ResponseEntity<CompileResult> testPython() throws IOException {
-        CompileResult result = compilerService.compile(new CompileInput("print('hello world';",
-                "py"));
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    public ResponseEntity<?> testPython() throws IOException {
+        try {
+            CompileResult result = compilerService.compile(new CompileInput("print('hello world';",
+                    "py"));
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        }
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
     }
 
     @GetMapping("/where/{command}")
