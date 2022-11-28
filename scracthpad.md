@@ -15,11 +15,20 @@ Arrays:
 - isSequence(nums: int[]): boolean
 - dominantMember(nums: int[]): int
 - hasDuplicates(nums: int[]) : boolean
+- minMax(nums: int[]) : int[] (return the min and max values from the array [-2, 5])
 
 String:
 - isPalindrome(str: string): boolean
 - isAllSameCase(str: string): boolean
 - anyContainIllegalChars(candidateStrings: string[], illegalChars: string): boolean
+- isIsogram(str: string): boolean (An isogram contains only unique letters. No duplicates. Ignore casing.)
+- camelToSnake(str: string): string (convert camelCase to snake case, i.e someVariableName to some_variable_name)
+- sanitiseInput(str: string): string (remove html tags and return, i.e <h1>'Hello world'</h1> -> 'Hello world')
+- crossSiteScriptFilter(str: string): string (you're programming a social media app. Remove script injection attempts from submissions)
+
+Lists/Sets:
+- isPangram(str: string): boolean (does the string contain all letters of the alphabet? ignore case)
+- findOddOccurance(int[] nums): int 
 
 Boolean:
 - isHungry(name: string): boolean (return true if name begins with H or h)
