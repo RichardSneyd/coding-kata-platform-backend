@@ -11,7 +11,7 @@ Integers:
 Arrays:
 - getProduct(nums: int[]): int
 - average(nums: int[]): float
-- containOddNumbers(nums: int[]): boolean
+- containsOddNumber(nums: int[]): boolean
 - isSequence(nums: int[]): boolean
 - dominantMember(nums: int[]): int
 - hasDuplicates(nums: int[]) : boolean
@@ -20,6 +20,7 @@ Arrays:
 String:
 - isPalindrome(str: string): boolean
 - isAllSameCase(str: string): boolean
+- happyOrSad(sentence: string, happyWords: string[], sadWords: string[]) string (return "Happy" if there are more happy words than sad words, else "Sad")
 - anyContainIllegalChars(candidateStrings: string[], illegalChars: string): boolean
 - isIsogram(str: string): boolean (An isogram contains only unique letters. No duplicates. Ignore casing.)
 - camelToSnake(str: string): string (convert camelCase to snake case, i.e someVariableName to some_variable_name)
