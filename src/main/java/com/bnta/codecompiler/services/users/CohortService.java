@@ -1,7 +1,6 @@
 package com.bnta.codecompiler.services.users;
 
 import com.bnta.codecompiler.models.users.Cohort;
-import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.users.ICohortRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

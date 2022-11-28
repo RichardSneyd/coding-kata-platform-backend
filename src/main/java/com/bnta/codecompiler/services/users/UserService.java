@@ -3,17 +3,10 @@ package com.bnta.codecompiler.services.users;
 import com.bnta.codecompiler.config.GlobalSettings;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
-import com.bnta.codecompiler.models.users.Role;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import com.bnta.codecompiler.services.email.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
