@@ -31,12 +31,12 @@ public class ProblemsUserController {
     }
 
     @GetMapping("/tag/{tag}")
-    public ResponseEntity<Set<Problem>> byTag(@PathVariable String tag) {
+    public ResponseEntity<?> byTag(@PathVariable String tag) {
         Optional<Set<Problem>> optional = problemService.findByTag(tag);
         if(optional.isPresent() && optional.get().size() > 0) {
             return new ResponseEntity<>(optional.get(), HttpStatus.FOUND);
         }
-        else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        else return new ResponseEntity<>(String.format("No problems found with tag: %s", tag), HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/tags")
@@ -54,14 +54,14 @@ public class ProblemsUserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Problem> getProblemById(@PathVariable Long id) {
+    public ResponseEntity<?> getProblemById(@PathVariable Long id) {
         try {
            Problem problem = problemService.findById(id);
            return new ResponseEntity<>(problem, HttpStatus.FOUND);
         }
         catch (Exception e) {
           //  e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -72,14 +72,14 @@ public class ProblemsUserController {
     }
 
     @GetMapping("/sets/{id}")
-    public ResponseEntity<ProblemSet> getProblemSetById(@PathVariable Long id) {
+    public ResponseEntity<?> getProblemSetById(@PathVariable Long id) {
         try {
             ProblemSet problemSet = problemSetService.findById(id);
             return new ResponseEntity<>(problemSet, HttpStatus.FOUND);
         }
         catch (Exception e) {
             //  e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 

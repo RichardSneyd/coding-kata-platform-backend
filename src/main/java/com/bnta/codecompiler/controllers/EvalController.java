@@ -30,7 +30,7 @@ public class EvalController {
     }
 
     @PostMapping("/{problemId}")
-    public ResponseEntity<EvalResult> evaluate(@RequestBody EvalInput evalInput,
+    public ResponseEntity<?> evaluate(@RequestBody EvalInput evalInput,
                                                @PathVariable Long problemId) {
         try {
             var user = userService.findById(evalInput.getUserId());
@@ -44,7 +44,7 @@ public class EvalController {
             return new ResponseEntity<>(evalResult, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
