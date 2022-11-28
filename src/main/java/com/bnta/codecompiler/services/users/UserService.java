@@ -30,7 +30,7 @@ public class UserService {
 
     public User add(User user) {
         // encrypt password before saving any user
-        if(user.getPassword() == null) updatePassword(user, "temppassword_0184");
+        if (user.getPassword() == null) updatePassword(user, "temppassword_0184");
         updatePassword(user, user.getPassword());
         userRepository.save(user);
         try {
@@ -55,15 +55,18 @@ public class UserService {
 
     public User findById(Long id) throws Exception {
         Optional<User> optional = userRepository.findById(id);
-        if(optional.isEmpty()) throw new Exception("No User with id: " + id);
+        if (optional.isEmpty()) throw new Exception("No User with id: " + id);
         return optional.get();
     }
 
-    public Set<User> findAll() { return new HashSet<>(userRepository.findAll());}
+    public Set<User> findAll() {
+        return new HashSet<>(userRepository.findAll());
+    }
 
     public Optional<Set<User>> findAllFromCohort(String cohort) {
         return userRepository.findByCohort(cohort);
     }
+
     public Optional<Set<User>> globalLeaderboard() {
         return userRepository.findByOrderByScoreDesc();
     }
@@ -77,9 +80,19 @@ public class UserService {
     }
 
     public User addSolution(User user, Solution solution) {
-        user.getSolutions().add(solution);
-        increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
+        if (scorable(solution, user)) {
+            user.getSolutions().add(solution);
+            increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
+        }
         return userRepository.save(user);
+    }
+
+    private boolean scorable(Solution solution, User user) {
+        for (var savedSolution : user.getSolutions()) {
+            if (savedSolution.getProblem().equals(solution.getProblem())
+                    && savedSolution.getLang().equals(solution.getLang())) return false;
+        }
+        return true;
     }
 
     public User increaseScore(User user, long amount) {

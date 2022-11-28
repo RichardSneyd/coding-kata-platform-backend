@@ -552,7 +552,9 @@ By Id: GET `user/cohorts/{cohortId}`
 By Name: GET `user/cohorts/by-name/{cohortName}`
 
 
+## Scoring
 
+The emphasis with the scoring system is on encouraging and rewarded perseverance, to increase practice time and engagement. Scores are awarded based on the difficulty level of the problem. Points are awarded for multiple solutions to the same problem, if they are in different languages. So, the user could submit 3 solutions: One in Java, Python and JS respectively, and receive points for each of those solutions. Points are only awarded *once for each language*.
 
 
 
