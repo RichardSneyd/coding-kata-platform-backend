@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.Set;
 
-@Repository
 public interface IUserRepository extends JpaRepository<User, Long> {
     //todo: add derived queries as needed
     Optional<Set<User>> findByCohort(String cohort);

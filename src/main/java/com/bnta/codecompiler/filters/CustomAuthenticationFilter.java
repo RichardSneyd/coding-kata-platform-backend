@@ -1,6 +1,5 @@
 package com.bnta.codecompiler.filters;
 
-;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.bnta.codecompiler.services.users.SpringSecurityUser;
@@ -25,7 +24,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;

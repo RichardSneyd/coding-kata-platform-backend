@@ -21,13 +21,13 @@ public class CompilerServiceTest {
     }
 
     @Test
-    public void compileJS() throws IOException {
+    public void compileJS() throws Exception {
         var result = compilerService.compile(new CompileInput("console.log('Hello from JS compiler');", "js"));
         assertEquals(result.getOutput(), "Hello from JS compiler");
     }
 
     @Test
-    public void compileJava() {
+    public void compileJava() throws Exception {
         var result = compilerService.compile(new CompileInput(
                 "public class Main { " +
                             "public static void main(String[] args) {" +
@@ -38,7 +38,7 @@ public class CompilerServiceTest {
     }
 
     @Test
-    public void compilePython() throws IOException {
+    public void compilePython() throws Exception {
         var result = compilerService.compile(new CompileInput(
                 "print('Hello from Python compiler')", "py"));
         assertEquals(result.getOutput(), "Hello from Python compiler");

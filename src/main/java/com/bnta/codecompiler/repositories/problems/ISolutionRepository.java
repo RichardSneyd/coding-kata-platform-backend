@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.Set;
 
-@Repository
 public interface ISolutionRepository extends JpaRepository<Solution, Long> {
     public Set<Solution> findAllByUser(User user);
     public Set<Solution> findAllByUser_id(Long id);

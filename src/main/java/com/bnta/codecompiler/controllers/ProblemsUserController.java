@@ -6,14 +6,14 @@ import com.bnta.codecompiler.models.problems.ProblemSet;
 import com.bnta.codecompiler.services.problems.ProblemService;
 import com.bnta.codecompiler.services.problems.ProblemSetService;
 import com.bnta.codecompiler.services.problems.SolutionService;
+import com.bnta.codecompiler.services.quizes.QuestionService;
+import com.bnta.codecompiler.services.quizes.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -93,6 +93,5 @@ public class ProblemsUserController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-
 
 }

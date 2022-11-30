@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TechTestController {
     @Autowired
-    TechTestService testService;
+    private TechTestService testService;
 
     @Autowired
-    TechTestResultService resultService;
+    private TechTestResultService resultService;
 
     @Autowired
-    TechTestSessionService sessionService;
+    private TechTestSessionService sessionService;
 }

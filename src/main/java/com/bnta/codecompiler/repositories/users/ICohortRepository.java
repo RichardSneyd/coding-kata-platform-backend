@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
 public interface ICohortRepository extends JpaRepository<Cohort, Long> {
     public Optional<Cohort> findByName(String name);
 }

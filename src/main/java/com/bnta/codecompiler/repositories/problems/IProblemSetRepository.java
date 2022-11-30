@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.Set;
 
-@Repository
 public interface IProblemSetRepository extends JpaRepository<ProblemSet, Long> {
     public Optional<Set<ProblemSet>> findByDifficulty(Difficulty difficulty);
     public Optional<Set<ProblemSet>> findByTagsContains(String tag);
