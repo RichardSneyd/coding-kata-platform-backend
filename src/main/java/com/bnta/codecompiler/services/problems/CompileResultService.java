@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompileResultService {
     @Autowired
-    ICompileResultRepository compileResultRepo;
+    private ICompileResultRepository compileResultRepo;
 
     public CompileResult add(CompileResult compileResult) {
         return compileResultRepo.save(compileResult);

@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class CohortService {
     @Autowired
-    ICohortRepository cohortRepo;
+    private ICohortRepository cohortRepo;
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     public Cohort add(Cohort cohort) {
         cohortRepo.save(cohort);

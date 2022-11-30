@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StartCodeService {
     @Autowired
-    IStartCodeRepository startCodeRepo;
+    private IStartCodeRepository startCodeRepo;
 
     public StartCode add(StartCode startCode) {
         return startCodeRepo.save(startCode);

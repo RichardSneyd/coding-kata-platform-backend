@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class UserSecurityService implements UserDetailsService {
 
     @Autowired
-    IUserRepository userRepository;
+    private IUserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -13,9 +13,9 @@ import java.util.Set;
 @Service
 public class TestSuiteService {
     @Autowired
-    ITestSuiteRepository testSuiteRepo;
+    private ITestSuiteRepository testSuiteRepo;
     @Autowired
-    TestCaseService testCaseService;
+    private TestCaseService testCaseService;
 
     public TestSuite add(TestSuite testSuite) {
         for(var testCase : testSuite.getPublicCases()) {

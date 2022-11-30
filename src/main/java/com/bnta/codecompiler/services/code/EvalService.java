@@ -17,7 +17,7 @@ import static com.bnta.codecompiler.utilities.SrcParser.generateSrc;
 @Service
 public class EvalService {
     @Autowired
-    CompilerService compiler;
+    private CompilerService compiler;
 
     public EvalResult evaluate(CompileInput compileInputPojo, Problem problem) throws Exception {
         if(!SafetyFilter.isInputSafe(compileInputPojo)) {

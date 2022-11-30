@@ -16,9 +16,9 @@ import java.util.Set;
 @Service
 public class ProblemService {
     @Autowired
-    IProblemRepository problemRepository;
+    private IProblemRepository problemRepository;
     @Autowired
-    TestSuiteService testSuiteService;
+    private TestSuiteService testSuiteService;
 
 
     public Problem add(Problem problem) {

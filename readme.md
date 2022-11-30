@@ -297,7 +297,7 @@ GET `/user/problems/{problemId}/solutions`
 Problem Sets are basically groups of problems, with a title and description for the group.
 
 Get all: GET `/user/problems/sets`
-Get by Id: GET `/user/problems/sets/{id}`
+Get by id: GET `/user/problems/sets/{id}`
 
 Make new set: POST `/admin/problems/sets`
 

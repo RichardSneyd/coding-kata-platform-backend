@@ -15,7 +15,7 @@ import java.util.Set;
 @Service
 public class SolutionService {
     @Autowired
-    ISolutionRepository solutionRepo;
+    private ISolutionRepository solutionRepo;
 
     public Solution add(Solution solution) {
         return solutionRepo.save(solution);

@@ -14,10 +14,10 @@ import java.util.Set;
 @Service
 public class ProblemSetService {
     @Autowired
-    IProblemSetRepository problemSetRepo;
+    private IProblemSetRepository problemSetRepo;
 
     @Autowired
-    ProblemService problemService;
+    private ProblemService problemService;
 
     public ProblemSet add(ProblemSet problemSet) {
         return problemSetRepo.save(problemSet);
