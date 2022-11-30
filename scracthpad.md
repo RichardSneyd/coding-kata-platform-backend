@@ -7,6 +7,8 @@ Integers:
 - getAbsoluteDifference(num1: int, num2: int): int
 - getOppositeValue(num: int): int (if the val is 6, return -6, if the val is -4, return 4 etc...)
 - getSqrSum(nums: int[]) int (calc square of the sum of all members of the array and return)
+- enoughSpace(cap: int, onboard: int, waiting: int): int (if there's enough space on bus, return 1, else return neg capacity (e.g. -2)) 
+- 
 
 Arrays:
 - getProduct(nums: int[]): int

@@ -288,6 +288,10 @@ id's for all the inner objects (TestSuite, TestCase, Data...):
 }
 ```
 
+## Solutions
+You can retrieve all the solutions for a problem like so:
+
+GET `/user/problems/{problemId}/solutions`
 
 # Problem Sets
 Problem Sets are basically groups of problems, with a title and description for the group.

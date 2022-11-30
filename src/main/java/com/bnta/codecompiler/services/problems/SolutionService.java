@@ -39,23 +39,23 @@ public class SolutionService {
         return new HashSet<>(solutionRepo.findAll());
     }
 
-    public Optional<Set<Solution>> findAllByUser(User user) {
+    public Set<Solution> findAllByUser(User user) {
         return solutionRepo.findAllByUser(user);
     }
 
-    public Optional<Set<Solution>> findAllByUser_id(Long id) {
+    public Set<Solution> findAllByUser_id(Long id) {
         return solutionRepo.findAllByUser_id(id);
     }
 
-    public Optional<Set<Solution>> findAllByProblem(Problem problem) {
+    public Set<Solution> findAllByProblem(Problem problem) {
         return solutionRepo.findAllByProblem(problem);
     }
 
-    public Optional<Set<Solution>> findAllByProblemId(Long id) {
+    public Set<Solution> findAllByProblemId(Long id) {
         return solutionRepo.findAllByProblem_id(id);
     }
 
-    public Optional<Set<Solution>> findAllByProblemAndUser(Problem problem, User user) {
+    public Set<Solution> findAllByProblemAndUser(Problem problem, User user) {
         return solutionRepo.findAllByProblemAndUser(problem, user);
     }
  }

@@ -9,9 +9,9 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface ISolutionRepository extends JpaRepository<Solution, Long> {
-    public Optional<Set<Solution>> findAllByUser(User user);
-    public Optional<Set<Solution>> findAllByUser_id(Long id);
-    public Optional<Set<Solution>> findAllByProblem(Problem problem);
-    public Optional<Set<Solution>> findAllByProblem_id(Long id);
-    public Optional<Set<Solution>> findAllByProblemAndUser(Problem problem, User user);
+    public Set<Solution> findAllByUser(User user);
+    public Set<Solution> findAllByUser_id(Long id);
+    public Set<Solution> findAllByProblem(Problem problem);
+    public Set<Solution> findAllByProblem_id(Long id);
+    public Set<Solution> findAllByProblemAndUser(Problem problem, User user);
 }
