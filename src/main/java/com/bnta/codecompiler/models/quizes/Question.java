@@ -1,12 +1,10 @@
 package com.bnta.codecompiler.models.quizes;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "questions")
+@Entity
+@Table(name = "questions")
 public class Question {
     @Id
     private Long id;

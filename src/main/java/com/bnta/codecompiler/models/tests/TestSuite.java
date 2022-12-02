@@ -3,7 +3,8 @@ package com.bnta.codecompiler.models.tests;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity(name="test_suites")
+@Entity
+@Table(name="test_suites")
 public class TestSuite {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

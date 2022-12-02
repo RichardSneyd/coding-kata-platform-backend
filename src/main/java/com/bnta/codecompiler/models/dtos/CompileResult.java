@@ -3,6 +3,7 @@ package com.bnta.codecompiler.models.dtos;
 import javax.persistence.*;
 
 @Entity
+@Table(name="compile_results")
 public class CompileResult {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

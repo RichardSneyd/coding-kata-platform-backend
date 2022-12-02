@@ -2,7 +2,8 @@ package com.bnta.codecompiler.models.problems;
 
 import javax.persistence.*;
 
-@Entity(name="start_codes")
+@Entity
+@Table(name="start_codes")
 public class StartCode {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

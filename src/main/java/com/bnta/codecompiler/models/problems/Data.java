@@ -2,7 +2,8 @@ package com.bnta.codecompiler.models.problems;
 
 import javax.persistence.*;
 
-@Entity(name="data")
+@Entity
+@Table(name="data")
 public class Data {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

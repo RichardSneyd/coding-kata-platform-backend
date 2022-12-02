@@ -5,9 +5,11 @@ import com.bnta.codecompiler.models.problems.Problem;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
-@Entity(name="tech_tests")
+@Entity
+@Table(name="tech_tests")
 public class TechTest {
     @Id
     private Long id;

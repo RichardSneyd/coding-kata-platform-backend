@@ -5,10 +5,12 @@ import com.bnta.codecompiler.models.users.User;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity(name="tech_test_sessions")
+@Entity
+@Table(name="tech_test_sessions")
 public class TechTestSession {
     @Id
     private Long id;

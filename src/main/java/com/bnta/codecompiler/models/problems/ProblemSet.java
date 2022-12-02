@@ -3,7 +3,8 @@ package com.bnta.codecompiler.models.problems;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity(name="problem_sets")
+@Entity
+@Table(name="problem_sets")
 public class ProblemSet {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

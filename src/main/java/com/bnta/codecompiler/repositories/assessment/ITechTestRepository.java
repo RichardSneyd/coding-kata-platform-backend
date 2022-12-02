@@ -9,6 +9,13 @@ import java.util.List;
 
 public interface ITechTestRepository extends JpaRepository<TechTest, Long> {
 
-    @Query("FROM tech_tests t")
+    // JPQL Query
+    @Query("FROM TechTest t")
     List<TechTest> find();
+
+    /*
+    Native query:
+     @Query("SELECT * FROM tech_tests AS t", nativeQuery = true)
+    List<TechTest> find();
+     */
 }

@@ -5,7 +5,8 @@ import com.bnta.codecompiler.models.tests.TestSuite;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity(name="problems")
+@Entity
+@Table(name="problems")
 public class Problem {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

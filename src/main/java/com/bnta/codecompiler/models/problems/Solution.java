@@ -6,7 +6,8 @@ import com.bnta.codecompiler.models.users.User;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity(name="solutions")
+@Entity
+@Table(name="solutions")
 public class Solution {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

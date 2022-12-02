@@ -3,10 +3,12 @@ package com.bnta.codecompiler.models.quizes;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.Arrays;
 import java.util.List;
 
-@Entity(name = "quizzes")
+@Entity
+@Table(name = "quizzes")
 public class Quiz {
     @Id
     private Long id;

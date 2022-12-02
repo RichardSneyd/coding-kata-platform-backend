@@ -5,7 +5,8 @@ import com.bnta.codecompiler.models.problems.Data;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name="test_cases")
+@Entity
+@Table(name="test_cases")
 public class TestCase {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
