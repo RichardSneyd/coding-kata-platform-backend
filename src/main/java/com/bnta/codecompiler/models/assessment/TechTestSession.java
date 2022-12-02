@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.time.LocalDate;
 
-@Entity(name="techtest_session")
+@Entity(name="tech_test_sessions")
 public class TechTestSession {
     @Id
     private Long id;

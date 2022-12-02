@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-@Entity(name="techtests")
+@Entity(name="tech_tests")
 public class TechTest {
     @Id
     private Long id;
