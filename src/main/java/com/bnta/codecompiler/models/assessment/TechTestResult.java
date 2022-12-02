@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-@Entity
+@Entity(name="techtest_results")
 public class TechTestResult {
     @Id
     private Long id;
