@@ -53,7 +53,7 @@ If you have provided syntactically valid code, you should get a JSON response in
 # EvalController
 
 This is arguably the most important part of the API - where we submit attempted solutions, and evaluate them against the `TestSuite` of a specified `Problem`,
-then return a `EvalResult`, which will either be successful, or not. No logging allowed in the code when submitting to EvalController, or they will mess up the output evaluation. POST request to: `/user/eval/{problemId}`, with following
+then return a `EvalResult`, which will either be successful, or not. User logging, such as sout or console.log, are programmatically removed before evaluation to avoid outcome corruption. POST request to: `/user/eval/{problemId}`, with following
 JSON format:
 
 ```json
