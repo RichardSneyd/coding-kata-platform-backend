@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity(name="tech_test_sessions")
 public class TechTestSession {
@@ -21,13 +22,13 @@ public class TechTestSession {
     @OneToOne
     private TechTestResult result;
 
-    private LocalDate startTime;
+    private LocalDateTime startTime;
 
-    public TechTestSession(User user, TechTest test, TechTestResult result, LocalDate startTime) {
+    public TechTestSession(User user, TechTest test, TechTestResult result) {
         this.user = user;
         this.test = test;
         this.result = result;
-        this.startTime = startTime;
+        this.startTime = LocalDateTime.now();
     }
 
     public TechTestSession() {
@@ -65,11 +66,11 @@ public class TechTestSession {
         this.result = result;
     }
 
-    public LocalDate getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDate startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 }
