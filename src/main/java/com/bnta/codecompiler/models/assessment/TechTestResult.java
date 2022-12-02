@@ -13,4 +13,27 @@ public class TechTestResult {
 
     @OneToMany
     private List<Solution> solutions;
+
+    public TechTestResult(List<Solution> solutions) {
+        this.solutions = solutions;
+    }
+
+    public TechTestResult() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        System.out.println("can't change id this way");
+    }
+
+    public List<Solution> getSolutions() {
+        return solutions;
+    }
+
+    public void setSolutions(List<Solution> solutions) {
+        this.solutions = solutions;
+    }
 }

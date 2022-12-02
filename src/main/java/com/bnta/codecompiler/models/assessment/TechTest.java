@@ -16,5 +16,35 @@ public class TechTest {
     @OneToMany
     private List<Problem> problems;
 
+    public TechTest(Integer maxMinutes, List<Problem> problems) {
+        this.maxMinutes = maxMinutes;
+        this.problems = problems;
+    }
 
+    public TechTest() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        System.out.println("can't change id this way");
+    }
+
+    public Integer getMaxMinutes() {
+        return maxMinutes;
+    }
+
+    public void setMaxMinutes(Integer maxMinutes) {
+        this.maxMinutes = maxMinutes;
+    }
+
+    public List<Problem> getProblems() {
+        return problems;
+    }
+
+    public void setProblems(List<Problem> problems) {
+        this.problems = problems;
+    }
 }
