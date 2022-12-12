@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TechTestService {
@@ -15,5 +16,13 @@ public class TechTestService {
 
     public List<TechTest> find() {
         return testRepository.findAll();
+    }
+
+    public Optional<TechTest> find(Long id) {
+        return testRepository.findById(id);
+    }
+
+    public TechTest save(TechTest test) {
+        return testRepository.save(test);
     }
 }

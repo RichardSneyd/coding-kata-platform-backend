@@ -40,6 +40,7 @@ public class UserAdminController {
     @PutMapping
     public ResponseEntity<User> update(@RequestBody User user) {
         try {
+            User userToUpdate = userService.findById(user.getId()); // exception will be thrown if no such user
             return new ResponseEntity<User>(userService.add(user), HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();

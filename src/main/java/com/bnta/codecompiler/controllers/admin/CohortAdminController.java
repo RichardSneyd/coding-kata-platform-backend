@@ -36,15 +36,17 @@ public class CohortAdminController {
         }
 
         cohortService.delete(id);
-
         return ResponseEntity.ok(String.format("Delete cohort with id $s", id));
     }
 
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Cohort cohort) {
-        this.cohortService.update(cohort);
+        if(cohortService.find(cohort.getId()).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No cohort found with id $s", cohort.getId()));
+        }
 
-        return ResponseEntity.ok("Updated cohort ");
+        this.cohortService.update(cohort);
+        return ResponseEntity.ok(String.format("Updated cohort $s", cohort.getName()));
     }
 }
