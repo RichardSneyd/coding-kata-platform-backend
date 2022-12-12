@@ -1,3 +1,19 @@
+# BrightCode Backend:
+- [How to Build and Run Locally](#how-to-build-and-run-locally)
+- [Authentication and Authorisation](#authentication-and-authorisation)
+- [CompileController](#compilecontroller)
+- [EvalController](#evalcontroller)
+- [Problems](#problems)
+- [Solutions](#solutions)
+- [Problem Sets](#problem-sets)
+- [Difficulty Settings](#difficulty-settings)
+- [Input & Output Values](#input-and-output-values)
+- [Users](#users)
+- [Leaderboards](#get-users--leaderboards)
+- [Password Reset](#password-reset)
+- [Cohorts](#cohorts)
+- [Scoring](#scoring)
+
 # How to Build and Run Locally
 
 - Create a PostreSQL db called `lms_db`
