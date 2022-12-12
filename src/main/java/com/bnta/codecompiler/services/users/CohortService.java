@@ -15,13 +15,18 @@ public class CohortService {
     @Autowired
     private UserService userService;
 
-    public Cohort add(Cohort cohort) {
+    public Cohort update(Cohort cohort) {
         cohortRepo.save(cohort);
         for(var m : cohort.getMembers()) {
             m.setCohort(cohort);
             userService.add(m);
         }
         return cohort;
+    }
+
+
+    public Cohort add(Cohort cohort) {
+        update(cohort);
     }
 
     public List<Cohort> find() {

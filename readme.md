@@ -571,6 +571,9 @@ By Id: GET `user/cohorts/{cohortId}`
 
 By Name: GET `user/cohorts/by-name/{cohortName}`
 
+Delete Cohort: DELETE `user/cohorts/{cohortId}`
+
+Update cohort: PUT `user/cohorts`
 
 ## Scoring
 

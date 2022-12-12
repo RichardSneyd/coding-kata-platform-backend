@@ -21,7 +21,7 @@ public class UserService {
     @Autowired
     MailSenderService mailService;
 
-    public User add(User user) {
+    public User save(User user) {
         // encrypt password before saving any user
         if (user.getPassword() == null) updatePassword(user, "temppassword_0184");
         updatePassword(user, user.getPassword());
@@ -32,6 +32,10 @@ public class UserService {
             e.printStackTrace();
         }
         return user;
+    }
+
+    public User add(User user) {
+        return save(user);
     }
 
     public void delete(User user) {

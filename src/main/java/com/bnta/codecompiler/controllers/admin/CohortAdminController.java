@@ -39,4 +39,12 @@ public class CohortAdminController {
 
         return ResponseEntity.ok(String.format("Delete cohort with id $s", id));
     }
+
+
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Cohort cohort) {
+        this.cohortService.update(cohort);
+
+        return ResponseEntity.ok("Updated cohort ");
+    }
 }
