@@ -27,18 +27,4 @@ public class TechTestController {
         return testService.find();
     }
 
-    @PostMapping
-    public TechTest addNew(@RequestBody TechTest techTest) {
-       return testService.save(techTest);
-    }
-
-    @PutMapping
-    public ResponseEntity<?> update(@RequestBody TechTest techTest) {
-        var test = testService.find(techTest.getId());
-        if(test.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, no TechTest with that id to update");
-        }
-       return new ResponseEntity(testService.save(techTest), HttpStatus.OK);
-    }
-
 }
