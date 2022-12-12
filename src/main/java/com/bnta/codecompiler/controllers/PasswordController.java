@@ -32,13 +32,9 @@ public class PasswordController {
         try {
             var user = userService.findById(pr.getUserId());
             if (!encoder.matches(user.getUsername(), pr.getSecret())) {
-//                System.out.println("got: " + pr.getSecret());
-//                System.out.println("required: " + encoder.encode(user.getUsername()));
                 throw new Exception("Wrong secret provided");
             }
-          //  user.setPassword(pr.getNewPassword());
             userService.updatePassword(user, pr.getNewPassword());
-           // userService.save(user);
             return ResponseEntity.ok().body("Password successfully updated");
 
         } catch (Exception e) {
