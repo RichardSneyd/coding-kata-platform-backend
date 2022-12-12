@@ -21,33 +21,6 @@ public class UserController {
     private BCryptPasswordEncoder encoder;
 
 
-    @GetMapping("/password/forgot/{userId}")
-    public ResponseEntity<?> forgotPassword(@PathVariable Long userId) {
-        try {
-            userService.requestPasswordReset(userId);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-        return ResponseEntity.ok("Thank you. We've sent an email with reset instructions.");
-    }
-
-    @PostMapping("/password/reset")
-    public ResponseEntity<?> resetPassword(@RequestBody PasswordResetInput pr) {
-        try {
-            var user = userService.findById(pr.getUserId());
-            if (!encoder.matches(user.getUsername(), pr.getSecret())) {
-                System.out.println("got: " + pr.getSecret());
-                System.out.println("required: " + encoder.encode(user.getUsername()));
-                throw new Exception("Wrong secret provided");
-            }
-            user.setPassword(encoder.encode(pr.getNewPassword()));
-            return ResponseEntity.ok().body("Password successfully updated");
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
     @GetMapping("/leaderboard/cohort-name/{cohort}")
     public ResponseEntity<?> cohortLeaderboardByName(@PathVariable String cohort) {
         return ResponseEntity.ok().body(userService.cohortLeaderboardByName(cohort));
