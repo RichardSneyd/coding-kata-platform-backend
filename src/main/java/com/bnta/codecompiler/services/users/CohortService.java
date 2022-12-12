@@ -26,7 +26,7 @@ public class CohortService {
 
 
     public Cohort add(Cohort cohort) {
-        update(cohort);
+        return update(cohort);
     }
 
     public List<Cohort> find() {
