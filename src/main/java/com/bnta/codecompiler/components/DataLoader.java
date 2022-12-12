@@ -48,7 +48,8 @@ public class DataLoader implements ApplicationRunner {
         };
         User[] users = {
                 newUser("richard", "richard@fakeaddress.com", "fakepassword", null, List.of(Role.ADMIN)),
-                newUser("fakestudent", "student@fakeaddress.com" ,"phonypassword", cohorts[0], List.of(Role.USER))
+                newUser("fakestudent", "student@fakeaddress.com" ,"phonypassword", cohorts[0], List.of(Role.USER)),
+                newUser("eoan", "eoan.odea@bnta.uk" ,"testtest", cohorts[0], List.of(Role.USER))
         };
 
         Problem[] problems = {

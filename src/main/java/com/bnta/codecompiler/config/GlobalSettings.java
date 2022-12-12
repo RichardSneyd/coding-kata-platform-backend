@@ -5,7 +5,7 @@ public class GlobalSettings {
     public final static boolean inProduction = false;
     private static String DOMAIN_NAME = "http://bntechacademy.com";
     private static String API_PORT = "8080";
-    private static String FRONTEND_PORT = "80";
+    private static String FRONTEND_PORT = "3000";
 
     public static String getDomainName() {
         return inProduction ? DOMAIN_NAME : "http://localhost";
