@@ -36,7 +36,7 @@ public class PasswordController {
                 System.out.println("required: " + encoder.encode(user.getUsername()));
                 throw new Exception("Wrong secret provided");
             }
-            user.setPassword(encoder.encode(pr.getNewPassword()));
+            user.setPassword(pr.getNewPassword());
             userService.save(user);
             return ResponseEntity.ok().body("Password successfully updated");
 
