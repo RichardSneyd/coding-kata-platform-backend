@@ -93,8 +93,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void requestPasswordReset(Long userId) throws Exception {
-        requestPasswordReset(findById(userId));
+    public void requestPasswordReset(String userEmail) throws Exception {
+        requestPasswordReset(findByEmail(userEmail));
+    }
+
+    public User findByEmail(String email) {
+        return this.userRepository.findByEmail(email);
     }
 
     public void requestPasswordReset(User user) throws Exception {

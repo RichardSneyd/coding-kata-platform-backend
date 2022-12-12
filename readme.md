@@ -439,9 +439,9 @@ These routes will return User objects:
 
 ## Password Reset
 
-Forgot password (request reset email): GET `/user/users/password/forgot/{userId}`
+Forgot password (request reset email): GET `/password/forgot/{userEmail}`
 
-Reset Password (call from reset form): POST `/user/users/password/reset`
+Reset Password (call from reset form): POST `/password/reset`
 
 the reset expects a json payload of type `PasswordResetInput`. Provide the secret you received in the reset email (it's
 a request param in the url):

@@ -7,12 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 public class PasswordController {
     @Autowired
     UserService userService;
@@ -20,10 +17,10 @@ public class PasswordController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @GetMapping("/password/forgot/{userId}")
-    public ResponseEntity<?> forgotPassword(@PathVariable Long userId) {
+    @GetMapping("/password/forgot/{userEmail}")
+    public ResponseEntity<?> forgotPassword(@PathVariable String userEmail) {
         try {
-            userService.requestPasswordReset(userId);
+            userService.requestPasswordReset(userEmail);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
