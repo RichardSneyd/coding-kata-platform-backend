@@ -36,4 +36,12 @@ public class CohortService {
         return cohortRepo.findByName(name);
     }
 
+    public void delete(Cohort cohort) {
+        cohortRepo.delete(cohort);
+    }
+
+    public void delete(Long id) {
+        cohortRepo.delete(cohortRepo.findById(id).get());
+    }
+
 }
