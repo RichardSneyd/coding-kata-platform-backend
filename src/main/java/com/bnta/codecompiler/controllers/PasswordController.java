@@ -37,6 +37,7 @@ public class PasswordController {
                 throw new Exception("Wrong secret provided");
             }
             user.setPassword(encoder.encode(pr.getNewPassword()));
+            userService.save(user);
             return ResponseEntity.ok().body("Password successfully updated");
 
         } catch (Exception e) {
