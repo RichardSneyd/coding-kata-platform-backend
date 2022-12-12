@@ -342,7 +342,7 @@ Values can be of the following 8 types, as defined in the DATATYPE Enum:
 
 # Users
 
-Only ADMIN accounts can create new users. While you can create new users individually here, such as for ADMIN accounts (trainers etc), it is generally best practice to create USER accounts (students) when you create a new cohort via the CohortController, documented below. This is the fastest and most efficient approach.
+Only ADMIN accounts can create, udpate or delete users. While you can create new users individually here, such as for ADMIN accounts (trainers etc), it is generally best practice to create USER accounts (students) when you create a new cohort via the CohortController, documented below. This is the fastest and most efficient approach.
 
 New User: POST `/admin/users/`, with in input of the format:
 
@@ -436,6 +436,11 @@ These routes will return User objects:
     }
 ]
 ```
+
+## Update and Delete Users
+
+Update: PUT `/admin/users`
+Delete: DELETE `/admin/users/{userId}`
 
 ## Password Reset
 

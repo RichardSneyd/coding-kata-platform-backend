@@ -37,6 +37,22 @@ public class UserAdminController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<User> update(@RequestBody User user) {
+        try {
+            return new ResponseEntity<User>(userService.add(user), HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.ok("Removed user");
+    }
+
     @GetMapping("/leaderboard")
     public ResponseEntity<?> globalLeaderboard() {
         return ResponseEntity.ok().body(userService.globalLeaderboard().get());
