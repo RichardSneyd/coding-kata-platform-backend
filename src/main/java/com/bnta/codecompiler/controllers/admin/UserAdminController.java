@@ -41,7 +41,7 @@ public class UserAdminController {
     public ResponseEntity<User> update(@RequestBody User user) {
         try {
             User userToUpdate = userService.findById(user.getId()); // exception will be thrown if no such user
-            return new ResponseEntity<User>(userService.add(user), HttpStatus.CREATED);
+            return new ResponseEntity<User>(userService.add(user), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
