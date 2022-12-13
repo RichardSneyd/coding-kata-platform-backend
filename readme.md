@@ -437,9 +437,12 @@ These routes will return User objects:
 ]
 ```
 
-## Update and Delete Users
+## Create, Update and Delete Users
+
+Create: POST `/admin/users`
 
 Update: PUT `/admin/users`
+
 Delete: DELETE `/admin/users/{userId}`
 
 ## Password Reset

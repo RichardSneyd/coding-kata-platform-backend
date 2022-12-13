@@ -28,12 +28,12 @@ public class UserAdminController {
     }
 
     @PostMapping
-    public ResponseEntity<User> add(@RequestBody User user) {
+    public ResponseEntity<?> add(@RequestBody User user) {
         try {
             return new ResponseEntity<User>(userService.add(user), HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
