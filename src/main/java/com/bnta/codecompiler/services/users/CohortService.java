@@ -17,10 +17,10 @@ public class CohortService {
 
     public Cohort update(Cohort cohort) {
         cohortRepo.save(cohort);
-//        for(var m : cohort.getMembers()) {
-//            m.setCohort(cohort);
-//            userService.add(m);
-//        }
+        for(var m : cohort.getMembers()) {
+            m.setCohort(cohort);
+            userService.update(m);
+        }
         return cohort;
     }
 
