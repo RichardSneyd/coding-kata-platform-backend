@@ -24,8 +24,7 @@ public class UserService {
     public User add(User user) {
         // encrypt password before saving any user
         if (user.getPassword() == null) user.setPassword("temppassword_0184");
-        updatePassword(user, user.getPassword());
-        userRepository.save(user);
+        user = updatePassword(user, user.getPassword());
         try {
             requestPasswordReset(user);
         } catch (Exception e) {
