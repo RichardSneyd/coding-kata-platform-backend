@@ -24,29 +24,25 @@ public class CohortAdminController {
         return ResponseEntity.ok().body(cohortService.add(cohort));
     }
 
-    @DeleteMapping("/{cohortId}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         var cohort = cohortService.find(id);
         if(cohort.isEmpty()) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No cohort with id $s", id));
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No cohort with id %s", id));
         }
 
-        for(var member: cohort.get().getMembers()) {
-            userService.delete(member);
-        }
-
-        cohortService.delete(id);
-        return ResponseEntity.ok(String.format("Delete cohort with id $s", id));
+        cohortService.delete(cohort.get());
+        return ResponseEntity.ok(String.format("Deleted cohort with id %s", id));
     }
 
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Cohort cohort) {
         if(cohortService.find(cohort.getId()).isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No cohort found with id $s", cohort.getId()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No cohort found with id %s", cohort.getId()));
         }
 
         this.cohortService.update(cohort);
-        return ResponseEntity.ok(String.format("Updated cohort $s", cohort.getName()));
+        return ResponseEntity.ok(String.format("Updated cohort %s", cohort.getName()));
     }
 }

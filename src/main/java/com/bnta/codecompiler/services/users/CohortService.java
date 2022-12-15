@@ -47,6 +47,9 @@ public class CohortService {
     }
 
     public void delete(Cohort cohort) {
+        for(var member: cohort.getMembers()) {
+            userService.delete(member);
+        }
         cohortRepo.delete(cohort);
     }
 
