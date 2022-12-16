@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Service
 public class CompilerService {
-
+    private ExecutorService executor = Executors.newFixedThreadPool(10);
     private void saveFile(File file, String code) {
         try {
             PrintWriter pr = new PrintWriter(new FileWriter(file));
@@ -62,7 +65,10 @@ public class CompilerService {
             String fullPath = tDir + File.separator + tempName;
 
             saveFile(file, input.getCode());
-            result = shell(command, fullPath, result);
+            CompileResult finalResult = result;
+            Future<CompileResult> future = executor.submit(() -> shell(command, fullPath, finalResult));
+            result = future.get();
+          //  result = shell(command, fullPath, result);
         } catch (IOException e) {
             e.printStackTrace();
             result.setErrors(e.getMessage());
