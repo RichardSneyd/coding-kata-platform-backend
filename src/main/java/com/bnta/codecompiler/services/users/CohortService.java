@@ -46,6 +46,10 @@ public class CohortService {
         return cohortRepo.findByName(name);
     }
 
+    public Optional<Cohort> findByName(String name) {
+        return cohortRepo.findByName(name);
+    }
+
     public void delete(Cohort cohort) {
         for(var member: cohort.getMembers()) {
             userService.delete(member);

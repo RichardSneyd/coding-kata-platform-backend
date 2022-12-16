@@ -21,6 +21,8 @@ public class CohortAdminController {
 
     @PostMapping
     public ResponseEntity<?> addNew(@RequestBody Cohort cohort) {
+        if(cohortService.findByName(cohort.getName()).isPresent()) return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(String.format("A cohort with the name %s already exists", cohort.getName()));
         return ResponseEntity.ok().body(cohortService.add(cohort));
     }
 
