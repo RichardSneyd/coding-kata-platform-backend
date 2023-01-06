@@ -39,7 +39,7 @@ public class ProblemsUserController {
     public ResponseEntity<?> byTag(@PathVariable String tag) {
         Optional<Set<Problem>> optional = problemService.findByTag(tag);
         if (optional.isPresent() && optional.get().size() > 0) {
-            return new ResponseEntity<>(optional.get(), HttpStatus.FOUND);
+            return new ResponseEntity<>(optional.get(), HttpStatus.OK);
         } else return new ResponseEntity<>(String.format("No problems found with tag: %s", tag), HttpStatus.NOT_FOUND);
     }
 
@@ -54,14 +54,14 @@ public class ProblemsUserController {
     public ResponseEntity<Set<Problem>> byDifficulty(@PathVariable("difficulty") Difficulty difficulty) {
         var optional = problemService.findByDifficulty(difficulty);
         if (optional.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        else return new ResponseEntity<>(optional.get(), HttpStatus.FOUND);
+        else return new ResponseEntity<>(optional.get(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProblemById(@PathVariable Long id) {
         try {
             Problem problem = problemService.findById(id);
-            return new ResponseEntity<>(problem, HttpStatus.FOUND);
+            return new ResponseEntity<>(problem, HttpStatus.OK);
         } catch (Exception e) {
             //  e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -72,7 +72,7 @@ public class ProblemsUserController {
     public ResponseEntity<?> getSolutionsForProblemWithId(@PathVariable Long id) {
         var solutions = solutionService.findAllByProblemId(id);
         if(!solutions.isEmpty()) {
-            return new ResponseEntity<>(solutions, HttpStatus.FOUND);
+            return new ResponseEntity<>(solutions, HttpStatus.OK);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No solutions found for problem with id " + id);
     }
@@ -80,14 +80,14 @@ public class ProblemsUserController {
     @GetMapping("/sets")
     public ResponseEntity<Set<ProblemSet>> getAllProblemSets() {
         Set<ProblemSet> problemSets = problemSetService.findAll();
-        return new ResponseEntity<>(problemSets, HttpStatus.FOUND);
+        return new ResponseEntity<>(problemSets, HttpStatus.OK);
     }
 
     @GetMapping("/sets/{id}")
     public ResponseEntity<?> getProblemSetById(@PathVariable Long id) {
         try {
             ProblemSet problemSet = problemSetService.findById(id);
-            return new ResponseEntity<>(problemSet, HttpStatus.FOUND);
+            return new ResponseEntity<>(problemSet, HttpStatus.OK);
         } catch (Exception e) {
             //  e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

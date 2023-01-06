@@ -92,6 +92,11 @@ public class DataLoader implements ApplicationRunner {
                         new HashSet<>(Arrays.asList("arithmetic", "product")))
         };
 
+        Set<Problem> problemsSet = Set.of(problems);
+        Set<String> tags = Set.of("One tag", "A second tag", "A third tag");
+
+        newProblemSet("Sample Problem Set", "A perfectly legitimate description of a problem set", problemsSet, Difficulty.EASY, tags);
+
     }
 
     private Problem newProblem(String title, String desc, Difficulty diff, TestSuite testSuite, StartCode startCode, Set<String> tags) {
