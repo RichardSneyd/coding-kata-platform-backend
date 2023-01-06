@@ -21,7 +21,7 @@ public class ProblemsAdminController {
     @Autowired
     private ProblemSetService problemSetService;
 
-    @PostMapping("/")
+    @PostMapping
     public Problem newProblem(@RequestBody Problem problem) {
         return problemService.add(problem);
     }
