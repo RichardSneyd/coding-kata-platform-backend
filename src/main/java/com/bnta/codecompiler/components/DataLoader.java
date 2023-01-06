@@ -66,7 +66,7 @@ public class DataLoader implements ApplicationRunner {
                         new HashSet<>(Arrays.asList("arithmetic", "adding"))),
 
                 newProblem("sum", "Create a function, sum(vals: int[]), which returns the sum of all integers in a given array.",
-                        Difficulty.VERY_EASY,
+                        Difficulty.HARD,
                         newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
                                         List.of(ds.of(new Integer[]{10, 5, 15})), ds.of(30)))),
                                 new HashSet<>(Arrays.asList(newTestCase(
@@ -78,7 +78,7 @@ public class DataLoader implements ApplicationRunner {
                         new HashSet<>(Arrays.asList("arithmetic", "adding"))),
 
                 newProblem("getProduct", "Create a function, getProduct(vals: int[]), which accepts an array of integers and returns their product.",
-                        Difficulty.VERY_EASY,
+                        Difficulty.MEDIUM,
                         newTestSuite(new HashSet<>(
                                         Arrays.asList(newTestCase(List.of(
                                                 ds.of(new Integer[]{10, 5, 2})), ds.of(100)))),
