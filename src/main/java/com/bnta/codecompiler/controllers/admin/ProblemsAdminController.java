@@ -54,7 +54,7 @@ public class ProblemsAdminController {
     }
 
     @PutMapping("/sets")
-    public ResponseEntity<?> update(@RequestBody ProblemSet set) {
+    public ResponseEntity<?> updateSet(@RequestBody ProblemSet set) {
         if(problemSetService.findById(set.getId()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No problem set found with id %s", set.getId()));
         }
