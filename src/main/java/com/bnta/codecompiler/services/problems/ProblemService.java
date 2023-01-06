@@ -30,11 +30,14 @@ public class ProblemService {
         return new HashSet<>(problemRepository.findAll());
     }
 
-    public void remove(Problem problem) {
+
+    public Optional<Problem> find(Long id) {return problemRepository.findById(id);}
+
+    public void delete(Problem problem) {
         problemRepository.delete(problem);
     }
 
-    public void remove(Long id) {
+    public void delete(Long id) {
         problemRepository.deleteById(id);
     }
 

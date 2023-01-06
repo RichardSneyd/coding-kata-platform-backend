@@ -85,13 +85,9 @@ public class ProblemsUserController {
 
     @GetMapping("/sets/{id}")
     public ResponseEntity<?> getProblemSetById(@PathVariable Long id) {
-        try {
-            ProblemSet problemSet = problemSetService.findById(id);
-            return new ResponseEntity<>(problemSet, HttpStatus.OK);
-        } catch (Exception e) {
-            //  e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+            var set = problemSetService.findById(id);
+            if(set.isEmpty()) return new ResponseEntity<>("No problem set found with id " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(set, HttpStatus.OK);
     }
 
 }

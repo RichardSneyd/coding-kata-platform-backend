@@ -3,6 +3,7 @@ package com.bnta.codecompiler.services.problems;
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.ProblemSet;
+import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.repositories.problems.IProblemSetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,10 +36,9 @@ public class ProblemSetService {
         problemSetRepo.deleteById(problemSetId);
     }
 
-    public ProblemSet findById(Long id) throws Exception {
+    public Optional<ProblemSet> findById(Long id) {
         Optional<ProblemSet> optional = problemSetRepo.findById(id);
-        if(optional.isEmpty()) throw new Exception("No problem set with id: " + id);
-        return optional.get();
+        return optional;
     }
 
     public Optional<Set<ProblemSet>> findByDifficulty(Difficulty difficulty) {
@@ -77,8 +77,18 @@ public class ProblemSetService {
     }
 
     public ProblemSetService removeProblemFromSet(Problem problem, Long setId) throws Exception {
-        ProblemSet set = findById(setId);
-        removeProblemFromSet(problem, set);
+        var set = findById(setId);
+        if(set.isEmpty()) throw new Exception("No problem set with that id");
+        removeProblemFromSet(problem, set.get());
         return this;
+    }
+
+    public ProblemSet update(ProblemSet set) {
+//        for(var p : set.getProblems()) {
+//            problemService.add(p);
+//        }
+
+        problemSetRepo.save(set);
+        return set;
     }
 }
