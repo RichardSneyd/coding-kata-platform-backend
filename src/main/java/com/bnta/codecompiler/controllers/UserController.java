@@ -20,7 +20,10 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-
+    @GetMapping("/leaderboard/")
+    public ResponseEntity<?> globalLeaderboard() {
+        return ResponseEntity.ok().body(userService.globalLeaderboard());
+    }
     @GetMapping("/leaderboard/cohort-name/{cohort}")
     public ResponseEntity<?> cohortLeaderboardByName(@PathVariable String cohort) {
         return ResponseEntity.ok().body(userService.cohortLeaderboardByName(cohort));
