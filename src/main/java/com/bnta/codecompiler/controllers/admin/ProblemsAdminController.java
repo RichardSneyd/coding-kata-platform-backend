@@ -52,4 +52,25 @@ public class ProblemsAdminController {
 
         return ResponseEntity.ok().body(problemSet);
     }
+
+    @PutMapping("/sets")
+    public ResponseEntity<?> update(@RequestBody ProblemSet set) {
+        if(problemSetService.findById(set.getId()).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No problem set found with id %s", set.getId()));
+        }
+
+        this.problemSetService.update(set);
+        return ResponseEntity.ok(String.format("Updated problem set %s", set.getTitle()));
+    }
+
+    @DeleteMapping("/sets/{id}")
+    public ResponseEntity<?> deleteSet(@PathVariable Long id) {
+        var set = problemSetService.findById(id);
+        if(set.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No problemSet with id %s", id));
+        }
+
+        problemSetService.remove(set.get());
+        return ResponseEntity.ok(String.format("Deleted problemSet with id %s", id));
+    }
 }
