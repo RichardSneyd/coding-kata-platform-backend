@@ -19,9 +19,13 @@ public class ProblemService {
     private IProblemRepository problemRepository;
     @Autowired
     private TestSuiteService testSuiteService;
+    @Autowired
+    private StartCodeService startCodeService;
 
 
     public Problem add(Problem problem) {
+        // save the startCode first
+        problem.setStartCode(startCodeService.add(problem.getStartCode()));
         problem.setTestSuite(testSuiteService.add(problem.getTestSuite()));
         return problemRepository.save(problem);
     }

@@ -35,6 +35,7 @@ public class ProblemsAdminController {
         this.problemService.add(problem);
         return ResponseEntity.ok(String.format("Updated problem %s", problem.getTitle()));
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         var problem = problemService.find(id);
