@@ -97,10 +97,16 @@ public class DataLoader implements ApplicationRunner {
 
         newProblemSet("Sample Problem Set", "A perfectly legitimate description of a problem set", problemsSet, Difficulty.EASY, tags);
 
+        newSolution("const add = (a, b) => a + b", "js", true, problems[0], users[0]);
+        newSolution("const add = (a, b) => a - b", "js", false, problems[0], users[1]);
     }
 
     private Problem newProblem(String title, String desc, Difficulty diff, TestSuite testSuite, StartCode startCode, Set<String> tags) {
         return problemService.add(new Problem(title, desc, diff, testSuite, startCode, tags));
+    }
+
+    private Solution newSolution(String code, String lang, boolean correct, Problem problem, User user){
+        return solutionService.add(new Solution(code, lang, correct, problem, user));
     }
 
     private ProblemSet newProblemSet(String title, String description, Set<Problem> problems, Difficulty difficulty, Set<String> tags) {
