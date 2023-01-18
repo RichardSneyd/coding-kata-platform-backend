@@ -70,7 +70,7 @@ public class ProblemsUserController {
 
     @GetMapping("/{id}/solutions")
     public ResponseEntity<?> getSolutionsForProblemWithId(@PathVariable Long id) {
-        var solutions = solutionService.findAllByProblemId(id);
+        var solutions = solutionService.findAllByProblem_id(id);
         if(!solutions.isEmpty()) {
             return new ResponseEntity<>(solutions, HttpStatus.OK);
         }
