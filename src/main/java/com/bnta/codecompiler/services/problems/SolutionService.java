@@ -51,7 +51,7 @@ public class SolutionService {
         return solutionRepo.findAllByProblem(problem);
     }
 
-    public Set<Solution> findAllByProblemId(Long id) {
+    public Set<Solution> findAllByProblem_id(Long id) {
         return solutionRepo.findAllByProblem_id(id);
     }
 
