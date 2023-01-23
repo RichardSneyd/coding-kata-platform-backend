@@ -33,7 +33,8 @@ public class User {
     private long score;
     @Column
     private LocalDate joinDate;
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"user"})
     private Set<Solution> solutions;
     @ManyToMany(cascade = {})
     private Set<Problem> completedProblems;

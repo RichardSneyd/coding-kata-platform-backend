@@ -2,6 +2,8 @@ package com.bnta.codecompiler.models.problems;
 
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,7 +24,8 @@ public class Solution {
     private LocalDate submissionDate;
     @ManyToOne
     private Problem problem;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"solutions"})
     private User user;
 
     public Solution(String code, String lang, boolean correct, Problem problem, User user) {
