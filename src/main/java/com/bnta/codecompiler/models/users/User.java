@@ -37,7 +37,7 @@ public class User {
     @JsonIgnoreProperties({"user"})
     private Set<Solution> solutions;
     @ManyToMany(cascade = {})
-    private Set<Problem> completedProblems;
+    private List<Problem> completedProblems;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.init();
@@ -56,7 +56,7 @@ public class User {
     private void init() {
         this.joinDate = LocalDate.now();
         this.solutions = new HashSet<>();
-        this.completedProblems = new HashSet<>();
+        this.completedProblems = new ArrayList<>();
     }
 
     public Long getId() {
@@ -132,11 +132,11 @@ public class User {
         this.email = email;
     }
 
-    public Set<Problem> getCompletedProblems() {
+    public List<Problem> getCompletedProblems() {
         return completedProblems;
     }
 
-    public void setCompletedProblems(Set<Problem> completedProblems) {
+    public void setCompletedProblems(List<Problem> completedProblems) {
         this.completedProblems = completedProblems;
     }
 }

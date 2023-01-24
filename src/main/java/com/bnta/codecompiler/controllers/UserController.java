@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @GetMapping("/leaderboard/")
+    @GetMapping("/leaderboard")
     public ResponseEntity<?> globalLeaderboard() {
         return ResponseEntity.ok().body(userService.globalLeaderboard());
     }

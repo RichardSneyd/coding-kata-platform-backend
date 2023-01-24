@@ -3,6 +3,7 @@ package com.bnta.codecompiler.controllers;
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.ProblemSet;
+import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.services.problems.ProblemService;
 import com.bnta.codecompiler.services.problems.ProblemSetService;
 import com.bnta.codecompiler.services.problems.SolutionService;
@@ -68,13 +69,22 @@ public class ProblemsUserController {
         }
     }
 
-    @GetMapping("/{id}/solutions")
-    public ResponseEntity<?> getSolutionsForProblemWithId(@PathVariable Long id) {
-        var solutions = solutionService.findAllByProblem_id(id);
-        if(!solutions.isEmpty()) {
-            return new ResponseEntity<>(solutions, HttpStatus.OK);
+    @GetMapping("/solutions/{id}")
+    public ResponseEntity<?> getSolutionById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(solutionService.findById(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No solution found with id " + id);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No solutions found for problem with id " + id);
+    }
+
+    @GetMapping("/next-for/{id}")
+    public ResponseEntity<?> nextForUser(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(problemService.nextForUser(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No recommendation found");
+        }
     }
 
     @GetMapping("/sets")

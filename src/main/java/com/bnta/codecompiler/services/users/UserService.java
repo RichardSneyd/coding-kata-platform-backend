@@ -33,6 +33,8 @@ public class UserService {
         return user;
     }
 
+//    public User addCompletedProblem
+
 
     public void delete(User user) {
         userRepository.delete(user);
