@@ -4,8 +4,10 @@ import com.bnta.codecompiler.config.GlobalSettings;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
+import com.bnta.codecompiler.models.users.UserProgressDTO;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import com.bnta.codecompiler.services.email.MailSenderService;
+import com.bnta.codecompiler.services.problems.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class UserService {
     @Autowired
     MailSenderService mailService;
 
+    @Autowired
+    ProblemService problemService;
+
     public User add(User user) {
         // encrypt password before saving any user
         if (user.getPassword() == null) user.setPassword("temppassword_0184");
@@ -33,7 +38,16 @@ public class UserService {
         return user;
     }
 
-//    public User addCompletedProblem
+    public Optional<UserProgressDTO> getUserProgress(Optional<User> user) {
+        if(user.isEmpty()) return Optional.of(new UserProgressDTO());
+        var total = problemService.findAll().size();
+        return Optional.of(new UserProgressDTO(user.get().getUsername(), user.get().getScore(),
+                user.get().getCompletedProblems().size(), total));
+    }
+
+    public Optional<UserProgressDTO> getUserProgress(Long id) {
+        return getUserProgress(userRepository.findById(id));
+    }
 
 
     public void delete(User user) {
@@ -75,10 +89,11 @@ public class UserService {
     }
 
     public User addSolution(User user, Solution solution) {
-        if (scorable(solution, user)) {
-            user.getSolutions().add(solution);
-            increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
-        }
+//        if (scorable(solution, user)) {
+//            addCompletedProblem(solution.getUser(), solution.getProblem());
+//            user.getSolutions().add(solution);
+//            increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
+//        }
         return userRepository.save(user);
     }
 
@@ -116,9 +131,14 @@ public class UserService {
         return user;
     }
 
-    public User addCompletedProblem(User user, Problem problem) {
-        user.getCompletedProblems().add(problem);
+    public User addCompletedProblem(User user, Solution solution) {
+        if (scorable(solution, user)) {
+          //  user.getSolutions().add(solution);
+            increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
+        }
+        user.getCompletedProblems().add(solution.getProblem());
         update(user);
+
         return user;
     }
 

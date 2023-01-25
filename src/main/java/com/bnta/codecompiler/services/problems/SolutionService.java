@@ -5,6 +5,7 @@ import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.problems.ISolutionRepository;
+import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,13 @@ public class SolutionService {
     @Autowired
     private ISolutionRepository solutionRepo;
 
+    @Autowired
+    private UserService userService;
+
     public Solution add(Solution solution) {
+      //  userService.addSolution(solution.getUser(), solution);
+        userService.addCompletedProblem(solution.getUser(), solution);
+
         return solutionRepo.save(solution);
     }
 

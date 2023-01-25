@@ -9,9 +9,11 @@ import com.bnta.codecompiler.services.problems.ProblemSetService;
 import com.bnta.codecompiler.services.problems.SolutionService;
 import com.bnta.codecompiler.services.quizes.QuestionService;
 import com.bnta.codecompiler.services.quizes.QuizService;
+import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -30,6 +32,9 @@ public class ProblemsUserController {
 
     @Autowired
     SolutionService solutionService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping
     public Set<Problem> allProblems() {
@@ -81,7 +86,7 @@ public class ProblemsUserController {
     @GetMapping("/next-for/{id}")
     public ResponseEntity<?> nextForUser(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(problemService.nextForUser(id));
+            return ResponseEntity.ok(problemService.nextForUser(userService.findById(id)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No recommendation found");
         }
@@ -99,5 +104,6 @@ public class ProblemsUserController {
             if(set.isEmpty()) return new ResponseEntity<>("No problem set found with id " + id, HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(set, HttpStatus.OK);
     }
+
 
 }

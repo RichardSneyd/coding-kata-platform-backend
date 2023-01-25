@@ -42,4 +42,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No user with id " + userId);
         }
     }
+
+    @GetMapping("/{id}/progress")
+    public ResponseEntity<?> getUserProgress(@PathVariable Long id) {
+        var progress = userService.getUserProgress(id);
+        if(progress.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, no user found with that id");
+        return ResponseEntity.ok(progress.get());
+    }
 }

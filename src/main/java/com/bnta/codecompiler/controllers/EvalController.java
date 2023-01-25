@@ -37,7 +37,7 @@ public class EvalController {
             var problem = problemService.findById(problemId);
             var evalResult = evalService.evaluate(evalInput, problem);
             if (evalResult.isSuccessful()) {
-                userService.addCompletedProblem(user, problem);
+               // userService.addCompletedProblem(user, problem);
                 solutionService.add(new Solution(evalInput.getCode(), evalInput.getLang(),
                         evalResult.isSuccessful(), evalResult.getProblem(), user));
             }

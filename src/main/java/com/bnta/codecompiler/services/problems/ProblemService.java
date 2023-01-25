@@ -26,10 +26,6 @@ public class ProblemService {
     @Autowired
     private StartCodeService startCodeService;
 
-    @Autowired
-    private UserService userService;
-
-
     public Problem add(Problem problem) {
         // save the startCode first
         problem.setStartCode(startCodeService.add(problem.getStartCode()));
@@ -49,11 +45,6 @@ public class ProblemService {
 
         return null;
     }
-
-    public Problem nextForUser(Long userId) throws Exception {
-        return nextForUser(userService.findById(userId));
-    }
-
 
     public Optional<Problem> find(Long id) {return problemRepository.findById(id);}
 

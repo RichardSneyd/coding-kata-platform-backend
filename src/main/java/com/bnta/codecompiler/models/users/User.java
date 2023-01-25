@@ -36,8 +36,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"user"})
     private Set<Solution> solutions;
-    @ManyToMany(cascade = {})
-    private List<Problem> completedProblems;
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    private Set<Problem> completedProblems;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.init();
@@ -56,7 +56,7 @@ public class User {
     private void init() {
         this.joinDate = LocalDate.now();
         this.solutions = new HashSet<>();
-        this.completedProblems = new ArrayList<>();
+        this.completedProblems = new HashSet<>();
     }
 
     public Long getId() {
@@ -132,11 +132,11 @@ public class User {
         this.email = email;
     }
 
-    public List<Problem> getCompletedProblems() {
+    public Set<Problem> getCompletedProblems() {
         return completedProblems;
     }
 
-    public void setCompletedProblems(List<Problem> completedProblems) {
+    public void setCompletedProblems(Set<Problem> completedProblems) {
         this.completedProblems = completedProblems;
     }
 }
