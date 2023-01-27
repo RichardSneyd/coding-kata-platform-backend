@@ -2,6 +2,7 @@ package com.bnta.codecompiler.models.problems;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -17,11 +18,15 @@ public class ProblemSet {
     @Column
     private Difficulty difficulty;
     @ElementCollection
-    private List<String> tags = null;
-    @ManyToMany
-    private List<Problem> problems;
+    private Set<String> tags = null;
 
-    public ProblemSet(String title, String description, List<Problem> problems, Difficulty difficulty, List<String> tags) {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @JoinTable(name="problem_sets_problems",
+            joinColumns = @JoinColumn(name="problem_set_id"),
+            inverseJoinColumns = @JoinColumn(name="problem_id"))
+    private Set<Problem> problems;
+
+    public ProblemSet(String title, String description, Set<Problem> problems, Difficulty difficulty, Set<String> tags) {
         this.title = title;
         this.description = description;
         this.problems = problems;
@@ -32,11 +37,11 @@ public class ProblemSet {
     public ProblemSet() {
     }
 
-    public List<Problem> getProblems() {
+    public Set<Problem> getProblems() {
         return problems;
     }
 
-    public void setProblems(List<Problem> problems) {
+    public void setProblems(Set<Problem> problems) {
         this.problems = problems;
     }
 
@@ -48,11 +53,11 @@ public class ProblemSet {
         this.difficulty = difficulty;
     }
 
-    public List<String> getTags() {
+    public Set<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(Set<String> tags) {
         this.tags = tags;
     }
 
@@ -78,5 +83,18 @@ public class ProblemSet {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProblemSet that = (ProblemSet) o;
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && difficulty == that.difficulty && Objects.equals(tags, that.tags) && Objects.equals(problems, that.problems);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, difficulty, tags, problems);
     }
 }

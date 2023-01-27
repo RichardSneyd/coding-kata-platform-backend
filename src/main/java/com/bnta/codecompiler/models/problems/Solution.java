@@ -7,6 +7,7 @@ import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name="solutions")
@@ -94,5 +95,18 @@ public class Solution {
 
     public void setSubmissionDate(LocalDate submissionDate) {
         this.submissionDate = submissionDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Solution solution = (Solution) o;
+        return correct == solution.correct && Objects.equals(id, solution.id) && Objects.equals(code, solution.code) && Objects.equals(lang, solution.lang) && Objects.equals(submissionDate, solution.submissionDate) && Objects.equals(problem, solution.problem) && Objects.equals(user, solution.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, code, lang, correct, submissionDate, problem, user);
     }
 }

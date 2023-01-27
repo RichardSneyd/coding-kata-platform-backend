@@ -11,5 +11,5 @@ import java.util.Set;
 
 public interface IProblemSetRepository extends JpaRepository<ProblemSet, Long> {
     public Optional<List<ProblemSet>> findByDifficulty(Difficulty difficulty);
-    public Optional<List<ProblemSet>> findByTagsContains(String tag);
+    public Optional<List <ProblemSet>> findByTagsContains(String tag);
 }

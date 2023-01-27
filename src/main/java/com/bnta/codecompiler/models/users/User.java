@@ -27,17 +27,22 @@ public class User {
     @JsonIgnoreProperties({"members"})
     @ManyToOne
     private Cohort cohort;
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
+  //  @Column(name = "role_id")
     private List<Role> roles = List.of(Role.USER);
     @Column
     private long score;
     @Column
     private LocalDate joinDate;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"user"})
-    private List<Solution> solutions;
-    @ManyToMany(cascade = {CascadeType.PERSIST})
-    private List<Problem> completedProblems;
+    private Set<Solution> solutions;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="users_problems",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="problem_id"))
+    private Set<Problem> completedProblems;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.init();
@@ -55,8 +60,8 @@ public class User {
 
     private void init() {
         this.joinDate = LocalDate.now();
-        this.solutions = new ArrayList<>();
-        this.completedProblems = new ArrayList<>();
+        this.solutions = new HashSet<>();
+        this.completedProblems = new HashSet<>();
     }
 
     public Long getId() {
@@ -100,11 +105,11 @@ public class User {
         this.roles = roles;
     }
 
-    public List<Solution> getSolutions() {
+    public Set<Solution> getSolutions() {
         return solutions;
     }
 
-    public void setSolutions(List<Solution> solutions) {
+    public void setSolutions(Set<Solution> solutions) {
         this.solutions = solutions;
     }
 
@@ -132,11 +137,13 @@ public class User {
         this.email = email;
     }
 
-    public List<Problem> getCompletedProblems() {
+    public Set<Problem> getCompletedProblems() {
         return completedProblems;
     }
 
-    public void setCompletedProblems(List<Problem> completedProblems) {
+    public void setCompletedProblems(Set<Problem> completedProblems) {
         this.completedProblems = completedProblems;
     }
+
+
 }

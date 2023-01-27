@@ -3,6 +3,8 @@ package com.bnta.codecompiler.models.problems;
 import com.bnta.codecompiler.models.tests.TestSuite;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -23,7 +25,7 @@ public class Problem {
     private StartCode startCode;
     // tag the concepts this problem trains/tests, i.e 'objects', 'arrays',
     @ElementCollection
-    private Set<String> tags = null;
+    private Set<String> tags = new HashSet<>();
 
     public Problem(String title, String description, Difficulty difficulty, TestSuite testSuite, StartCode startCode, Set<String> tags) {
         this.title = title;
@@ -36,6 +38,7 @@ public class Problem {
 
     public Problem() {
     }
+
 
     public String getTitle() {
         return title;
@@ -91,5 +94,31 @@ public class Problem {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Problem{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", difficulty=" + difficulty +
+                ", testSuite=" + testSuite +
+                ", startCode=" + startCode +
+                ", tags=" + tags +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Problem problem = (Problem) o;
+        return Objects.equals(id, problem.id) && Objects.equals(title, problem.title) && Objects.equals(description, problem.description) && difficulty == problem.difficulty && Objects.equals(testSuite, problem.testSuite) && Objects.equals(startCode, problem.startCode) && Objects.equals(tags, problem.tags);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, difficulty, testSuite, startCode, tags);
     }
 }

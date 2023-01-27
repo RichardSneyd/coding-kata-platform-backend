@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -30,16 +31,25 @@ public class UserService {
         // encrypt password before saving any user
         if (user.getPassword() == null) user.setPassword("temppassword_0184");
         user = updatePassword(user, user.getPassword());
+
         try {
             requestPasswordReset(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        user = userRepository.save(user);
+        return user;
+    }
+
+    public User add(User user, boolean bypassRegistration) {
+        if (!bypassRegistration) user = add(user);
+        if (user.getPassword() == null) user.setPassword("temppassword_0184");
+        user = updatePassword(user, user.getPassword());
         return user;
     }
 
     public Optional<UserProgressDTO> getUserProgress(Optional<User> user) {
-        if(user.isEmpty()) return Optional.of(new UserProgressDTO());
+        if (user.isEmpty()) return Optional.of(new UserProgressDTO());
         var total = problemService.findAll().size();
         return Optional.of(new UserProgressDTO(user.get().getUsername(), user.get().getScore(),
                 user.get().getCompletedProblems().size(), total));
@@ -59,7 +69,9 @@ public class UserService {
     }
 
     public User update(User user) {
-        return userRepository.save(user);
+       // if (user.getId() != null && user.equals(findById(user.getId()))) {
+            return userRepository.save(user);
+     //   }
     }
 
     public User findById(Long id) throws Exception {
@@ -89,12 +101,35 @@ public class UserService {
     }
 
     public User addSolution(User user, Solution solution) {
-//        if (scorable(solution, user)) {
-//            addCompletedProblem(solution.getUser(), solution.getProblem());
-//            user.getSolutions().add(solution);
-//            increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
-//        }
-        return userRepository.save(user);
+        if (scorable(solution, user)) {
+            user = increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
+            user = addCompletedProblem(user, solution);
+            return userRepository.save(user);
+        } else {
+            System.out.println("matches existing solution, can't add");
+        }
+        return user;
+    }
+
+    public User addCompletedProblem(User user, Solution solution) {
+        try {
+            user = findById(user.getId());
+        }catch(Exception e) {}
+
+        for (var problem : user.getCompletedProblems()) {
+            if (problem.getId().equals(solution.getProblem().getId())) {
+               // System.out.println(String.format("%s -matches- %s", problem, solution.getProblem()));
+                System.out.println("can't add, already exists in problems collection");
+                return user;
+            }
+           // else System.out.println(String.format("%s -doesn't match- %s", problem, solution.getProblem()));
+        }
+        System.out.println(user.getSolutions());
+        System.out.println(solution.getProblem());
+        System.out.println("adding " + user.getId() + " " + solution.getProblem().getId());
+        user.getCompletedProblems().add(solution.getProblem());
+        user = update(user);
+        return user;
     }
 
     private boolean scorable(Solution solution, User user) {
@@ -107,6 +142,7 @@ public class UserService {
 
     public User increaseScore(User user, long amount) {
         user.setScore(user.getScore() + amount);
+        // return user;
         return userRepository.save(user);
     }
 
@@ -128,17 +164,6 @@ public class UserService {
     public User updatePassword(User user, String newPassword) {
         user.setPassword(encoder.encode(newPassword));
         update(user);
-        return user;
-    }
-
-    public User addCompletedProblem(User user, Solution solution) {
-        if (scorable(solution, user)) {
-          //  user.getSolutions().add(solution);
-            increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
-        }
-        user.getCompletedProblems().add(solution.getProblem());
-        update(user);
-
         return user;
     }
 

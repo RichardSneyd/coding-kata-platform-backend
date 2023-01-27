@@ -23,10 +23,9 @@ public class SolutionService {
     private UserService userService;
 
     public Solution add(Solution solution) {
-      //  userService.addSolution(solution.getUser(), solution);
-        userService.addCompletedProblem(solution.getUser(), solution);
-
-        return solutionRepo.save(solution);
+        userService.addSolution(solution.getUser(), solution);
+        solution = solutionRepo.save(solution);
+        return solution;
     }
 
     public void remove(Solution solution) {

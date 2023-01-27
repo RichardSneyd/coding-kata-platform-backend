@@ -44,76 +44,79 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         // use the factory methods ONLY, i.e 'newUser', 'newSolution', NOT 'new User' or 'new Solution'.
         Cohort[] cohorts = {
-               newCohort("C7")
-        };
-        User[] users = {
-                newUser("richard", "richard@fakeaddress.com", "fakepassword", null, List.of(Role.ADMIN)),
-                newUser("fakestudent", "student@fakeaddress.com" ,"phonypassword", cohorts[0], List.of(Role.USER)),
-                newUser("eoan", "eoan.odea@bnta.uk" ,"testtest", cohorts[0], List.of(Role.USER))
+                newCohort("C7")
         };
 
-        Problem[] problems = {
-                newProblem("addValues", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
-                        Difficulty.VERY_EASY,
-                        newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
-                                        List.of(ds.of(10), ds.of(5)), ds.of(15)))),
-                                new HashSet<>(Arrays.asList(newTestCase(
-                                        List.of(ds.of(15), ds.of(4)), ds.of(19))))
-                        ),
-                        newStartCode("const addValues = (a, b)=> {\n\n}",
-                                "def addValues(a, b):\n\nreturn",
-                                ""),
-                        new HashSet<>(Arrays.asList("arithmetic", "adding"))),
+        var richard = newUser("richard", "richard@fakeaddress.com", "fakepassword", null, List.of(Role.ADMIN));
+        var fakestudent = newUser("fakestudent", "student@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+        var eoan = newUser("eoan", "eoan.odea@bnta.uk", "testtest", cohorts[0], List.of(Role.USER));
+        var student2 = newUser("student2", "student2@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+        User[] users = {richard, fakestudent, eoan};
 
-                newProblem("sumOfArray", "Create a function, sumOfArray(vals: int[]), which returns the sum of all integers in a given array.",
-                        Difficulty.HARD,
-                        newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
-                                        List.of(ds.of(new Integer[]{10, 5, 15})), ds.of(30)))),
-                                new HashSet<>(Arrays.asList(newTestCase(
-                                        List.of(ds.of(new Integer[]{15, 4, -8})), ds.of(11))))
-                        ),
-                        newStartCode("const sumOfArray = (int[] vals)=> {\n\n}",
-                                "def addValues(vals:\n\nreturn",
-                                ""),
-                        new HashSet<>(Arrays.asList("arithmetic", "adding"))),
 
-                newProblem("productOfArray", "Create a function, productOfArray(vals: int[]), which accepts an array of integers and returns their product.",
-                        Difficulty.MEDIUM,
-                        newTestSuite(new HashSet<>(
-                                        Arrays.asList(newTestCase(List.of(
-                                                ds.of(new Integer[]{10, 5, 2})), ds.of(100)))),
-                                new HashSet<>(
-                                        Arrays.asList(newTestCase(
-                                                List.of(ds.of(new Integer[]{5, 5, 3})),
-                                                ds.of(75))))
-                        ), newStartCode("const productOfArray = (vals) => {\n\n}",
-                                "",
-                                ""),
-                        new HashSet<>(Arrays.asList("arithmetic", "product")))
-        };
+        var addValues = newProblem("addValues", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
+                Difficulty.VERY_EASY,
+                newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
+                                List.of(ds.of(10), ds.of(5)), ds.of(15)))),
+                        new HashSet<>(Arrays.asList(newTestCase(
+                                List.of(ds.of(15), ds.of(4)), ds.of(19))))
+                ),
+                newStartCode("const addValues = (a, b)=> {\n\n}",
+                        "def addValues(a, b):\n\nreturn",
+                        ""),
+                new HashSet<>(Arrays.asList("arithmetic", "adding")));
 
-        List<Problem> problemsSet = List.of(problems);
-        List<String> tags = List.of("One tag", "A second tag", "A third tag");
-        newProblemSet("Sample Problem Set", "A perfectly legitimate description of a problem set", problemsSet, Difficulty.EASY, tags);
+        var sumOfArray = newProblem("sumOfArray", "Create a function, sumOfArray(vals: int[]), which returns the sum of all integers in a given array.",
+                Difficulty.HARD,
+                newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
+                                List.of(ds.of(new Integer[]{10, 5, 15})), ds.of(30)))),
+                        new HashSet<>(Arrays.asList(newTestCase(
+                                List.of(ds.of(new Integer[]{15, 4, -8})), ds.of(11))))
+                ),
+                newStartCode("const sumOfArray = (int[] vals)=> {\n\n}",
+                        "def addValues(vals:\n\nreturn",
+                        ""),
+                new HashSet<>(Arrays.asList("arithmetic", "adding")));
 
-        newSolution("const addValues = (a, b) => a + b", "js", true, problems[0], users[0]);
-        newSolution("const addValues = (a, b) => a - b", "js", false, problems[0], users[1]);
+        var productOfArray = newProblem("productOfArray", "Create a function, productOfArray(vals: int[]), which accepts an array of integers and returns their product.",
+                Difficulty.MEDIUM,
+                newTestSuite(new HashSet<>(
+                                Arrays.asList(newTestCase(List.of(
+                                        ds.of(new Integer[]{10, 5, 2})), ds.of(100)))),
+                        new HashSet<>(
+                                Arrays.asList(newTestCase(
+                                        List.of(ds.of(new Integer[]{5, 5, 3})),
+                                        ds.of(75))))
+                ), newStartCode("const productOfArray = (vals) => {\n\n}",
+                        "",
+                        ""),
+                new HashSet<>(Arrays.asList("arithmetic", "product")));
+
+        Problem[] problems = {addValues, sumOfArray, productOfArray};
+
+        Set<String> tags = Set.of("One tag", "A second tag", "A third tag");
+        newProblemSet("Sample Problem Set", "A perfectly legitimate description of a problem set",
+                Set.of(addValues, sumOfArray, productOfArray), Difficulty.EASY, tags);
+
+        newSolution("const addValues = (a, b) => a + b", "js", true, addValues, richard);
+        newSolution("const addValues = (a, b) => a + b", "java", true, addValues, richard);
+        newSolution("const addValues = (a, b) => a - b", "js", false, addValues, fakestudent);
+        newSolution("const addValues = (a, b) => a - b", "java", false, addValues, fakestudent);
+        newSolution("const addValues = (a, b) => a - b", "java", false, productOfArray, fakestudent);
+//        newSolution("const sumOfArray = (arr: int[]) => let sum = 0; \narr.forEach((num) => {sum += num});", "js",
+//                true, productOfArray, fakestudent);
     }
 
     private Problem newProblem(String title, String desc, Difficulty diff, TestSuite testSuite, StartCode startCode, Set<String> tags) {
         return problemService.add(new Problem(title, desc, diff, testSuite, startCode, tags));
     }
 
-    private Solution newSolution(String code, String lang, boolean correct, Problem problem, User user){
+    private Solution newSolution(String code, String lang, boolean correct, Problem problem, User user) {
         return solutionService.add(new Solution(code, lang, correct, problem, user));
     }
 
-    private ProblemSet newProblemSet(String title, String description, List<Problem> problems, Difficulty difficulty, List<String> tags) {
+    private ProblemSet newProblemSet(String title, String description, Set<Problem> problems, Difficulty difficulty, Set<String> tags) {
         return problemSetService.add(new ProblemSet(title, description, problems, difficulty, tags));
-    }
-
-    private Solution newSolution(String code, String lang, Boolean correct, Problem problem, User user) {
-        return solutionService.add(new Solution(code, lang, correct, problem, user));
     }
 
     private TestSuite newTestSuite(Set<TestCase> publicCases, Set<TestCase> privateCases) {
@@ -132,8 +135,11 @@ public class DataLoader implements ApplicationRunner {
         return cohortService.add(new Cohort(name));
     }
 
+    private User newUser(String uname, String email, String password, Cohort cohort, List<Role> roles, boolean bipassRegistration) {
+        return userService.add(new User(uname, email, password, cohort, roles), bipassRegistration);
+    }
     private User newUser(String uname, String email, String password, Cohort cohort, List<Role> roles) {
-        return userService.add(new User(uname, email, password, cohort, roles));
+        return userService.add(new User(uname, email, password, cohort, roles), true);
     }
 
 }

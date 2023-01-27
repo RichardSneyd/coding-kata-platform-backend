@@ -1,9 +1,6 @@
 package com.bnta.codecompiler.models.quizes;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +8,7 @@ import java.util.List;
 @Table(name = "quizzes")
 public class Quiz {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany
