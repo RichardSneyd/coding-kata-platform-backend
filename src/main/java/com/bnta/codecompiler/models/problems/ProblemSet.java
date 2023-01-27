@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.models.problems;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,11 +17,11 @@ public class ProblemSet {
     @Column
     private Difficulty difficulty;
     @ElementCollection
-    private Set<String> tags = null;
+    private List<String> tags = null;
     @ManyToMany
-    private Set<Problem> problems;
+    private List<Problem> problems;
 
-    public ProblemSet(String title, String description, Set<Problem> problems, Difficulty difficulty, Set<String> tags) {
+    public ProblemSet(String title, String description, List<Problem> problems, Difficulty difficulty, List<String> tags) {
         this.title = title;
         this.description = description;
         this.problems = problems;
@@ -31,11 +32,11 @@ public class ProblemSet {
     public ProblemSet() {
     }
 
-    public Set<Problem> getProblems() {
+    public List<Problem> getProblems() {
         return problems;
     }
 
-    public void setProblems(Set<Problem> problems) {
+    public void setProblems(List<Problem> problems) {
         this.problems = problems;
     }
 
@@ -47,11 +48,11 @@ public class ProblemSet {
         this.difficulty = difficulty;
     }
 
-    public Set<String> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(Set<String> tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 

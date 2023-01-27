@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,11 +42,11 @@ public class ProblemSetService {
         return optional;
     }
 
-    public Optional<Set<ProblemSet>> findByDifficulty(Difficulty difficulty) {
+    public Optional<List<ProblemSet>> findByDifficulty(Difficulty difficulty) {
         return problemSetRepo.findByDifficulty(difficulty);
     }
 
-    public Optional<Set<ProblemSet>> findByTag(String tag) {
+    public Optional<List<ProblemSet>> findByTag(String tag) {
         return problemSetRepo.findByTagsContains(tag);
     }
 

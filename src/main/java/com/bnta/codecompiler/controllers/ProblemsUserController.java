@@ -17,6 +17,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,13 +38,13 @@ public class ProblemsUserController {
     UserService userService;
 
     @GetMapping
-    public Set<Problem> allProblems() {
+    public List<Problem> allProblems() {
         return problemService.findAll();
     }
 
     @GetMapping("/tag/{tag}")
     public ResponseEntity<?> byTag(@PathVariable String tag) {
-        Optional<Set<Problem>> optional = problemService.findByTag(tag);
+        Optional<List<Problem>> optional = problemService.findByTag(tag);
         if (optional.isPresent() && optional.get().size() > 0) {
             return new ResponseEntity<>(optional.get(), HttpStatus.OK);
         } else return new ResponseEntity<>(String.format("No problems found with tag: %s", tag), HttpStatus.NOT_FOUND);
@@ -57,7 +58,7 @@ public class ProblemsUserController {
     }
 
     @GetMapping("/difficulty/{difficulty}")
-    public ResponseEntity<Set<Problem>> byDifficulty(@PathVariable("difficulty") Difficulty difficulty) {
+    public ResponseEntity<List<Problem>> byDifficulty(@PathVariable("difficulty") Difficulty difficulty) {
         var optional = problemService.findByDifficulty(difficulty);
         if (optional.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else return new ResponseEntity<>(optional.get(), HttpStatus.OK);

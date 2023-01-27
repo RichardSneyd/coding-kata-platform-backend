@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,12 +34,12 @@ public class ProblemService {
         return problemRepository.save(problem);
     }
 
-    public Set<Problem> findAll() {
-        return new HashSet<>(problemRepository.findAll());
+    public List<Problem> findAll() {
+        return problemRepository.findAll();
     }
 
     public Problem nextForUser(User user) {
-        Set<Long> problemIds = user.getSolutions().stream().map(solution -> solution.getProblem().getId()).collect(Collectors.toSet());
+        List<Long> problemIds = user.getSolutions().stream().map(solution -> solution.getProblem().getId()).collect(Collectors.toList());
         for(var problem : problemRepository.findAll()) {
             if(!problemIds.contains(problem.getId())) return problem;
         }
@@ -62,11 +63,11 @@ public class ProblemService {
         return optional.get();
     }
 
-    public Optional<Set<Problem>> findByDifficulty(Difficulty difficulty) {
+    public Optional<List<Problem>> findByDifficulty(Difficulty difficulty) {
         return problemRepository.findByDifficulty(difficulty);
     }
 
-    public Optional<Set<Problem>> findByTag(String tag) {
+    public Optional<List<Problem>> findByTag(String tag) {
         return problemRepository.findByTags(tag);
     }
 

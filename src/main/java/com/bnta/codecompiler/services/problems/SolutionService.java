@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -42,27 +43,27 @@ public class SolutionService {
         return optional.get();
     }
 
-    public Set<Solution> findAll() {
-        return new HashSet<>(solutionRepo.findAll());
+    public List<Solution> findAll() {
+        return solutionRepo.findAll();
     }
 
-    public Set<Solution> findAllByUser(User user) {
+    public List<Solution> findAllByUser(User user) {
         return solutionRepo.findAllByUser(user);
     }
 
-    public Set<Solution> findAllByUser_id(Long id) {
+    public List<Solution> findAllByUser_id(Long id) {
         return solutionRepo.findAllByUser_id(id);
     }
 
-    public Set<Solution> findAllByProblem(Problem problem) {
+    public List<Solution> findAllByProblem(Problem problem) {
         return solutionRepo.findAllByProblem(problem);
     }
 
-    public Set<Solution> findAllByProblem_id(Long id) {
+    public List<Solution> findAllByProblem_id(Long id) {
         return solutionRepo.findAllByProblem_id(id);
     }
 
-    public Set<Solution> findAllByProblemAndUser(Problem problem, User user) {
+    public List<Solution> findAllByProblemAndUser(Problem problem, User user) {
         return solutionRepo.findAllByProblemAndUser(problem, user);
     }
  }

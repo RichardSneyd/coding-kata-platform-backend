@@ -92,8 +92,8 @@ public class DataLoader implements ApplicationRunner {
                         new HashSet<>(Arrays.asList("arithmetic", "product")))
         };
 
-        Set<Problem> problemsSet = Set.of(problems);
-        Set<String> tags = Set.of("One tag", "A second tag", "A third tag");
+        List<Problem> problemsSet = List.of(problems);
+        List<String> tags = List.of("One tag", "A second tag", "A third tag");
         newProblemSet("Sample Problem Set", "A perfectly legitimate description of a problem set", problemsSet, Difficulty.EASY, tags);
 
         newSolution("const addValues = (a, b) => a + b", "js", true, problems[0], users[0]);
@@ -108,7 +108,7 @@ public class DataLoader implements ApplicationRunner {
         return solutionService.add(new Solution(code, lang, correct, problem, user));
     }
 
-    private ProblemSet newProblemSet(String title, String description, Set<Problem> problems, Difficulty difficulty, Set<String> tags) {
+    private ProblemSet newProblemSet(String title, String description, List<Problem> problems, Difficulty difficulty, List<String> tags) {
         return problemSetService.add(new ProblemSet(title, description, problems, difficulty, tags));
     }
 
