@@ -124,9 +124,6 @@ public class UserService {
             }
            // else System.out.println(String.format("%s -doesn't match- %s", problem, solution.getProblem()));
         }
-        System.out.println(user.getSolutions());
-        System.out.println(solution.getProblem());
-        System.out.println("adding " + user.getId() + " " + solution.getProblem().getId());
         user.getCompletedProblems().add(solution.getProblem());
         user = update(user);
         return user;
