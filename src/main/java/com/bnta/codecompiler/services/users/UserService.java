@@ -129,9 +129,9 @@ public class UserService {
         return user;
     }
 
-    private boolean scorable(Solution solution, User user) {
+    public boolean scorable(Solution solution, User user) {
         for (var savedSolution : user.getSolutions()) {
-            if (savedSolution.getProblem().equals(solution.getProblem())
+            if (savedSolution.getProblem().getId().equals(solution.getProblem().getId())
                     && savedSolution.getLang().equals(solution.getLang())) return false;
         }
         return true;

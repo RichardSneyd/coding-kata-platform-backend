@@ -36,10 +36,11 @@ public class EvalController {
             var user = userService.findById(evalInput.getUserId());
             var problem = problemService.findById(problemId);
             var evalResult = evalService.evaluate(evalInput, problem);
-            if (evalResult.isSuccessful()) {
+            var solution = new Solution(evalInput.getCode(), evalInput.getLang(),
+                    evalResult.isSuccessful(), evalResult.getProblem(), user);
+            if (evalResult.isSuccessful() && userService.scorable(solution, user)) {
                // userService.addCompletedProblem(user, problem);
-                solutionService.add(new Solution(evalInput.getCode(), evalInput.getLang(),
-                        evalResult.isSuccessful(), evalResult.getProblem(), user));
+                solutionService.add(solution);
             }
             return new ResponseEntity<>(evalResult, HttpStatus.OK);
         } catch (Exception e) {
