@@ -28,18 +28,22 @@ public class ProblemsAdminController {
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Problem problem) {
-        if(problemService.find(problem.getId()).isEmpty()) {
+        if (problemService.find(problem.getId()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No problem found with id %s", problem.getId()));
         }
-
-        this.problemService.add(problem);
-        return ResponseEntity.ok(String.format("Updated problem %s", problem.getTitle()));
+        try {
+            this.problemService.update(problem);
+            return ResponseEntity.ok(String.format("Updated problem %s", problem.getTitle()));
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         var problem = problemService.find(id);
-        if(problem.isEmpty()) {
+        if (problem.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No problem with id %s", id));
         }
 
@@ -56,7 +60,7 @@ public class ProblemsAdminController {
 
     @PutMapping("/sets")
     public ResponseEntity<?> updateSet(@RequestBody ProblemSet set) {
-        if(problemSetService.findById(set.getId()).isEmpty()) {
+        if (problemSetService.findById(set.getId()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No problem set found with id %s", set.getId()));
         }
 
@@ -67,7 +71,7 @@ public class ProblemsAdminController {
     @DeleteMapping("/sets/{id}")
     public ResponseEntity<?> deleteSet(@PathVariable Long id) {
         var set = problemSetService.findById(id);
-        if(set.isEmpty()) {
+        if (set.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No problemSet with id %s", id));
         }
 

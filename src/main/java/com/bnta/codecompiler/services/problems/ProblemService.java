@@ -6,6 +6,8 @@ import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.problems.IProblemRepository;
+import com.bnta.codecompiler.repositories.problems.IProblemSetRepository;
+import com.bnta.codecompiler.repositories.problems.ISolutionRepository;
 import com.bnta.codecompiler.services.tests.TestCaseService;
 import com.bnta.codecompiler.services.tests.TestSuiteService;
 import com.bnta.codecompiler.services.users.UserService;
@@ -27,11 +29,23 @@ public class ProblemService {
     @Autowired
     private StartCodeService startCodeService;
 
+    @Autowired
+    private IProblemSetRepository problemSetRepository;
+    @Autowired
+    private ISolutionRepository solutionRepository;
+
     public Problem add(Problem problem) {
         // save the startCode first
         problem.setStartCode(startCodeService.add(problem.getStartCode()));
         problem.setTestSuite(testSuiteService.add(problem.getTestSuite()));
         return problemRepository.save(problem);
+    }
+
+    public Problem update(Problem problem) throws Exception {
+        if (problemRepository.findById(problem.getId()).isEmpty()) {
+            throw new Exception("Cannot update, no problem found with that id");
+        }
+        return add(problem);
     }
 
     public List<Problem> findAll() {
@@ -40,26 +54,29 @@ public class ProblemService {
 
     public Problem nextForUser(User user) {
         List<Long> problemIds = user.getSolutions().stream().map(solution -> solution.getProblem().getId()).collect(Collectors.toList());
-        for(var problem : problemRepository.findAll()) {
-            if(!problemIds.contains(problem.getId())) return problem;
+        for (var problem : problemRepository.findAll()) {
+            if (!problemIds.contains(problem.getId())) return problem;
         }
 
         return null;
     }
 
-    public Optional<Problem> find(Long id) {return problemRepository.findById(id);}
+    public Optional<Problem> find(Long id) {
+        return problemRepository.findById(id);
+    }
 
     public void delete(Problem problem) {
-        problemRepository.delete(problem);
+        for (var problemSet : problemSetRepository.findAll()) {
+            if (problemSet.getProblems().contains(problem)) problemSet.getProblems().remove(problem);
+            problemSetRepository.save(problemSet);
+        }
+        solutionRepository.deleteAll(solutionRepository.findAllByProblem(problem));
     }
 
-    public void delete(Long id) {
-        problemRepository.deleteById(id);
-    }
 
     public Problem findById(Long id) throws Exception {
         Optional<Problem> optional = problemRepository.findById(id);
-        if(optional.isEmpty()) throw new Exception("No problem with id: " + id);
+        if (optional.isEmpty()) throw new Exception("No problem with id: " + id);
         return optional.get();
     }
 
