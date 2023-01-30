@@ -26,6 +26,12 @@ public class TestSuiteService {
         }
         return testSuiteRepo.save(testSuite);
     }
+
+    public TestSuite update(TestSuite testSuite) {
+    //   if(testSuiteRepo.findById(testSuite.get)
+        return testSuiteRepo.save(testSuite);
+    }
+
     public TestSuite findById(Long id) throws Exception {
         Optional<TestSuite> optional = testSuiteRepo.findById(id);
         if(optional.isEmpty()) throw new Exception("No test suite with id: " + id);

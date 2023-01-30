@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.models.tests;
 
 import com.bnta.codecompiler.models.problems.Problem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,6 +18,7 @@ public class TestSuite {
     private Set<TestCase> privateCases;
 
     @OneToOne(mappedBy = "testSuite")
+    @JsonIgnore
     private Problem problem;
 
     public TestSuite(Set<TestCase> publicCases, Set<TestCase> privateCases) {
@@ -43,4 +45,19 @@ public class TestSuite {
         this.privateCases = privateCases;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public void setProblem(Problem problem) {
+        this.problem = problem;
+    }
 }

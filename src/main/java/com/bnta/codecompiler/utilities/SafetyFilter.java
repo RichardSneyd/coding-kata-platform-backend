@@ -19,19 +19,19 @@ public class SafetyFilter {
     private static boolean checkJava(String src) {
 
         return isSafe(src, new String[]{
-                "ProcessBuilder", "Runtime.getRuntime"
+                "java.lang.ProcessBuilder", "Runtime.getRuntime", "java.lang.Runtime", "java.io.File",
         });
     }
 
     private static boolean checkJs(String src) {
         return isSafe(src, new String[]{
-                "require('child_process')", "require(\"child_process\")"
+                "require('child_process')", "require(\"child_process\")", "spawn", "execFile", "execSync"
         });
     }
 
     private static boolean checkPy(String src) {
         return isSafe(src, new String[]{
-                "", ""
+                "os.system", "subprocess.Popen", "eval", "exec"
         });
     }
     private static boolean isSafe(String src, String[] threats) {

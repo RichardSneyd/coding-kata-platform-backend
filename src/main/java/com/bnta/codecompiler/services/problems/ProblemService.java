@@ -45,7 +45,10 @@ public class ProblemService {
         if (problemRepository.findById(problem.getId()).isEmpty()) {
             throw new Exception("Cannot update, no problem found with that id");
         }
-        return add(problem);
+
+        startCodeService.update(problem.getStartCode());
+        testSuiteService.update(problem.getTestSuite());
+        return problemRepository.save(problem);
     }
 
     public List<Problem> findAll() {

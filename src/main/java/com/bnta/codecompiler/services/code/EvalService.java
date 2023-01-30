@@ -59,7 +59,7 @@ public class EvalService {
                                          CompileInput compileInputPojo) {
         var compileInput = compileInputPojo.clone();
         compileInput.setCode(generateSrc(functionName, compileInput.getCode(), compileInput.getLang(),
-                testCase.getInputs(), testCase.getOutput().getDataType()));
+                testCase.getInputs(), testCase.getOutput().getDataType(), functionName));
         try {
             return compiler.compile(compileInput);
 

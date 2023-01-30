@@ -46,22 +46,22 @@ public class SrcParser {
     }
 
     public static String generateSrc(String functionName, String src,
-                                     String lang, List<Data> inputs, DataType outputType) {
-        src = src.replaceAll(functionName,   "solution");
+                                     String lang, List<Data> inputs, DataType outputType, String methodName) {
+     //   src = src.replaceAll(functionName,   "solution");
         switch (lang) {
             case "java":
-                return wrapJava(src, inputs, outputType);
+                return wrapJava(src, inputs, outputType, methodName);
             case "js":
-                return wrapJs(src, inputs);
+                return wrapJs(src, inputs, methodName);
             case "py":
-                return wrapPython(src, inputs);
+                return wrapPython(src, inputs, methodName);
             default:
                 return src;
         }
     }
 
-    public static String wrapJava(String src, List<Data> inputs, DataType type) {
-        var insert = SrcParser.toMethodCall("solution", inputs, "java");
+    public static String wrapJava(String src, List<Data> inputs, DataType type, String methodName) {
+        var insert = SrcParser.toMethodCall(methodName, inputs, "java");
         switch (type) {
             case INT_ARRAY, FLOAT_ARRAY, STRING_ARRAY, BOOLEAN_ARRAY:
                 src = "import java.util.Arrays; " + src;
@@ -75,14 +75,14 @@ public class SrcParser {
         return src.substring(0, lastIndex) + insert + "}";
     }
 
-    public static String wrapJs(String src, List<Data> inputs) {
-        var insert = SrcParser.toMethodCall("solution", inputs, "js");
+    public static String wrapJs(String src, List<Data> inputs, String methodName) {
+        var insert = SrcParser.toMethodCall(methodName, inputs, "js");
         return src + "\nconsole.log(" + insert + ");";
 
     }
 
-    public static String wrapPython(String src, List<Data> inputs) {
-        var insert = SrcParser.toMethodCall("solution", inputs, "py");
+    public static String wrapPython(String src, List<Data> inputs, String methodName) {
+        var insert = SrcParser.toMethodCall(methodName, inputs, "py");
         return src + "\nprint(" + insert + ")";
     }
 

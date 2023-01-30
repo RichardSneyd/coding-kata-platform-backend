@@ -47,4 +47,6 @@ public class TestCase {
     public void setOutput(Data output) {
         this.output = output;
     }
+
+
 }
