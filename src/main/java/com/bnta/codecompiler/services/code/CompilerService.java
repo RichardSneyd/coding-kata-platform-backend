@@ -3,18 +3,19 @@ package com.bnta.codecompiler.services.code;
 import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.dtos.CompileResult;
 import com.bnta.codecompiler.utilities.SafetyFilter;
+import com.bnta.codecompiler.utilities.Time;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 @Service
 public class CompilerService {
+    private final int timeout = 5;
     private ExecutorService executor = Executors.newFixedThreadPool(10);
+    Future<CompileResult> future;
     private void saveFile(File file, String code) {
         try {
             PrintWriter pr = new PrintWriter(new FileWriter(file));
@@ -66,10 +67,14 @@ public class CompilerService {
 
             saveFile(file, input.getCode());
             CompileResult finalResult = result;
-            Future<CompileResult> future = executor.submit(() -> shell(command, fullPath, finalResult));
-            result = future.get();
+            future = executor.submit(() -> shell(command, fullPath, finalResult));
+            result = future.get(timeout, TimeUnit.SECONDS);
           //  result = shell(command, fullPath, result);
-        } catch (IOException e) {
+        } catch (TimeoutException e) {
+            future.cancel(true);
+            result.setErrors("Compilation timed out after " + timeout + " seconds");
+        }
+        catch (IOException e) {
             e.printStackTrace();
             result.setErrors(e.getMessage());
             result.setCompiled(false);
