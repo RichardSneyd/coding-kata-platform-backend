@@ -3,7 +3,6 @@ package com.bnta.codecompiler.services.code;
 import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.dtos.CompileResult;
 import com.bnta.codecompiler.utilities.SafetyFilter;
-import com.bnta.codecompiler.utilities.Time;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -14,8 +13,9 @@ import java.util.stream.Collectors;
 @Service
 public class CompilerService {
     private final int timeout = 5;
-    private ExecutorService executor = Executors.newFixedThreadPool(10);
-    Future<CompileResult> future;
+    private final int threadCount = 4;
+    private ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+    private Future<CompileResult> future;
     private void saveFile(File file, String code) {
         try {
             PrintWriter pr = new PrintWriter(new FileWriter(file));
@@ -58,7 +58,6 @@ public class CompilerService {
         CompileResult result = new CompileResult(input.getCode(), null, null, false, input.getLang());
         try {
             String command = input.getLang().equals("js") ? "node" : input.getLang().equals("java") ? "java" : "python3";
-            // command = where(command);
             String ext = "." + input.getLang();
             String tDir = System.getProperty("java.io.tmpdir");
             File file = File.createTempFile("temp", ext);
@@ -69,7 +68,6 @@ public class CompilerService {
             CompileResult finalResult = result;
             future = executor.submit(() -> shell(command, fullPath, finalResult));
             result = future.get(timeout, TimeUnit.SECONDS);
-          //  result = shell(command, fullPath, result);
         } catch (TimeoutException e) {
             future.cancel(true);
             result.setErrors("Compilation timed out after " + timeout + " seconds");
@@ -86,19 +84,19 @@ public class CompilerService {
         return readAll(startProcess(command, args), result);
     }
 
-    public CompileResult where(String command) {
-        CompileResult result = new CompileResult();
-        try {
-            result = readAll(startProcess("which", command), result);
-            return result;
-        } catch (Exception e) {
-            result.setCompiled(false);
-            result.setErrors("Error running 'where' on " + command + ": " + e.getMessage());
-            e.printStackTrace();
-            return result;
-        }
-
-    }
+//    public CompileResult where(String command) {
+//        CompileResult result = new CompileResult();
+//        try {
+//            result = readAll(startProcess("which", command), result);
+//            return result;
+//        } catch (Exception e) {
+//            result.setCompiled(false);
+//            result.setErrors("Error running 'where' on " + command + ": " + e.getMessage());
+//            e.printStackTrace();
+//            return result;
+//        }
+//
+//    }
 
     public CompileResult echo(String message) {
         return readAll(startProcess("echo", message), new CompileResult());
