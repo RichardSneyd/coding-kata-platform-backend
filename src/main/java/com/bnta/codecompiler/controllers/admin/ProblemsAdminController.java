@@ -32,8 +32,8 @@ public class ProblemsAdminController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No problem found with id %s", problem.getId()));
         }
         try {
-            this.problemService.update(problem);
-            return ResponseEntity.ok(String.format("Updated problem %s", problem.getTitle()));
+            problem = this.problemService.update(problem);
+            return ResponseEntity.ok(problem);
         }
         catch(Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
