@@ -4,6 +4,7 @@ import com.bnta.codecompiler.models.problems.Problem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,15 +14,15 @@ public class TestSuite {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @OneToMany
-    private Set<TestCase> publicCases;
+    private List<TestCase> publicCases;
     @OneToMany
-    private Set<TestCase> privateCases;
+    private List<TestCase> privateCases;
 
     @OneToOne(mappedBy = "testSuite")
     @JsonIgnore
     private Problem problem;
 
-    public TestSuite(Set<TestCase> publicCases, Set<TestCase> privateCases) {
+    public TestSuite(List<TestCase> publicCases, List<TestCase> privateCases) {
         this.publicCases = publicCases;
         this.privateCases = privateCases;
     }
@@ -29,19 +30,19 @@ public class TestSuite {
     public TestSuite() {
     }
 
-    public Set<TestCase> getPublicCases() {
+    public List<TestCase> getPublicCases() {
         return publicCases;
     }
 
-    public void setPublicCases(Set<TestCase> publicCases) {
+    public void setPublicCases(List<TestCase> publicCases) {
         this.publicCases = publicCases;
     }
 
-    public Set<TestCase> getPrivateCases() {
+    public List<TestCase> getPrivateCases() {
         return privateCases;
     }
 
-    public void setPrivateCases(Set<TestCase> privateCases) {
+    public void setPrivateCases(List<TestCase> privateCases) {
         this.privateCases = privateCases;
     }
 

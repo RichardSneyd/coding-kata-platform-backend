@@ -24,16 +24,15 @@ public class EvalService {
             throw new Exception("Dangerous or possibly malicious code detected");
         }
 
-        // remove user-inserted logs before evaluating, or user output Stdout may pollute the result
-        var logFreeInput = compileInputPojo.clone();
-       logFreeInput.setCode(SrcParser.removeLogs(logFreeInput.getCode(), logFreeInput.getLang()));
     //    System.out.println(logFreeInput);
         EvalResult evalResult = new EvalResult();
         evalResult.setProblem(problem);
         evalResult.setTestResultsWithLogs(runTestCases(problem.getTitle(),
                 problem.getTestSuite().getPublicCases(), compileInputPojo));
 
-
+        // remove user-inserted logs before evaluating, or user output Stdout may pollute the result
+        var logFreeInput = compileInputPojo.clone();
+        logFreeInput.setCode(SrcParser.removeLogs(logFreeInput.getCode(), logFreeInput.getLang()));
 
         evalResult.setPublicTestResults(runTestCases(problem.getTitle(),
                 problem.getTestSuite().getPublicCases(), logFreeInput));
@@ -51,7 +50,7 @@ public class EvalService {
         return evalResult;
     }
 
-    public List<TestCaseResult> runTestCases(String functionName, Set<TestCase> testCases,
+    public List<TestCaseResult> runTestCases(String functionName, List<TestCase> testCases,
                                              CompileInput compileInputPojo) {
         List<TestCaseResult> testResults = new ArrayList<>();
         for (var testCase : testCases) {

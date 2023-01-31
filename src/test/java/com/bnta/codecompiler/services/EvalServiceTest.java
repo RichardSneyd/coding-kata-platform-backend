@@ -70,8 +70,8 @@ public class EvalServiceTest {
     public void testEvaluate() {
       //  assertThat(evalService).isNotNull();
         Problem problem = new Problem("add", "blablabla", Difficulty.VERY_EASY,
-                new TestSuite(new HashSet<>(testCases),
-                        new HashSet<>(privateCases)), new StartCode(),
+                new TestSuite(testCases,
+                        privateCases), new StartCode(),
                 new HashSet<>(List.of("tag1", "tag2")));
         var compileInputs = new CompileInput[]{javaInputPolluted, jsInputPolluted, pyInputPolluted};
         try {
@@ -93,7 +93,7 @@ public class EvalServiceTest {
     @Test
     public void testRunTestCases() {
         List<TestCaseResult> results = evalService.runTestCases("add",
-                new HashSet<>(testCases), javaInput);
+                testCases, javaInput);
         //  assertThat(results.get(1).getCompileResult().getOutput()).isEqualTo("9");
         for (int i = 0; i < results.size(); i++) {
             assertThat(results.get(i).getCompileResult().getOutput()).isNotNull();

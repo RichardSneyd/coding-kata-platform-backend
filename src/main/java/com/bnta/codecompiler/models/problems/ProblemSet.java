@@ -11,9 +11,9 @@ public class ProblemSet {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(length = 200)
     private String title;
-    @Column
+    @Column(length = 500)
     private String description;
     @Column
     private Difficulty difficulty;

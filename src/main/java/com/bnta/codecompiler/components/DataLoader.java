@@ -56,10 +56,10 @@ public class DataLoader implements ApplicationRunner {
 
         var addValues = newProblem("addValues", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
                 Difficulty.VERY_EASY,
-                newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
-                                List.of(ds.of(10), ds.of(5)), ds.of(15)))),
-                        new HashSet<>(Arrays.asList(newTestCase(
-                                List.of(ds.of(15), ds.of(4)), ds.of(19))))
+                newTestSuite(Arrays.asList(newTestCase(
+                                List.of(ds.of(10), ds.of(5)), ds.of(15))),
+                        Arrays.asList(newTestCase(
+                                List.of(ds.of(15), ds.of(4)), ds.of(19)))
                 ),
                 newStartCode("const addValues = (a, b)=> {\n\n}",
                         "def addValues(a, b):\n\nreturn",
@@ -68,10 +68,10 @@ public class DataLoader implements ApplicationRunner {
 
         var sumOfArray = newProblem("sumOfArray", "Create a function, sumOfArray(vals: int[]), which returns the sum of all integers in a given array.",
                 Difficulty.HARD,
-                newTestSuite(new HashSet<>(Arrays.asList(newTestCase(
-                                List.of(ds.of(new Integer[]{10, 5, 15})), ds.of(30)))),
-                        new HashSet<>(Arrays.asList(newTestCase(
-                                List.of(ds.of(new Integer[]{15, 4, -8})), ds.of(11))))
+                newTestSuite(Arrays.asList(newTestCase(
+                                List.of(ds.of(new Integer[]{10, 5, 15})), ds.of(30))),
+                        Arrays.asList(newTestCase(
+                                List.of(ds.of(new Integer[]{15, 4, -8})), ds.of(11)))
                 ),
                 newStartCode("const sumOfArray = (int[] vals)=> {\n\n}",
                         "def addValues(vals:\n\nreturn",
@@ -80,13 +80,13 @@ public class DataLoader implements ApplicationRunner {
 
         var productOfArray = newProblem("productOfArray", "Create a function, productOfArray(vals: int[]), which accepts an array of integers and returns their product.",
                 Difficulty.MEDIUM,
-                newTestSuite(new HashSet<>(
+                newTestSuite(
                                 Arrays.asList(newTestCase(List.of(
-                                        ds.of(new Integer[]{10, 5, 2})), ds.of(100)))),
-                        new HashSet<>(
+                                        ds.of(new Integer[]{10, 5, 2})), ds.of(100))),
+
                                 Arrays.asList(newTestCase(
                                         List.of(ds.of(new Integer[]{5, 5, 3})),
-                                        ds.of(75))))
+                                        ds.of(75)))
                 ), newStartCode("const productOfArray = (vals) => {\n\n}",
                         "",
                         ""),
@@ -119,7 +119,7 @@ public class DataLoader implements ApplicationRunner {
         return problemSetService.add(new ProblemSet(title, description, problems, difficulty, tags));
     }
 
-    private TestSuite newTestSuite(Set<TestCase> publicCases, Set<TestCase> privateCases) {
+    private TestSuite newTestSuite(List<TestCase> publicCases, List<TestCase> privateCases) {
         return testSuiteService.add(new TestSuite(publicCases, privateCases));
     }
 

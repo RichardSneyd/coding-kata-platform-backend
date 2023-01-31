@@ -13,9 +13,9 @@ public class Problem {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(length = 100)
     private String title;
-    @Column
+    @Column(length = 500)
     private String description = "Solve me!";
     @Column
     private Difficulty difficulty = Difficulty.EASY;
