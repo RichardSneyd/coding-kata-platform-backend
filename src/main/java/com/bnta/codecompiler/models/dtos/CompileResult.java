@@ -77,4 +77,8 @@ public class CompileResult {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public CompileResult clone() {
+        return new CompileResult(this.code, this.output, this.errors, this.compiled, this.lang);
+    }
 }

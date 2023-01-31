@@ -35,7 +35,7 @@ public class EvalController {
         try {
             var user = userService.findById(evalInput.getUserId());
             var problem = problemService.findById(problemId);
-            var evalResult = evalService.evaluate(evalInput, problem);
+            var evalResult = evalService.evaluate(evalInput.clone(), problem);
             var solution = new Solution(evalInput.getCode(), evalInput.getLang(),
                     evalResult.isSuccessful(), evalResult.getProblem(), user);
             if (evalResult.isSuccessful() && userService.scorable(solution, user)) {

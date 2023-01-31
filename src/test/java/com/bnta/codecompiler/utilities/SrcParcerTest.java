@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.utilities;
 
 
+import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.problems.Data;
 import com.bnta.codecompiler.models.problems.DataType;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,12 +70,12 @@ public class SrcParcerTest {
                 DataType.INT_ARRAY)), DataType.INT_ARRAY))
                 .isEqualTo("import java.util.Arrays; " +
                         "public class Main {" +
-                        "public int solution(int[] vals){" +
+                        "public int sum(int[] vals){" +
                         "int result = 0;" +
                         "for(var val : vals) {result += val;}" +
                         "return result;" +
                         "}\npublic static void main(String[] args){" +
-                        "System.out.println(Arrays.toString(new Main().solution(new int[]{5,2,4})));" +
+                        "System.out.println(Arrays.toString(new Main().sum(new int[]{5,2,4})));" +
                         "}}");
     }
 
@@ -89,7 +90,7 @@ public class SrcParcerTest {
                 src, List.of(
                         new Data("5", DataType.INT),
                         new Data("5", DataType.INT)),
-                DataType.INT
+                DataType.INT, "solution"
         )).isEqualTo("public class Main {" +
                 "public String solution(a, b) {" +
                 "return a + b;" +
@@ -108,7 +109,7 @@ public class SrcParcerTest {
                 src, List.of(
                         new Data("5", DataType.INT),
                         new Data("5", DataType.INT)
-                ))).isEqualTo("function solution(a, b){\n" +
+                ), "solution")).isEqualTo("function solution(a, b){\n" +
                 "return a + b;\n}\nconsole.log(solution(5, 5));");
     }
 
@@ -120,7 +121,7 @@ public class SrcParcerTest {
                 src, List.of(
                         new Data("5", DataType.INT),
                         new Data("5", DataType.INT)
-                ))).isEqualTo("fun solution(a, b):\n" +
+                ), "solution")).isEqualTo("fun solution(a, b):\n" +
                 "       return a + b\n\nprint(solution(5, 5))");
     }
 
@@ -188,8 +189,9 @@ public class SrcParcerTest {
 
     @Test
     public void testRemoveLogsJava() {
-        var src = "public class App { \nSystem.out.println(\"sdfsds\");}";
-        assertThat(SrcParser.removeLogs(src, "java")).isEqualTo("public class App { \n}");
+        var input = new CompileInput("public class App { \nSystem.out.println(\"Logs not removed...\");}", "java");
+        assertThat(SrcParser.removeLogs(input.getCode(), input.getLang()))
+                .isEqualTo("public class App { \n}");
 
     }
 

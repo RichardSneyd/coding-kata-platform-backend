@@ -65,7 +65,7 @@ public class CompilerService {
             String fullPath = tDir + File.separator + tempName;
 
             saveFile(file, input.getCode());
-            CompileResult finalResult = result;
+            CompileResult finalResult = result.clone();
             future = executor.submit(() -> shell(command, fullPath, finalResult));
             result = future.get(timeout, TimeUnit.SECONDS);
         } catch (TimeoutException e) {

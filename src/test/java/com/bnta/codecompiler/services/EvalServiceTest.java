@@ -41,7 +41,7 @@ public class EvalServiceTest {
     @BeforeEach
     public void setUp() {
         javaInput = new CompileInput("public class Main {public int add(int a, int b) {return a + b;}}", "java");
-        javaInputPolluted = new CompileInput("public class Main {public int add(int a, int b) {System.out.println(\"horse\"); return a + b;}}", "java");
+        javaInputPolluted = new CompileInput("public class Main {public int add(int a, int b) {System.out.println(\"horse\");\nreturn a + b;}}", "java");
         jsInput = new CompileInput("const add = (a, b)=> a + b;", "js");
         jsInputPolluted = new CompileInput("const add = (a, b)=> {console.log('user pollution js'); return a + b; }", "js");
         pyInput = new CompileInput("def add(a, b):\n\sreturn a + b\n\n", "py");
@@ -66,9 +66,9 @@ public class EvalServiceTest {
         );
     }
 
-    @Test
+   @Test
     public void testEvaluate() {
-        assertThat(evalService).isNotNull();
+      //  assertThat(evalService).isNotNull();
         Problem problem = new Problem("add", "blablabla", Difficulty.VERY_EASY,
                 new TestSuite(new HashSet<>(testCases),
                         new HashSet<>(privateCases)), new StartCode(),
@@ -80,6 +80,8 @@ public class EvalServiceTest {
                 assertThat(result).isNotNull();
                 assertThat(result.isSuccessful()).isTrue();
                 assertThat(result.getTestResultsWithLogs().get(0).isCorrect()).isFalse();
+                assertThat(result.getPublicTestResults().get(0).isCorrect()).isTrue();
+
             }
 
         } catch (Exception e) {

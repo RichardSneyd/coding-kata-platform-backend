@@ -21,24 +21,33 @@ public class EvalService {
 
     public EvalResult evaluate(CompileInput compileInputPojo, Problem problem) throws Exception {
         if(!SafetyFilter.isInputSafe(compileInputPojo)) {
-            throw new Exception("Dangerous or possible malicious code detected");
+            throw new Exception("Dangerous or possibly malicious code detected");
         }
+
+        // remove user-inserted logs before evaluating, or user output Stdout may pollute the result
+        var logFreeInput = compileInputPojo.clone();
+       logFreeInput.setCode(SrcParser.removeLogs(logFreeInput.getCode(), logFreeInput.getLang()));
+    //    System.out.println(logFreeInput);
         EvalResult evalResult = new EvalResult();
         evalResult.setProblem(problem);
         evalResult.setTestResultsWithLogs(runTestCases(problem.getTitle(),
                 problem.getTestSuite().getPublicCases(), compileInputPojo));
 
-        // remove user-inserted logs before evaluating, or user output Stdout may pollute the result
-        compileInputPojo.setCode(SrcParser.removeLogs(compileInputPojo.getCode(), compileInputPojo.getLang()));
+
+
         evalResult.setPublicTestResults(runTestCases(problem.getTitle(),
-                problem.getTestSuite().getPublicCases(), compileInputPojo));
+                problem.getTestSuite().getPublicCases(), logFreeInput));
+
         var privateResults = runTestCases(problem.getTitle(),
-                problem.getTestSuite().getPrivateCases(), compileInputPojo);
+                problem.getTestSuite().getPrivateCases(), logFreeInput);
+
         evalResult.setPrivateTestsPassed(privateResults.stream()
                 .allMatch(result -> result.isCorrect()));
+
         evalResult.setSuccessful(evalResult.isPrivateTestsPassed() &&
                 evalResult.getPublicTestResults().stream()
                         .allMatch(result -> result.isCorrect()));
+
         return evalResult;
     }
 
@@ -59,7 +68,7 @@ public class EvalService {
                                          CompileInput compileInputPojo) {
         var compileInput = compileInputPojo.clone();
         compileInput.setCode(generateSrc(functionName, compileInput.getCode(), compileInput.getLang(),
-                testCase.getInputs(), testCase.getOutput().getDataType(), functionName));
+                testCase.getInputs(), testCase.getOutput().getDataType()));
         try {
             return compiler.compile(compileInput);
 

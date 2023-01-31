@@ -24,8 +24,8 @@ public class CompileInput {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCode(String newCode) {
+        this.code = newCode;
     }
 
     @Override

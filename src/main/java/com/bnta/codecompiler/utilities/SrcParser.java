@@ -46,15 +46,15 @@ public class SrcParser {
     }
 
     public static String generateSrc(String functionName, String src,
-                                     String lang, List<Data> inputs, DataType outputType, String methodName) {
+                                     String lang, List<Data> inputs, DataType outputType) {
      //   src = src.replaceAll(functionName,   "solution");
         switch (lang) {
             case "java":
-                return wrapJava(src, inputs, outputType, methodName);
+                return wrapJava(src, inputs, outputType, functionName);
             case "js":
-                return wrapJs(src, inputs, methodName);
+                return wrapJs(src, inputs, functionName);
             case "py":
-                return wrapPython(src, inputs, methodName);
+                return wrapPython(src, inputs, functionName);
             default:
                 return src;
         }
@@ -126,10 +126,11 @@ public class SrcParser {
     public static String wrapString(String val) { return  "\"" + val + "\"";}
 
     public static String removeLogs(String src, String lang) {
-        String pattern = lang == "java" ? "System.out.println(.*?);"
-                : lang == "js" ? "console.log(.*?)(\\)|\\);)"
-                : "print([ \\(])(.*?)\\)";
-        return src.replaceAll(pattern, "");
+        String pattern = lang.equals("java") ? "System.out.println(.*?);"
+                : lang.equals("python") ? "print([ \\(])(.*?)\\)"
+                : "console\\.log.*?(\\)|\\));";
+        var str = src.replaceAll(pattern, " ");
+        return str;
     }
 
 }
