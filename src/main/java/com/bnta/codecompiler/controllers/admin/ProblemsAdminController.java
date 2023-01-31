@@ -48,7 +48,7 @@ public class ProblemsAdminController {
         }
 
         problemService.delete(problem.get());
-        return ResponseEntity.ok(String.format("Deleted cohort with id %s", id));
+        return ResponseEntity.ok(String.format("Deleted problem with id %s", id));
     }
 
     @PostMapping("/sets")
