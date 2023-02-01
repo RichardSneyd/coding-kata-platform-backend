@@ -83,11 +83,11 @@ public class ProblemService {
         return optional.get();
     }
 
-    public Optional<List<Problem>> findByDifficulty(Difficulty difficulty) {
+    public List<Problem> findByDifficulty(Difficulty difficulty) {
         return problemRepository.findByDifficulty(difficulty);
     }
 
-    public Optional<List<Problem>> findByTag(String tag) {
+    public List<Problem> findByTag(String tag) {
         return problemRepository.findByTags(tag);
     }
 

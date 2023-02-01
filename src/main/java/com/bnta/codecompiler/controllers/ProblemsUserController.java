@@ -44,10 +44,8 @@ public class ProblemsUserController {
 
     @GetMapping("/tag/{tag}")
     public ResponseEntity<?> byTag(@PathVariable String tag) {
-        Optional<List<Problem>> optional = problemService.findByTag(tag);
-        if (optional.isPresent() && optional.get().size() > 0) {
-            return new ResponseEntity<>(optional.get(), HttpStatus.OK);
-        } else return new ResponseEntity<>(String.format("No problems found with tag: %s", tag), HttpStatus.NOT_FOUND);
+        var problems = problemService.findByTag(tag);
+        return new ResponseEntity<>(problems, HttpStatus.OK);
     }
 
     @GetMapping("/tags")
@@ -59,9 +57,9 @@ public class ProblemsUserController {
 
     @GetMapping("/difficulty/{difficulty}")
     public ResponseEntity<List<Problem>> byDifficulty(@PathVariable("difficulty") Difficulty difficulty) {
-        var optional = problemService.findByDifficulty(difficulty);
-        if (optional.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        else return new ResponseEntity<>(optional.get(), HttpStatus.OK);
+        var problems = problemService.findByDifficulty(difficulty);
+        // if (problems.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(problems, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -94,16 +92,16 @@ public class ProblemsUserController {
     }
 
     @GetMapping("/sets")
-    public ResponseEntity<Set<ProblemSet>> getAllProblemSets() {
-        Set<ProblemSet> problemSets = problemSetService.findAll();
+    public ResponseEntity<List<ProblemSet>> getAllProblemSets() {
+        List<ProblemSet> problemSets = problemSetService.findAll();
         return new ResponseEntity<>(problemSets, HttpStatus.OK);
     }
 
     @GetMapping("/sets/{id}")
     public ResponseEntity<?> getProblemSetById(@PathVariable Long id) {
-            var set = problemSetService.findById(id);
-            if(set.isEmpty()) return new ResponseEntity<>("No problem set found with id " + id, HttpStatus.NOT_FOUND);
-            return new ResponseEntity<>(set, HttpStatus.OK);
+        var set = problemSetService.findById(id);
+        if (set.isEmpty()) return new ResponseEntity<>("No problem set found with id " + id, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(set, HttpStatus.OK);
     }
 
 

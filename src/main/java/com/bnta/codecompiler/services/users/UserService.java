@@ -84,19 +84,19 @@ public class UserService {
         return new HashSet<>(userRepository.findAll());
     }
 
-    public Optional<List<User>> findAllFromCohort(String cohort) {
+    public List<User> findAllFromCohort(String cohort) {
         return userRepository.findByCohort(cohort);
     }
 
-    public Optional<List<User>> globalLeaderboard() {
+    public List<User> globalLeaderboard() {
         return userRepository.findByOrderByScoreDesc();
     }
 
-    public Optional<List<User>> cohortLeaderboardByName(String cohortName) {
+    public List<User> cohortLeaderboardByName(String cohortName) {
         return userRepository.findByCohort_NameOrderByScoreDesc(cohortName.toUpperCase());
     }
 
-    public Optional<List<User>> cohortLeaderboardById(Long cohortId) {
+    public List<User> cohortLeaderboardById(Long cohortId) {
         return userRepository.findByCohort_IdOrderByScoreDesc(cohortId);
     }
 

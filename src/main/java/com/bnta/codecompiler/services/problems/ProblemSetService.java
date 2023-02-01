@@ -25,8 +25,8 @@ public class ProblemSetService {
         return problemSetRepo.save(problemSet);
     }
 
-    public Set<ProblemSet> findAll() {
-        return new HashSet<>(problemSetRepo.findAll());
+    public List<ProblemSet> findAll() {
+        return problemSetRepo.findAll();
     }
 
     public void remove(ProblemSet problemSet) {
