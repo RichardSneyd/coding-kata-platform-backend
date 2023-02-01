@@ -10,6 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface IProblemRepository extends JpaRepository<Problem, Long> {
-    public Optional<List<Problem>> findByDifficulty(Difficulty difficulty);
-    public Optional<List<Problem>> findByTags(String tag);
+    public List<Problem> findByDifficulty(Difficulty difficulty);
+    public List<Problem> findByTags(String tag);
 }

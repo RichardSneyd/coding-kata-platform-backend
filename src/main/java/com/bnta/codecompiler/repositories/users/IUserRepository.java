@@ -10,12 +10,12 @@ import java.util.Set;
 
 public interface IUserRepository extends JpaRepository<User, Long> {
     //todo: add derived queries as needed
-    Optional<List<User>> findByCohort(String cohort);
+    List<User> findByCohort(String cohort);
 
-    Optional<List<User>> findByOrderByScoreDesc();
+    List<User> findByOrderByScoreDesc();
 
-    Optional<List<User>> findByCohort_NameOrderByScoreDesc(String cohort);
-    Optional<List<User>> findByCohort_IdOrderByScoreDesc(Long cohortId);
+    List<User> findByCohort_NameOrderByScoreDesc(String cohort);
+    List<User> findByCohort_IdOrderByScoreDesc(Long cohortId);
 
 
     User findByUsername(String username);
