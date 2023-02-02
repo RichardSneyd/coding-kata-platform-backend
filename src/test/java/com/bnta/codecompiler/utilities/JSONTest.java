@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -34,8 +35,8 @@ public class JSONTest {
     public void testStringify() {
         Problem problem = new Problem("Add two numbers", "Add two numbers and return.", Difficulty.VERY_EASY,
                 new TestSuite(
-                        new HashSet<TestCase>(),
-                        new HashSet<TestCase>()
+                        new ArrayList<>(),
+                        new ArrayList<>()
                 ),
                 new StartCode(),
                 new HashSet<String>(Arrays.asList("math"))

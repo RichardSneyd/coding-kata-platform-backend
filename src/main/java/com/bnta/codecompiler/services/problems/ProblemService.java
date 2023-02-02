@@ -14,6 +14,7 @@ import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+//@Transactional
 public class ProblemService {
     @Autowired
     private IProblemRepository problemRepository;
@@ -73,7 +75,14 @@ public class ProblemService {
             if (problemSet.getProblems().contains(problem)) problemSet.getProblems().remove(problem);
             problemSetRepository.save(problemSet);
         }
-        solutionRepository.deleteAll(solutionRepository.findAllByProblem(problem));
+        System.out.println("no. solutions: " + solutionRepository.findAllByProblem_id(problem.getId()).size());
+//        for(var solution : solutionRepository.findAllByProblem_id(problem.getId())) {
+//            System.out.println("attempting to remove solution " + solution.getId());
+//            solutionRepository.deleteById(solution.getId());
+//        }
+       solutionRepository.deleteAllByProblem_id(problem.getId());
+        System.out.println("solutions left: " + solutionRepository.findAllByProblem_id(problem.getId()).size());
+        problemRepository.deleteById(problem.getId());
     }
 
 

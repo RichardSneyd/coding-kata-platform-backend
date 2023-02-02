@@ -23,7 +23,7 @@ public class Solution {
     private boolean correct;
     @Column
     private LocalDate submissionDate;
-    @ManyToOne
+    @ManyToOne(cascade = {})
     private Problem problem;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"solutions"})
@@ -108,5 +108,18 @@ public class Solution {
     @Override
     public int hashCode() {
         return Objects.hash(id, code, lang, correct, submissionDate, problem, user);
+    }
+
+    @Override
+    public String toString() {
+        return "Solution{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", lang='" + lang + '\'' +
+                ", correct=" + correct +
+                ", submissionDate=" + submissionDate +
+                ", problem=" + problem +
+                ", user=" + user +
+                '}';
     }
 }

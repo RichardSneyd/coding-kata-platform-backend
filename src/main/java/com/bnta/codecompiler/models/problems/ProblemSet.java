@@ -20,7 +20,7 @@ public class ProblemSet {
     @ElementCollection
     private Set<String> tags = null;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(name="problem_sets_problems",
             joinColumns = @JoinColumn(name="problem_set_id"),
             inverseJoinColumns = @JoinColumn(name="problem_id"))

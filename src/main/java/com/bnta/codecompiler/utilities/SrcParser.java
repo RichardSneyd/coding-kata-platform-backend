@@ -127,8 +127,8 @@ public class SrcParser {
 
     public static String removeLogs(String src, String lang) {
         String pattern = lang.equals("java") ? "System.out.println(.*?);"
-                : lang.equals("python") ? "print([ \\(])(.*?)\\)"
-                : "console\\.log.*?(\\)|\\));";
+                : lang.equals("py") ? "print([ \\(])(.*?)\\)"
+                : "console\\.log.*?(\\)|\\))";
         var str = src.replaceAll(pattern, " ");
         return str;
     }

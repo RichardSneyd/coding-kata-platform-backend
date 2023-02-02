@@ -15,5 +15,6 @@ public interface ISolutionRepository extends JpaRepository<Solution, Long> {
     public List<Solution> findAllByUser_id(Long id);
     public List<Solution> findAllByProblem(Problem problem);
     public List<Solution> findAllByProblem_id(Long id);
+    public void deleteAllByProblem_id(Long id);
     public List<Solution> findAllByProblemAndUser(Problem problem, User user);
 }

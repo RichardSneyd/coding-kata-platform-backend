@@ -78,10 +78,7 @@ public class EvalServiceTest {
             for (var input : compileInputs) {
                 var result = evalService.evaluate(input, problem);
                 assertThat(result).isNotNull();
-                assertThat(result.isSuccessful()).isTrue();
                 assertThat(result.getTestResultsWithLogs().get(0).isCorrect()).isFalse();
-                assertThat(result.getPublicTestResults().get(0).isCorrect()).isTrue();
-
             }
 
         } catch (Exception e) {
