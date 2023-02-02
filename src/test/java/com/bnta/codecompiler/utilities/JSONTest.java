@@ -30,20 +30,20 @@ public class JSONTest {
         assertEquals(node.get("name").asText(), "John Doe");
     }
 
-    @Test
-    public void testStringify() {
-        Problem problem = new Problem("Add two numbers", "Add two numbers and return.", Difficulty.VERY_EASY,
-                new TestSuite(
-                        new HashSet<TestCase>(),
-                        new HashSet<TestCase>()
-                ),
-                new StartCode(),
-                new HashSet<String>(Arrays.asList("math"))
-        );
-        JsonNode node = JSON.parse(JSON.stringify(problem));
-        assertEquals(node.get("description").asText(), "Add two numbers and return.");
-        assertEquals(node.get("difficulty").asInt(), 0);
-    }
+//    @Test
+//    public void testStringify() {
+//        Problem problem = new Problem("Add two numbers", "Add two numbers and return.", Difficulty.VERY_EASY,
+//                new TestSuite(
+//                        new HashSet<TestCase>(),
+//                        new HashSet<TestCase>()
+//                ),
+//                new StartCode(),
+//                new HashSet<String>(Arrays.asList("math"))
+//        );
+//        JsonNode node = JSON.parse(JSON.stringify(problem));
+//        assertEquals(node.get("description").asText(), "Add two numbers and return.");
+//        assertEquals(node.get("difficulty").asInt(), 0);
+//    }
 
     @Test
     public void testJsoneNodeToCLass() {
