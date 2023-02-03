@@ -6,6 +6,8 @@ phases:
       java: corretto11
   build:
     commands:
+      - java --version
+      - mvn --version
       - env_var_db_host=$(echo $DB_HOST)
       - env_var_db_username=$(echo $DB_USERNAME)
       - env_var_db_password=$(echo $DB_PASSWORD)
