@@ -30,11 +30,15 @@ public class ProblemSetService {
     }
 
     public void remove(ProblemSet problemSet) {
+        problemSet.getProblems().removeAll(problemSet.getProblems());
+        problemSetRepo.save(problemSet);
         problemSetRepo.delete(problemSet);
     }
 
-    public void remove(Long problemSetId) {
-        problemSetRepo.deleteById(problemSetId);
+    public void remove(Long problemSetId) throws Exception {
+        var problemSet = problemSetRepo.findById(problemSetId);
+        if(problemSet.isEmpty()) throw new Exception("No problemSet with id " + problemSetId + ", cannot remove");
+        remove(problemSet.get());
     }
 
     public Optional<ProblemSet> findById(Long id) {

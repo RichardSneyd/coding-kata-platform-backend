@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -69,9 +70,9 @@ public class UserService {
     }
 
     public User update(User user) {
-       // if (user.getId() != null && user.equals(findById(user.getId()))) {
-            return userRepository.save(user);
-     //   }
+        // if (user.getId() != null && user.equals(findById(user.getId()))) {
+        return userRepository.save(user);
+        //   }
     }
 
     public User findById(Long id) throws Exception {
@@ -103,7 +104,7 @@ public class UserService {
     public User addSolution(User user, Solution solution) {
         if (scorable(solution, user)) {
             user = increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
-            user = addCompletedProblem(user, solution);
+            user = addCompletedProblem(user.getId(), solution);
             return userRepository.save(user);
         } else {
             System.out.println("matches existing solution, can't add");
@@ -111,19 +112,22 @@ public class UserService {
         return user;
     }
 
-    public User addCompletedProblem(User user, Solution solution) {
+    public User addCompletedProblem(Long userId, Solution solution) {
         try {
-            user = findById(user.getId());
-        }catch(Exception e) {}
-
-        for (var problem : user.getCompletedProblems()) {
-            if (problem.getId().equals(solution.getProblem().getId())) {
-                return user;
+            User user = findById(userId);
+            for (var problem : user.getCompletedProblems()) {
+                if (problem.getId().equals(solution.getProblem().getId())) {
+                    return user;
+                }
             }
+            user.getCompletedProblems().add(solution.getProblem());
+            user = update(user);
+            return user;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        user.getCompletedProblems().add(solution.getProblem());
-        user = update(user);
-        return user;
+
+        return null;
     }
 
     public boolean scorable(Solution solution, User user) {
