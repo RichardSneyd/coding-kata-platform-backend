@@ -8,6 +8,7 @@ import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.problems.IProblemRepository;
 import com.bnta.codecompiler.repositories.problems.IProblemSetRepository;
 import com.bnta.codecompiler.repositories.problems.ISolutionRepository;
+import com.bnta.codecompiler.repositories.users.IUserRepository;
 import com.bnta.codecompiler.services.tests.TestCaseService;
 import com.bnta.codecompiler.services.tests.TestSuiteService;
 import com.bnta.codecompiler.services.users.UserService;
@@ -35,6 +36,8 @@ public class ProblemService {
     private IProblemSetRepository problemSetRepository;
     @Autowired
     private ISolutionRepository solutionRepository;
+    @Autowired
+    private IUserRepository userRepository;
 
     public Problem add(Problem problem) {
         // save the startCode first
@@ -71,18 +74,10 @@ public class ProblemService {
     }
 
     public void delete(Problem problem) {
-        for (var problemSet : problemSetRepository.findAll()) {
-            if (problemSet.getProblems().contains(problem)) problemSet.getProblems().remove(problem);
-            problemSetRepository.save(problemSet);
-        }
-        System.out.println("no. solutions: " + solutionRepository.findAllByProblem_id(problem.getId()).size());
-//        for(var solution : solutionRepository.findAllByProblem_id(problem.getId())) {
-//            System.out.println("attempting to remove solution " + solution.getId());
-//            solutionRepository.deleteById(solution.getId());
-//        }
-       solutionRepository.deleteAllByProblem_id(problem.getId());
-        System.out.println("solutions left: " + solutionRepository.findAllByProblem_id(problem.getId()).size());
-        problemRepository.deleteById(problem.getId());
+        problemSetRepository.deleteProblemFromAllProblemSets(problem.getId());
+        userRepository.deleteProblemFromAllUsers(problem.getId());
+        solutionRepository.deleteAllByProblem_id(problem.getId());
+        problemRepository.delete(problem);
     }
 
 

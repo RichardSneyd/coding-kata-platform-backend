@@ -34,7 +34,7 @@ public class User {
     private long score;
     @Column
     private LocalDate joinDate;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"user"})
     private Set<Solution> solutions;
 

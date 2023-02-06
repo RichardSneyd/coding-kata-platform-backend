@@ -118,11 +118,8 @@ public class UserService {
 
         for (var problem : user.getCompletedProblems()) {
             if (problem.getId().equals(solution.getProblem().getId())) {
-               // System.out.println(String.format("%s -matches- %s", problem, solution.getProblem()));
-                System.out.println("can't add, already exists in problems collection");
                 return user;
             }
-           // else System.out.println(String.format("%s -doesn't match- %s", problem, solution.getProblem()));
         }
         user.getCompletedProblems().add(solution.getProblem());
         user = update(user);
