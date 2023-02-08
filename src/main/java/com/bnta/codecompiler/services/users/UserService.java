@@ -81,8 +81,8 @@ public class UserService {
         return optional.get();
     }
 
-    public Set<User> findAll() {
-        return new HashSet<>(userRepository.findAll());
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     public List<User> findAllFromCohort(String cohort) {
