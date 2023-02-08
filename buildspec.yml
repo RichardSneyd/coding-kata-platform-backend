@@ -3,11 +3,9 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto17
+      java: openjdk17
   build:
     commands:
-      - java --version
-      - mvn --version
       - env_var_db_host=$(echo $DB_HOST)
       - env_var_db_username=$(echo $DB_USERNAME)
       - env_var_db_password=$(echo $DB_PASSWORD)
