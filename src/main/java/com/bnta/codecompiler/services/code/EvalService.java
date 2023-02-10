@@ -43,9 +43,11 @@ public class EvalService {
         evalResult.setPrivateTestsPassed(privateResults.stream()
                 .allMatch(result -> result.isCorrect()));
 
-        evalResult.setSuccessful(evalResult.isPrivateTestsPassed() &&
-                evalResult.getPublicTestResults().stream()
-                        .allMatch(result -> result.isCorrect()));
+        var correctness = ((double)evalResult.getPublicTestResults().stream().filter(testCase -> testCase.isCorrect()).count()
+        + (double)privateResults.stream().filter(testCase -> testCase.isCorrect()).count())
+                / (problem.getTestSuite().getPublicCases().size() + privateResults.size()) * 100;
+        evalResult.setCorrectness((int)correctness);
+        evalResult.setSuccessful(correctness >= 70);
 
         return evalResult;
     }

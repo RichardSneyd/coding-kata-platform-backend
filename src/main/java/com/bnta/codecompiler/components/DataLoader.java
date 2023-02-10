@@ -98,11 +98,11 @@ public class DataLoader implements ApplicationRunner {
         newProblemSet("Sample Problem Set", "A perfectly legitimate description of a problem set",
                 Set.of(addValues, sumOfArray, productOfArray), Difficulty.EASY, tags);
 
-        newSolution("const addValues = (a, b) => a + b", "js", true, addValues, richard);
-        newSolution("const addValues = (a, b) => a + b", "java", true, addValues, richard);
-        newSolution("const addValues = (a, b) => a - b", "js", false, addValues, fakestudent);
-        newSolution("const addValues = (a, b) => a - b", "java", false, addValues, fakestudent);
-        newSolution("const addValues = (a, b) => a - b", "java", false, productOfArray, fakestudent);
+        newSolution("const addValues = (a, b) => a + b", "js", 100, addValues, richard);
+        newSolution("const addValues = (a, b) => a + b", "java", 90, addValues, richard);
+        newSolution("const addValues = (a, b) => a - b", "js", 40, addValues, fakestudent);
+        newSolution("const addValues = (a, b) => a - b", "java", 20, addValues, fakestudent);
+        newSolution("const addValues = (a, b) => a - b", "java", 15 , productOfArray, fakestudent);
 //        newSolution("const sumOfArray = (arr: int[]) => let sum = 0; \narr.forEach((num) => {sum += num});", "js",
 //                true, productOfArray, fakestudent);
     }
@@ -111,8 +111,8 @@ public class DataLoader implements ApplicationRunner {
         return problemService.add(new Problem(title, desc, diff, testSuite, startCode, tags));
     }
 
-    private Solution newSolution(String code, String lang, boolean correct, Problem problem, User user) {
-        return solutionService.add(new Solution(code, lang, correct, problem, user));
+    private Solution newSolution(String code, String lang, int correctness, Problem problem, User user) {
+        return solutionService.add(new Solution(code, lang, correctness, problem, user));
     }
 
     private ProblemSet newProblemSet(String title, String description, Set<Problem> problems, Difficulty difficulty, Set<String> tags) {

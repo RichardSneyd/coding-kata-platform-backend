@@ -1,9 +1,7 @@
 package com.bnta.codecompiler.models.problems;
 
-import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,7 +18,7 @@ public class Solution {
     @Column
     private String lang;
     @Column
-    private boolean correct;
+    private int correctness;
     @Column
     private LocalDate submissionDate;
     @ManyToOne(cascade = {})
@@ -29,10 +27,10 @@ public class Solution {
     @JsonIgnoreProperties({"solutions"})
     private User user;
 
-    public Solution(String code, String lang, boolean correct, Problem problem, User user) {
+    public Solution(String code, String lang, int correctness, Problem problem, User user) {
         this.code = code;
         this.lang = lang;
-        this.correct = correct;
+        this.correctness = correctness;
         this.problem = problem;
         this.user = user;
         this.submissionDate = LocalDate.now();
@@ -65,12 +63,12 @@ public class Solution {
         this.lang = lang;
     }
 
-    public boolean isCorrect() {
-        return correct;
+    public int getCorrectness() {
+        return correctness;
     }
 
-    public void setCorrect(boolean correct) {
-        this.correct = correct;
+    public void setCorrectness(int correctness) {
+        this.correctness = correctness;
     }
 
     public Problem getProblem() {
@@ -102,12 +100,12 @@ public class Solution {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Solution solution = (Solution) o;
-        return correct == solution.correct && Objects.equals(id, solution.id) && Objects.equals(code, solution.code) && Objects.equals(lang, solution.lang) && Objects.equals(submissionDate, solution.submissionDate) && Objects.equals(problem, solution.problem) && Objects.equals(user, solution.user);
+        return correctness == solution.correctness && Objects.equals(id, solution.id) && Objects.equals(code, solution.code) && Objects.equals(lang, solution.lang) && Objects.equals(submissionDate, solution.submissionDate) && Objects.equals(problem, solution.problem) && Objects.equals(user, solution.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, lang, correct, submissionDate, problem, user);
+        return Objects.hash(id, code, lang, correctness, submissionDate, problem, user);
     }
 
     @Override
@@ -116,7 +114,7 @@ public class Solution {
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", lang='" + lang + '\'' +
-                ", correct=" + correct +
+                ", correct=" + correctness +
                 ", submissionDate=" + submissionDate +
                 ", problem=" + problem +
                 ", user=" + user +
