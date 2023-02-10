@@ -103,7 +103,8 @@ public class UserService {
 
     public User addSolution(User user, Solution solution) {
         if (scorable(solution, user)) {
-            user = increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
+            long score = 50 + (50 * solution.getProblem().getDifficulty().ordinal() * (solution.getCorrectness() / 100));
+            user = increaseScore(user, score);
             user = addCompletedProblem(user.getId(), solution);
             return userRepository.save(user);
         } else {
