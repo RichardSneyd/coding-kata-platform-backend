@@ -16,6 +16,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Component
@@ -44,14 +45,44 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         // use the factory methods ONLY, i.e 'newUser', 'newSolution', NOT 'new User' or 'new Solution'.
         Cohort[] cohorts = {
-                newCohort("C7")
+                newCohort("C8", LocalDate.now()),
+                newCohort("C7", LocalDate.of(2022,10,05)),
+                newCohort("C6", LocalDate.of(2022,8,05)),
+                newCohort("C5", LocalDate.of(2022,3,05)),
         };
+
 
         var richard = newUser("richard", "richard@fakeaddress.com", "fakepassword", null, List.of(Role.ADMIN));
         var fakestudent = newUser("fakestudent", "student@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
         var eoan = newUser("eoan", "eoan.odea@bnta.uk", "testtest", cohorts[0], List.of(Role.USER));
         var student2 = newUser("student2", "student2@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
-        User[] users = {richard, fakestudent, eoan};
+
+        var fakestudent1 = newUser("johndoe", "johndoe@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+
+        var fakestudent2 = newUser("janesmith", "janesmith@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+
+        var fakestudent3 = newUser("bobjohnson", "bobjohnson@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+
+        var fakestudent4 = newUser("samanthalee", "samanthalee@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+
+        var fakestudent5 = newUser("davidkim", "davidkim@fakeaddress.com", "phonypassword", cohorts[1], List.of(Role.USER));
+
+        var fakestudent6 = newUser("olivianguyen", "olivianguyen@fakeaddress.com", "phonypassword", cohorts[1], List.of(Role.USER));
+
+        var fakestudent7 = newUser("williamchen", "williamchen@fakeaddress.com", "phonypassword", cohorts[1], List.of(Role.USER));
+
+        var fakestudent8 = newUser("lindarodriguez", "lindarodriguez@fakeaddress.com", "phonypassword", cohorts[2], List.of(Role.USER));
+
+        var fakestudent9 = newUser("danielpark", "danielpark@fakeaddress.com", "phonypassword", cohorts[2], List.of(Role.USER));
+
+        var fakestudent10 = newUser("maggiewong", "maggiewong@fakeaddress.com", "phonypassword", cohorts[2], List.of(Role.USER));
+
+        var fakestudent11 = newUser("juanperez", "juanperez@fakeaddress.com", "phonypassword", cohorts[3], List.of(Role.USER));
+        var fakestudent12 = newUser("emilydavis", "emilydavis@fakeaddress.com", "phonypassword", cohorts[3], List.of(Role.USER));
+        var fakestudent13 = newUser("michaellee", "michaellee@fakeaddress.com", "phonypassword", cohorts[3], List.of(Role.USER));
+
+
+        User[] users = {richard, fakestudent, eoan, student2, fakestudent1, fakestudent2, fakestudent3, fakestudent4, fakestudent5, fakestudent6, fakestudent7, fakestudent8, fakestudent9, fakestudent10, fakestudent11, fakestudent12, fakestudent13};
 
 
         var addValues = newProblem("addValues", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
@@ -131,8 +162,11 @@ public class DataLoader implements ApplicationRunner {
         return startCodeService.add(new StartCode(js, py, java));
     }
 
-    private Cohort newCohort(String name) {
-        return cohortService.add(new Cohort(name));
+    private Cohort newCohort(String name, LocalDate date) {
+        Cohort cohort = cohortService.add(new Cohort(name));
+        cohort.setStartDate(date);
+        cohortService.update(cohort);
+        return cohort;
     }
 
     private User newUser(String uname, String email, String password, Cohort cohort, List<Role> roles, boolean bipassRegistration) {
