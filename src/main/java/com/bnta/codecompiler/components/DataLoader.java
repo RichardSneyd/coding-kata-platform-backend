@@ -50,8 +50,7 @@ public class DataLoader implements ApplicationRunner {
                 newCohort("C6", LocalDate.of(2022,8,05)),
                 newCohort("C5", LocalDate.of(2022,3,05)),
         };
-
-
+        
         var richard = newUser("richard", "richard@fakeaddress.com", "fakepassword", null, List.of(Role.ADMIN));
         var fakestudent = newUser("fakestudent", "student@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
         var eoan = newUser("eoan", "eoan.odea@bnta.uk", "testtest", cohorts[0], List.of(Role.USER));
@@ -123,27 +122,124 @@ public class DataLoader implements ApplicationRunner {
                         ""),
                 new HashSet<>(Arrays.asList("arithmetic", "product")));
 
-        Problem[] problems = {addValues, sumOfArray, productOfArray};
+        var largestElement = newProblem("largestElement", "Create a function, largestElement(vals: int[]), which accepts an array of integers and returns the largest integer.",
+                Difficulty.EASY,
+                newTestSuite(
+                        Arrays.asList(newTestCase(List.of(
+                                ds.of(new Integer[]{1, 2, 3, 4})), ds.of(4))),
+
+                        Arrays.asList(newTestCase(
+                                List.of(ds.of(new Integer[]{5, 7, 3, 8, 1})),
+                                ds.of(8)))
+                ), newStartCode("const largestElement = (vals) => {\n\n}",
+                        "",
+                        ""),
+                new HashSet<>(Arrays.asList("arrays", "max")));
+
+        var reverseString = newProblem("reverseString", "Create a function, reverseString(str: string), which accepts a string and returns the string in reverse.",
+                Difficulty.EASY,
+                newTestSuite(
+                        Arrays.asList(newTestCase(List.of(
+                                ds.of("hello")), ds.of("olleh"))),
+
+                        Arrays.asList(newTestCase(
+                                List.of(ds.of("apple")),
+                                ds.of("elppa")))
+                ), newStartCode("const reverseString = (str) => {\n\n}",
+                        "",
+                        ""),
+                new HashSet<>(Arrays.asList("strings", "reverse")));
+
+        var palindrome = newProblem("palindrome", "Create a function, palindrome(str: string), which accepts a string and returns true if the string is a palindrome and false otherwise.",
+                Difficulty.MEDIUM,
+                newTestSuite(
+                        Arrays.asList(newTestCase(List.of(
+                                ds.of("racecar")), ds.of(true))),
+
+                        Arrays.asList(newTestCase(
+                                List.of(ds.of("apple")),
+                                ds.of(false)))
+                ), newStartCode("const palindrome = (str) => {\n\n}",
+                        "",
+                        ""),
+                new HashSet<>(Arrays.asList("strings", "palindrome")));
+
+        var reverseLinkedList = newProblem("reverseLinkedList", "Create a function, reverseLinkedList(head: ListNode), which accepts the head of a singly linked list and returns the reversed linked list.",
+                Difficulty.HARD,
+                newTestSuite(
+                        Arrays.asList(newTestCase(List.of(
+                                ds.of(new Integer[]{1, 2, 3})), ds.of(new Integer[]{3, 2, 1}))),
+
+                        Arrays.asList(newTestCase(List.of(ds.of(new Integer[]{1, 2, 3, 4, 5})), ds.of(new Integer[]{5, 4, 3, 2, 1}))
+                        )
+                ), newStartCode("const reverseLinkedList = (head) => {\n\n}",
+                "",
+                ""),
+                new HashSet<>(Arrays.asList("linked list", "reverse")));
+
+        var bubbleSort = newProblem("bubbleSort", "Create a function, bubbleSort(vals: int[]), which accepts an array of integers and returns the array sorted using the bubble sort algorithm.",
+                Difficulty.MEDIUM,
+                newTestSuite(
+                        Arrays.asList(newTestCase(List.of(
+                                ds.of(new Integer[]{4, 2, 1, 5})), ds.of(new Integer[]{1, 2, 4, 5}))),
+
+                        Arrays.asList(newTestCase(
+                                        List.of(ds.of(new Integer[]{5, 3, 9, 1, 7})), ds.of(new Integer[]{1, 3, 5, 7, 9}))
+                        )
+                ), newStartCode("const bubbleSort = (vals) => {\n\n}",
+                "",
+                ""),
+                new HashSet<>(Arrays.asList("sorting", "bubble")));
+
+        Problem[] problems = {addValues, sumOfArray, productOfArray, largestElement, reverseString, palindrome, reverseLinkedList, bubbleSort};
 
         Set<String> tags = Set.of("One tag", "A second tag", "A third tag");
-        newProblemSet("Sample Problem Set", "A perfectly legitimate description of a problem set",
+        newProblemSet("Beginner Problem Set", "A perfectly legitimate description of a problem set",
                 Set.of(addValues, sumOfArray, productOfArray), Difficulty.EASY, tags);
 
-        newSolution("const addValues = (a, b) => a + b", "js", 100, addValues, richard);
-        newSolution("const addValues = (a, b) => a + b", "java", 90, addValues, richard);
-        newSolution("const addValues = (a, b) => a - b", "js", 40, addValues, fakestudent);
-        newSolution("const addValues = (a, b) => a - b", "java", 20, addValues, fakestudent);
-        newSolution("const addValues = (a, b) => a - b", "java", 15 , productOfArray, fakestudent);
-//        newSolution("const sumOfArray = (arr: int[]) => let sum = 0; \narr.forEach((num) => {sum += num});", "js",
-//                true, productOfArray, fakestudent);
+        newProblemSet("Intermediate Problem Set", "A perfectly legitimate description of a problem set",
+                Set.of(largestElement, reverseString, palindrome), Difficulty.MEDIUM, tags);
+
+        newProblemSet("Difficult Problem Set", "A perfectly legitimate description of a problem set",
+                Set.of(reverseLinkedList, bubbleSort, palindrome), Difficulty.HARD, tags);
+
+        newSolution("const addValues = (a, b) => a + b", "js", 100, addValues, richard, LocalDate.now());
+        newSolution("const addValues = (a, b) => a + b", "java", 90, addValues, richard, LocalDate.of(2023,01,05));
+        newSolution("const addValues = (a, b) => a - b", "js", 40, addValues, fakestudent, LocalDate.of(2023,01,05));
+        newSolution("const addValues = (a, b) => a - b", "java", 20, addValues, fakestudent, LocalDate.of(2022,12,05));
+        newSolution("const addValues = (a, b) => a - b", "java", 15 , productOfArray, fakestudent, LocalDate.of(2022,12,05));
+
+
+        String[] solutions = { "const addValues = (a, b) => a - b", "function factorial(n) { return n < 2 ? 1 : n * factorial(n-1); }" };
+        String[] languages = { "java", "python", "javascript" };
+
+        LocalDate startDate = LocalDate.of(2022, 9, 1);
+        LocalDate endDate = LocalDate.of(2023, 2, 28);
+        Random random = new Random();
+
+        for (int i = 0; i < 20; i++) {
+            String solution = solutions[random.nextInt(solutions.length)];
+            String language = languages[random.nextInt(languages.length)];
+            int score = random.nextInt(101);
+
+            Random rand = new Random();
+            int index = rand.nextInt(users.length);
+            User student = users[index];
+
+            LocalDate date = startDate.plusDays(random.nextInt((int) endDate.toEpochDay() - (int) startDate.toEpochDay() + 1));
+            newSolution(solution, language, score, productOfArray, student, date);
+        }
     }
 
     private Problem newProblem(String title, String desc, Difficulty diff, TestSuite testSuite, StartCode startCode, Set<String> tags) {
         return problemService.add(new Problem(title, desc, diff, testSuite, startCode, tags));
     }
 
-    private Solution newSolution(String code, String lang, int correctness, Problem problem, User user) {
-        return solutionService.add(new Solution(code, lang, correctness, problem, user));
+    private Solution newSolution(String code, String lang, int correctness, Problem problem, User user, LocalDate date) {
+        Solution solution = solutionService.add(new Solution(code, lang, correctness, problem, user));
+        solution.setSubmissionDate(date);
+        solutionService.update(solution);
+        return solution;
     }
 
     private ProblemSet newProblemSet(String title, String description, Set<Problem> problems, Difficulty difficulty, Set<String> tags) {

@@ -42,6 +42,10 @@ public class SolutionService {
         return optional.get();
     }
 
+    public Solution update(Solution solution) {
+        return solutionRepo.save(solution);
+    }
+
     public List<Solution> findAll() {
         return solutionRepo.findAll();
     }
