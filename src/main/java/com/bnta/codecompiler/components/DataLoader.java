@@ -204,16 +204,16 @@ public class DataLoader implements ApplicationRunner {
                 Set.of(reverseLinkedList, bubbleSort, palindrome), Difficulty.HARD, tags);
 
         newSolution("const addValues = (a, b) => a + b", "js", 100, addValues, richard, LocalDate.now());
-        newSolution("const addValues = (a, b) => a + b", "java", 90, addValues, richard, LocalDate.of(2023,01,05));
-        newSolution("const addValues = (a, b) => a - b", "js", 40, addValues, fakestudent, LocalDate.of(2023,01,05));
-        newSolution("const addValues = (a, b) => a - b", "java", 20, addValues, fakestudent, LocalDate.of(2022,12,05));
-        newSolution("const addValues = (a, b) => a - b", "java", 15 , productOfArray, fakestudent, LocalDate.of(2022,12,05));
+        newSolution("const addValues = (a, b) => a + b", "java", 90, addValues, richard, LocalDate.of(2022,9,05));
+        newSolution("const addValues = (a, b) => a - b", "js", 40, addValues, fakestudent, LocalDate.of(2022,9,05));
+        newSolution("const addValues = (a, b) => a - b", "java", 20, addValues, fakestudent, LocalDate.of(2022,8,05));
+        newSolution("const addValues = (a, b) => a - b", "java", 15 , productOfArray, fakestudent, LocalDate.of(2022,8,05));
 
 
         String[] solutions = { "const addValues = (a, b) => a - b", "function factorial(n) { return n < 2 ? 1 : n * factorial(n-1); }" };
         String[] languages = { "java", "python", "javascript" };
 
-        LocalDate startDate = LocalDate.of(2022, 9, 1);
+        LocalDate startDate = LocalDate.of(2022, 6, 1);
         LocalDate endDate = LocalDate.of(2023, 2, 28);
         Random random = new Random();
 
