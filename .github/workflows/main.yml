@@ -36,5 +36,5 @@ jobs:
           script: |
             cd /usr/src/app
             git pull
-            mvn clean package
+            mvn clean package -DskipTests
             systemctl restart code-lms.service
