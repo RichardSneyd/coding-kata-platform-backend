@@ -6,6 +6,7 @@ import java.util.List;
 
 public class EvalResult {
     private boolean successful;
+    private int correctness;
     private boolean privateTestsPassed;
 
     private List<TestCaseResult> testResultsWithLogs;
@@ -13,8 +14,9 @@ public class EvalResult {
 
     private Problem problem;
 
-    public EvalResult(boolean successful, boolean privateTestsPassed, List<TestCaseResult> publicTestResults, List<TestCaseResult> testResultsWithLogs, Problem problem) {
+    public EvalResult(boolean successful, int correctness, boolean privateTestsPassed, List<TestCaseResult> publicTestResults, List<TestCaseResult> testResultsWithLogs, Problem problem) {
         this.successful = successful;
+        this.correctness = correctness;
         this.privateTestsPassed = privateTestsPassed;
         this.publicTestResults = publicTestResults;
         this.testResultsWithLogs = testResultsWithLogs;
@@ -62,5 +64,13 @@ public class EvalResult {
 
     public void setTestResultsWithLogs(List<TestCaseResult> testResultsWithLogs) {
         this.testResultsWithLogs = testResultsWithLogs;
+    }
+
+    public int getCorrectness() {
+        return correctness;
+    }
+
+    public void setCorrectness(int correctness) {
+        this.correctness = correctness;
     }
 }

@@ -29,17 +29,32 @@ public class EvalController {
         return "Evaluation API. Use a POST request with lang, code and userId properties in the request body.";
     }
 
-    @PostMapping("/{problemId}")
-    public ResponseEntity<?> evaluate(@RequestBody EvalInput evalInput,
+    @PostMapping("/test/{problemId}/")
+    public ResponseEntity<?> test(@RequestBody EvalInput evalInput,
                                                @PathVariable Long problemId) {
         try {
             var user = userService.findById(evalInput.getUserId());
             var problem = problemService.findById(problemId);
             var evalResult = evalService.evaluate(evalInput.clone(), problem);
+            return new ResponseEntity<>(evalResult, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
+
+    }
+
+    @PostMapping("/{problemId}")
+    public ResponseEntity<?> evaluate(@RequestBody EvalInput evalInput,
+                                      @PathVariable Long problemId) {
+        try {
+            var user = userService.findById(evalInput.getUserId());
+            var problem = problemService.findById(problemId);
+            var evalResult = evalService.evaluate(evalInput.clone(), problem);
             var solution = new Solution(evalInput.getCode(), evalInput.getLang(),
-                    evalResult.isSuccessful(), evalResult.getProblem(), user);
+                    evalResult.getCorrectness(), evalResult.getProblem(), user);
             if (evalResult.isSuccessful() && userService.scorable(solution, user)) {
-               // userService.addCompletedProblem(user, problem);
+                // userService.addCompletedProblem(user, problem);
                 solutionService.add(solution);
             }
             return new ResponseEntity<>(evalResult, HttpStatus.OK);

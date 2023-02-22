@@ -8,12 +8,14 @@ import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.problems.IProblemRepository;
 import com.bnta.codecompiler.repositories.problems.IProblemSetRepository;
 import com.bnta.codecompiler.repositories.problems.ISolutionRepository;
+import com.bnta.codecompiler.repositories.users.IUserRepository;
 import com.bnta.codecompiler.services.tests.TestCaseService;
 import com.bnta.codecompiler.services.tests.TestSuiteService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+//@Transactional
 public class ProblemService {
     @Autowired
     private IProblemRepository problemRepository;
@@ -33,6 +36,8 @@ public class ProblemService {
     private IProblemSetRepository problemSetRepository;
     @Autowired
     private ISolutionRepository solutionRepository;
+    @Autowired
+    private IUserRepository userRepository;
 
     public Problem add(Problem problem) {
         // save the startCode first
@@ -69,11 +74,10 @@ public class ProblemService {
     }
 
     public void delete(Problem problem) {
-        for (var problemSet : problemSetRepository.findAll()) {
-            if (problemSet.getProblems().contains(problem)) problemSet.getProblems().remove(problem);
-            problemSetRepository.save(problemSet);
-        }
-        solutionRepository.deleteAll(solutionRepository.findAllByProblem(problem));
+        problemSetRepository.deleteProblemFromAllProblemSets(problem.getId());
+        userRepository.deleteProblemFromAllUsers(problem.getId());
+        solutionRepository.deleteAllByProblem_id(problem.getId());
+        problemRepository.delete(problem);
     }
 
 
@@ -83,11 +87,11 @@ public class ProblemService {
         return optional.get();
     }
 
-    public Optional<List<Problem>> findByDifficulty(Difficulty difficulty) {
+    public List<Problem> findByDifficulty(Difficulty difficulty) {
         return problemRepository.findByDifficulty(difficulty);
     }
 
-    public Optional<List<Problem>> findByTag(String tag) {
+    public List<Problem> findByTag(String tag) {
         return problemRepository.findByTags(tag);
     }
 

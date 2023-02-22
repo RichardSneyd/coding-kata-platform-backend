@@ -1,4 +1,5 @@
 package com.bnta.codecompiler.utilities;
+
 import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -20,7 +22,7 @@ public class JSONTest {
     private String simpleJsonString;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         simpleJsonString = "{\"name\":\"John Doe\", \"age\":35}";
     }
 
@@ -30,26 +32,25 @@ public class JSONTest {
         assertEquals(node.get("name").asText(), "John Doe");
     }
 
-//    @Test
-//    public void testStringify() {
-//        Problem problem = new Problem("Add two numbers", "Add two numbers and return.", Difficulty.VERY_EASY,
-//                new TestSuite(
-//                        new HashSet<TestCase>(),
-//                        new HashSet<TestCase>()
-//                ),
-//                new StartCode(),
-//                new HashSet<String>(Arrays.asList("math"))
-//        );
-//        JsonNode node = JSON.parse(JSON.stringify(problem));
-//        assertEquals(node.get("description").asText(), "Add two numbers and return.");
-//        assertEquals(node.get("difficulty").asInt(), 0);
-//    }
+    @Test
+    public void testStringify() {
+        Problem problem = new Problem("Add two numbers", "Add two numbers and return.", Difficulty.VERY_EASY,
+                new TestSuite(
+                        new ArrayList<>(),
+                        new ArrayList<>()),
+                new StartCode(),
+                new HashSet<String>(Arrays.asList("math")));
+        JsonNode node = JSON.parse(JSON.stringify(problem));
+        assertEquals(node.get("description").asText(), "Add two numbers and return.");
+        assertEquals(node.get("difficulty").asInt(), 0);
+    }
 
     @Test
     public void testJsoneNodeToCLass() {
-       // JsonNode node = JSON.parse(new CodePojo("console.log('hello world');", "js"));
-       var json = JSON.stringify(new CompileInput());
-       var node = JSON.parse(json);
-       var user = JSON.jsonNodeToClass(node, CompileInput.class);
+        // JsonNode node = JSON.parse(new CodePojo("console.log('hello world');",
+        // "js"));
+        var json = JSON.stringify(new CompileInput());
+        var node = JSON.parse(json);
+        var user = JSON.jsonNodeToClass(node, CompileInput.class);
     }
 }

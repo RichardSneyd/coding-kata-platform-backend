@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -23,7 +24,7 @@ public class UserAdminController {
     private PasswordEncoder encoder;
 
     @GetMapping
-    public Set<User> allUsers() {
+    public List<User> allUsers() {
         return userService.findAll();
     }
 
@@ -56,7 +57,7 @@ public class UserAdminController {
 
     @GetMapping("/leaderboard")
     public ResponseEntity<?> globalLeaderboard() {
-        return ResponseEntity.ok().body(userService.globalLeaderboard().get());
+        return ResponseEntity.ok().body(userService.globalLeaderboard());
     }
 
 

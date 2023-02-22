@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -69,9 +70,9 @@ public class UserService {
     }
 
     public User update(User user) {
-       // if (user.getId() != null && user.equals(findById(user.getId()))) {
-            return userRepository.save(user);
-     //   }
+        // if (user.getId() != null && user.equals(findById(user.getId()))) {
+        return userRepository.save(user);
+        //   }
     }
 
     public User findById(Long id) throws Exception {
@@ -80,30 +81,31 @@ public class UserService {
         return optional.get();
     }
 
-    public Set<User> findAll() {
-        return new HashSet<>(userRepository.findAll());
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
-    public Optional<List<User>> findAllFromCohort(String cohort) {
+    public List<User> findAllFromCohort(String cohort) {
         return userRepository.findByCohort(cohort);
     }
 
-    public Optional<List<User>> globalLeaderboard() {
+    public List<User> globalLeaderboard() {
         return userRepository.findByOrderByScoreDesc();
     }
 
-    public Optional<List<User>> cohortLeaderboardByName(String cohortName) {
+    public List<User> cohortLeaderboardByName(String cohortName) {
         return userRepository.findByCohort_NameOrderByScoreDesc(cohortName.toUpperCase());
     }
 
-    public Optional<List<User>> cohortLeaderboardById(Long cohortId) {
+    public List<User> cohortLeaderboardById(Long cohortId) {
         return userRepository.findByCohort_IdOrderByScoreDesc(cohortId);
     }
 
     public User addSolution(User user, Solution solution) {
         if (scorable(solution, user)) {
-            user = increaseScore(user, 50 + (50 * solution.getProblem().getDifficulty().ordinal()));
-            user = addCompletedProblem(user, solution);
+            long score = 50 + (50 * solution.getProblem().getDifficulty().ordinal() * (solution.getCorrectness() / 100));
+            user = increaseScore(user, score);
+            user = addCompletedProblem(user.getId(), solution);
             return userRepository.save(user);
         } else {
             System.out.println("matches existing solution, can't add");
@@ -111,22 +113,22 @@ public class UserService {
         return user;
     }
 
-    public User addCompletedProblem(User user, Solution solution) {
+    public User addCompletedProblem(Long userId, Solution solution) {
         try {
-            user = findById(user.getId());
-        }catch(Exception e) {}
-
-        for (var problem : user.getCompletedProblems()) {
-            if (problem.getId().equals(solution.getProblem().getId())) {
-               // System.out.println(String.format("%s -matches- %s", problem, solution.getProblem()));
-                System.out.println("can't add, already exists in problems collection");
-                return user;
+            User user = findById(userId);
+            for (var problem : user.getCompletedProblems()) {
+                if (problem.getId().equals(solution.getProblem().getId())) {
+                    return user;
+                }
             }
-           // else System.out.println(String.format("%s -doesn't match- %s", problem, solution.getProblem()));
+            user.getCompletedProblems().add(solution.getProblem());
+            user = update(user);
+            return user;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        user.getCompletedProblems().add(solution.getProblem());
-        user = update(user);
-        return user;
+
+        return null;
     }
 
     public boolean scorable(Solution solution, User user) {

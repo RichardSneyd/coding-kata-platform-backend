@@ -41,9 +41,12 @@ public class EvalServiceTest {
     @BeforeEach
     public void setUp() {
         javaInput = new CompileInput("public class Main {public int add(int a, int b) {return a + b;}}", "java");
-        javaInputPolluted = new CompileInput("public class Main {public int add(int a, int b) {System.out.println(\"horse\");\nreturn a + b;}}", "java");
+        javaInputPolluted = new CompileInput(
+                "public class Main {public int add(int a, int b) {System.out.println(\"horse\");\nreturn a + b;}}",
+                "java");
         jsInput = new CompileInput("const add = (a, b)=> a + b;", "js");
-        jsInputPolluted = new CompileInput("const add = (a, b)=> {console.log('user pollution js'); return a + b; }", "js");
+        jsInputPolluted = new CompileInput("const add = (a, b)=> {console.log('user pollution js'); return a + b; }",
+                "js");
         pyInput = new CompileInput("def add(a, b):\n\sreturn a + b\n\n", "py");
         pyInputPolluted = new CompileInput("def add(a, b):\n\sprint(\"user pollution\")\n\sreturn a + b\n\n", "py");
 
@@ -55,46 +58,41 @@ public class EvalServiceTest {
                 new TestCase(List.of(
                         new Data("14", DataType.INT),
                         new Data("-5", DataType.INT)),
-                        new Data("9", DataType.INT))
-        );
+                        new Data("9", DataType.INT)));
 
         privateCases = List.of(
                 new TestCase(List.of(
                         new Data("10", DataType.INT),
                         new Data("-9", DataType.INT)),
-                        new Data("1", DataType.INT))
-        );
+                        new Data("1", DataType.INT)));
     }
 
-//   @Test
-//    public void testEvaluate() {
-//      //  assertThat(evalService).isNotNull();
-//        Problem problem = new Problem("add", "blablabla", Difficulty.VERY_EASY,
-//                new TestSuite(testCases,
-//                        privateCases), new StartCode(),
-//                new HashSet<>(List.of("tag1", "tag2")));
-//        var compileInputs = new CompileInput[]{javaInputPolluted, jsInputPolluted, pyInputPolluted};
-//        try {
-//            for (var input : compileInputs) {
-//                var result = evalService.evaluate(input, problem);
-//                assertThat(result).isNotNull();
-//                assertThat(result.isSuccessful()).isTrue();
-//                assertThat(result.getTestResultsWithLogs().get(0).isCorrect()).isFalse();
-//                assertThat(result.getPublicTestResults().get(0).isCorrect()).isTrue();
-//
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Test
+    public void testEvaluate() {
+        // assertThat(evalService).isNotNull();
+        Problem problem = new Problem("add", "blablabla", Difficulty.VERY_EASY,
+                new TestSuite(testCases,
+                        privateCases),
+                new StartCode(),
+                new HashSet<>(List.of("tag1", "tag2")));
+        var compileInputs = new CompileInput[] { javaInputPolluted, jsInputPolluted, pyInputPolluted };
+        try {
+            for (var input : compileInputs) {
+                var result = evalService.evaluate(input, problem);
+                assertThat(result).isNotNull();
+                assertThat(result.getTestResultsWithLogs().get(0).isCorrect()).isFalse();
+            }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testRunTestCases() {
         List<TestCaseResult> results = evalService.runTestCases("add",
                 testCases, javaInput);
-        //  assertThat(results.get(1).getCompileResult().getOutput()).isEqualTo("9");
+        // assertThat(results.get(1).getCompileResult().getOutput()).isEqualTo("9");
         for (int i = 0; i < results.size(); i++) {
             assertThat(results.get(i).getCompileResult().getOutput()).isNotNull();
         }
