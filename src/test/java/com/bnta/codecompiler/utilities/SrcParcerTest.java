@@ -190,10 +190,10 @@ public class SrcParcerTest {
 
     @Test
     public void testRemoveLogsJava() {
-        var input = new CompileInput("public class App { \nSystem.out.println(\"Logs not removed...\");}", "java");
-        assertThat(SrcParser.removeLogs(input.getCode(), input.getLang()))
-                .isEqualTo("public class App { \n }");
-
+            var input = new CompileInput("public class App { \nSystem.out.println(\"Logs not removed...\");}", "java");
+            assertThat(SrcParser.removeLogs(input.getCode(), input.getLang()))
+                    .isEqualTo("public class App { \n }");
+    }
 //    @Test
 //    public void testRemoveLogsJs() {
 //        var src = "function Horse(name) {console.log('hello world')}console.log(\"hello badger\")";
