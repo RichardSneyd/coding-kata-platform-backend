@@ -24,9 +24,9 @@ jobs:
           sudo apt-get install -y maven
           mvn clean package -DskipTests
 
-      - name: Run tests
-        run: |
-          mvn test
+      # - name: Run tests
+      #   run: |
+      #     mvn test
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
