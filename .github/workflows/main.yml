@@ -22,7 +22,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y maven
-          mvn clean package
+          mvn clean package -DskipTests
 
       - name: Run tests
         run: |
