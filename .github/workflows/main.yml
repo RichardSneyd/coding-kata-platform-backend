@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            cd /usr/src/app
+            cd /usr/src/app/code-lms-backend
             git pull
             mvn clean package -DskipTests
             systemctl restart code-compiler-exe
