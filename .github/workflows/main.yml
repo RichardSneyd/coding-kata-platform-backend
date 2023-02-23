@@ -38,4 +38,4 @@ jobs:
             cd /usr/src/app/code-lms-backend
             git pull
             mvn clean package -DskipTests
-            systemctl restart code-compiler-exe
+            sudo systemctl restart code-compiler-exe
