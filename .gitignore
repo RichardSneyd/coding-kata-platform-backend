@@ -1,4 +1,5 @@
 keystore.jks
+cert.pem
 .DS_Store
 .env
 HELP.md
