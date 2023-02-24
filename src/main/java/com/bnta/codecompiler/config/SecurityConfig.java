@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOrigins(Arrays.asList("http://code.bntechacademy.com",
                 "https://code.bntechacademy.com",
                 "https://bntechacademy.com",
+                "https://www.bntechacademy.com",
                 "http://localhost:3000",
                 "https://localhost:3000",
                 "http://localhost",
