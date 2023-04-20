@@ -53,7 +53,7 @@ public class DataLoader implements ApplicationRunner {
         
         var richard = newUser("richard", "richard@fakeaddress.com", "fakepassword", null, List.of(Role.ADMIN));
         var fakestudent = newUser("fakestudent", "student@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
-        var eoan = newUser("eoan", "eoan.odea@bnta.uk", "testtest", cohorts[0], List.of(Role.USER));
+//        var eoan = newUser("eoan", "eoan.odea@bnta.uk", "testtest", cohorts[0], List.of(Role.USER));
         var student2 = newUser("student2", "student2@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
 
         var fakestudent1 = newUser("johndoe", "johndoe@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
@@ -81,7 +81,7 @@ public class DataLoader implements ApplicationRunner {
         var fakestudent13 = newUser("michaellee", "michaellee@fakeaddress.com", "phonypassword", cohorts[3], List.of(Role.USER));
 
 
-        User[] users = {richard, fakestudent, eoan, student2, fakestudent1, fakestudent2, fakestudent3, fakestudent4, fakestudent5, fakestudent6, fakestudent7, fakestudent8, fakestudent9, fakestudent10, fakestudent11, fakestudent12, fakestudent13};
+        User[] users = {richard, fakestudent, student2, fakestudent1, fakestudent2, fakestudent3, fakestudent4, fakestudent5, fakestudent6, fakestudent7, fakestudent8, fakestudent9, fakestudent10, fakestudent11, fakestudent12, fakestudent13};
 
 
         var addValues = newProblem("addValues", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
