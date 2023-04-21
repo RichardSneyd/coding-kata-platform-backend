@@ -49,7 +49,7 @@ public class UserAdminController {
         }
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.ok("Removed user");
