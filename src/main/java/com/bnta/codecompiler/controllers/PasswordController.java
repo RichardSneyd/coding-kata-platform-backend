@@ -30,7 +30,7 @@ public class PasswordController {
     public ResponseEntity<?> resetPassword(@RequestBody PasswordResetInput pr) {
         try {
             var user = userService.findById(pr.getUserId());
-            if (!encoder.matches(user.getUsername(), pr.getSecret())) {
+            if (!encoder.matches(user.getUsername(), pr.getSecret())) { // match plain username with hashed
                 throw new Exception("Wrong secret provided");
             }
             userService.updatePassword(user, pr.getNewPassword());
