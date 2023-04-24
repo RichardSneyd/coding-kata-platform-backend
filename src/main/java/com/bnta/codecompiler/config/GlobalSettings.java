@@ -13,7 +13,7 @@ public class GlobalSettings {
     private static final String CONFIG_FILE = ".env";
     private static Properties properties = new Properties();
     private static String DOMAIN_NAME = "http://bntechacademy.com";
-    private static String API_PORT = "8080";
+    private static String API_PORT = "8443";
     private static String FRONTEND_PORT = "80";
 
     static {
