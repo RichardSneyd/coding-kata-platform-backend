@@ -39,3 +39,4 @@ jobs:
             git pull
             mvn clean package -DskipTests
             sudo systemctl restart code-compiler-exe
+
