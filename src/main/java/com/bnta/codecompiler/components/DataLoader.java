@@ -51,9 +51,9 @@ public class DataLoader implements ApplicationRunner {
                 newCohort("C5", LocalDate.of(2022,3,05)),
         };
         
-        var richard = newUser("richard", "richard@fakeaddress.com", "fakepassword", null, List.of(Role.ADMIN));
+        var admin = newUser("admin", "admin@fakeaddress.com", "132456", null, List.of(Role.ADMIN));
         var fakestudent = newUser("fakestudent", "student@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
-        var eoan = newUser("eoan", "eoan.odea@bnta.uk", "testtest", cohorts[0], List.of(Role.USER));
+//        var eoan = newUser("eoan", "eoan.odea@bnta.uk", "testtest", cohorts[0], List.of(Role.USER));
         var student2 = newUser("student2", "student2@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
 
         var fakestudent1 = newUser("johndoe", "johndoe@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
@@ -81,7 +81,7 @@ public class DataLoader implements ApplicationRunner {
         var fakestudent13 = newUser("michaellee", "michaellee@fakeaddress.com", "phonypassword", cohorts[3], List.of(Role.USER));
 
 
-        User[] users = {richard, fakestudent, eoan, student2, fakestudent1, fakestudent2, fakestudent3, fakestudent4, fakestudent5, fakestudent6, fakestudent7, fakestudent8, fakestudent9, fakestudent10, fakestudent11, fakestudent12, fakestudent13};
+        User[] users = {admin, fakestudent, student2, fakestudent1, fakestudent2, fakestudent3, fakestudent4, fakestudent5, fakestudent6, fakestudent7, fakestudent8, fakestudent9, fakestudent10, fakestudent11, fakestudent12, fakestudent13};
 
 
         var addValues = newProblem("addValues", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
@@ -203,8 +203,8 @@ public class DataLoader implements ApplicationRunner {
         newProblemSet("Difficult Problem Set", "A perfectly legitimate description of a problem set",
                 Set.of(reverseLinkedList, bubbleSort, palindrome), Difficulty.HARD, tags);
 
-        newSolution("const addValues = (a, b) => a + b", "js", 100, addValues, richard, LocalDate.now());
-        newSolution("const addValues = (a, b) => a + b", "java", 90, addValues, richard, LocalDate.of(2022,9,05));
+        newSolution("const addValues = (a, b) => a + b", "js", 100, addValues, admin, LocalDate.now());
+        newSolution("const addValues = (a, b) => a + b", "java", 90, addValues, admin, LocalDate.of(2022,9,05));
         newSolution("const addValues = (a, b) => a - b", "js", 40, addValues, fakestudent, LocalDate.of(2022,9,05));
         newSolution("const addValues = (a, b) => a - b", "java", 20, addValues, fakestudent, LocalDate.of(2022,8,05));
         newSolution("const addValues = (a, b) => a - b", "java", 15 , productOfArray, fakestudent, LocalDate.of(2022,8,05));

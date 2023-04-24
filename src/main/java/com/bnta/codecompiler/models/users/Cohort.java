@@ -19,7 +19,7 @@ public class Cohort {
     @Column
     private LocalDate startDate;
 
-    @JsonIgnoreProperties({"cohort"})
+    @JsonIgnoreProperties(value = {"cohort"}, allowSetters = true)
     @OneToMany(mappedBy = "cohort")
     private List<User> members;
 
