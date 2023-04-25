@@ -35,8 +35,12 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
+            set -e
             cd /usr/src/app/code-lms-backend
-            git pull
+            git pull origin production
             mvn clean package -DskipTests
             sudo systemctl restart code-compiler-exe
+            sudo systemctl status code-compiler-exe
+            echo "Deployment successful!"
+            
 
