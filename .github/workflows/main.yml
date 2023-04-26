@@ -33,7 +33,6 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
-          known_hosts: ${{ github.workspace }}/known_hosts
           script: |
             echo '${{ github.workspace }}/known_hosts' >> ~/.ssh/known_hosts
             set -e
