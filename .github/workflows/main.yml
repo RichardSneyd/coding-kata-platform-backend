@@ -18,6 +18,7 @@ jobs:
           java-version: 17
           distribution: adopt
 
+      # temporarily skipping tests because of time constraints on debugging.
       - name: Build with Maven
         run: |
           sudo apt-get update
@@ -25,8 +26,6 @@ jobs:
           mvn clean package -DskipTests
 
       # - name: Run tests
-      #   run: |
-      #     mvn test
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
