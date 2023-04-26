@@ -37,8 +37,8 @@ jobs:
           script: |
             set -e
             cd /usr/src/app/code-lms-backend
-            git pull origin production
-            mvn clean package -DskipTests
+            sudo git pull origin production
+            sudo mvn clean package -DskipTests
             sudo systemctl restart code-compiler-exe
             sudo systemctl status code-compiler-exe
             echo "Deployment successful!"
