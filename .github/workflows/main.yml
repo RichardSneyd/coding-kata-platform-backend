@@ -35,6 +35,7 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           known_hosts: ${{ github.workspace }}/known_hosts
           script: |
+            echo '${{ github.workspace }}/known_hosts' >> ~/.ssh/known_hosts
             set -e
             cd /usr/src/app/code-lms-backend
             sudo git pull origin production
