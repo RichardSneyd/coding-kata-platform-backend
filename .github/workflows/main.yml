@@ -19,7 +19,7 @@ jobs:
           distribution: adopt
 
       # temporarily skipping tests because of time constraints on debugging.
-      # test commit 1
+      # test commit 2
       - name: Build with Maven
         run: |
           sudo apt-get update
@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            echo '${{ github.workspace }}/known_hosts' >> ~/.ssh/known_hosts
+            ssh-keyscan ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
             set -e
             cd /usr/src/app/code-lms-backend
             sudo git pull origin production
