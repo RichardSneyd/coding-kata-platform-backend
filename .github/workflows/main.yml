@@ -33,6 +33,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
+          known_hosts: ${{ github.workspace }}/known_hosts
           script: |
             set -e
             cd /usr/src/app/code-lms-backend
