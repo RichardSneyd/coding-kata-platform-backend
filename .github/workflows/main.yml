@@ -19,6 +19,7 @@ jobs:
           distribution: adopt
 
       # temporarily skipping tests because of time constraints on debugging.
+      # test commit 1
       - name: Build with Maven
         run: |
           sudo apt-get update
