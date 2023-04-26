@@ -12,6 +12,7 @@ import com.bnta.codecompiler.services.tests.TestSuiteService;
 import com.bnta.codecompiler.services.users.CohortService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -40,9 +41,13 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     DataService ds;
 
+    @Value("${environment}")
+    private String env;
+
 
     @Override
     public void run(ApplicationArguments args) {
+        if(env.equals("production")) return;
         // use the factory methods ONLY, i.e 'newUser', 'newSolution', NOT 'new User' or 'new Solution'.
         Cohort[] cohorts = {
                 newCohort("C8", LocalDate.now()),
