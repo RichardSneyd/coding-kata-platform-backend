@@ -36,4 +36,5 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
+            set -e
             sudo systemctl restart code-compiler-exe.service
