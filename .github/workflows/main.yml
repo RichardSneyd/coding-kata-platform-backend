@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           source: target/code-compiler-exe.jar
-          target: /home/ubuntu/code-compiler-exe.jar
+          target: /home/ec2-user/code-compiler-exe.jar
 
       - name: Restart app on EC2
         uses: appleboy/ssh-action@master
