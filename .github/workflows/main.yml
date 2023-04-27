@@ -19,8 +19,9 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        script: | 
+        run: | 
           set -e
+          echo "Build starting..."
           mvn clean package -DskipTests
           echo "Build successful!"
 
