@@ -25,6 +25,7 @@ jobs:
           mvn clean package -DskipTests
           echo "Build successful!"
 
+      # not finding grep - test commit 1
       - name: Deploy to EC2
         uses: appleboy/scp-action@master
         with:
