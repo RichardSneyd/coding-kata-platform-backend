@@ -43,4 +43,5 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           script: |
             set -e
+            sudo systemctl daemon-reload
             sudo systemctl restart code-compiler-exe.service
