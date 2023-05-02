@@ -155,9 +155,9 @@ public class UserService {
 
     public void requestPasswordReset(User user) throws Exception {
         var secret = encoder.encode(user.getUsername());
-        String formLink = GlobalSettings.getFrontEndOrigin() + "/reset-password?id=" + user.getId();
+        String formLink = GlobalSettings.getFrontEndOrigin() + "/reset-password/" + user.getId();
         mailService.sendEmail(user.getEmail(), "Password reset link", "Use this link to reset your password: " +
-                formLink + "&secret=" + secret);
+                formLink + "/" + secret);
     }
 
     public User updatePassword(User user, String newPassword) {
