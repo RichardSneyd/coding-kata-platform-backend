@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @RestController
 public class PasswordController {
     @Autowired
@@ -30,7 +34,7 @@ public class PasswordController {
     public ResponseEntity<?> resetPassword(@RequestBody PasswordResetInput pr) {
         try {
             var user = userService.findById(pr.getUserId());
-            if (!encoder.matches(user.getUsername(), pr.getSecret())) { // match plain username with hashed
+            if (!encoder.matches(user.getUsername(), URLDecoder.decode(pr.getSecret(), StandardCharsets.UTF_8))) { // match plain username with hashed
                 throw new Exception("Wrong secret provided");
             }
             userService.updatePassword(user, pr.getNewPassword());

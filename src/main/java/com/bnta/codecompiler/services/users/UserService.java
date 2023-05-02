@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -154,7 +156,7 @@ public class UserService {
     }
 
     public void requestPasswordReset(User user) throws Exception {
-        var secret = encoder.encode(user.getUsername());
+        var secret = URLEncoder.encode(encoder.encode(user.getUsername()), StandardCharsets.UTF_8);
         String formLink = GlobalSettings.getFrontEndOrigin() + "/reset-password/" + user.getId();
         mailService.sendEmail(user.getEmail(), "Password reset link", "Use this link to reset your password: " +
                 formLink + "/" + secret);
