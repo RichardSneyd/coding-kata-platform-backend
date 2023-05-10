@@ -29,6 +29,12 @@ public class TestSuiteService {
 
     public TestSuite update(TestSuite testSuite) {
     //   if(testSuiteRepo.findById(testSuite.get)
+        for(var testCase : testSuite.getPublicCases()) {
+            testCaseService.add(testCase);
+        }
+        for(var testCase : testSuite.getPrivateCases()) {
+            testCaseService.add(testCase);
+        }
         return testSuiteRepo.save(testSuite);
     }
 
