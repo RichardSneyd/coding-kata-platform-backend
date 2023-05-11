@@ -3,6 +3,7 @@ package com.bnta.codecompiler.services.code;
 import com.bnta.codecompiler.models.dtos.CompileInput;
 import com.bnta.codecompiler.models.dtos.CompileResult;
 import com.bnta.codecompiler.utilities.SafetyFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -12,10 +13,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class CompilerService {
+    @Value("${node.path}")
+    private String nodePath;
     private final int timeout = 5;
     private final int threadCount = 4;
     private ExecutorService executor = Executors.newFixedThreadPool(threadCount);
     private Future<CompileResult> future;
+
     private void saveFile(File file, String code) {
         try {
             PrintWriter pr = new PrintWriter(new FileWriter(file));
@@ -28,10 +32,14 @@ public class CompilerService {
 
     public Process startProcess(String command, String args) throws IOException {
         //try {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            Process process = processBuilder.command(command, args).start();
-            return process;
-       // }
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        String newPath = System.getenv("PATH") + ":" + nodePath;
+        processBuilder.environment().put("PATH", newPath);
+        System.out.println(System.getenv("PATH"));
+
+        Process process = processBuilder.command(command, args).start();
+        return process;
+        // }
 //        catch (IOException e) {
 //            System.out.println(e.getMessage());
 //            return null;
@@ -47,18 +55,19 @@ public class CompilerService {
     private CompileResult readAll(Process process, CompileResult compileResult) {
         compileResult.setOutput(readOutput(process.getInputStream()));
         compileResult.setErrors(readOutput(process.getErrorStream()));
-        if(!(compileResult.getErrors().equals("") || compileResult.getErrors() == null)) compileResult.setCompiled(false);
+        if (!(compileResult.getErrors().equals("") || compileResult.getErrors() == null))
+            compileResult.setCompiled(false);
         else compileResult.setCompiled(true);
         return compileResult;
     }
 
     public CompileResult compile(CompileInput input) throws Exception {
-        if(!SafetyFilter.isInputSafe(input)) {
+        if (!SafetyFilter.isInputSafe(input)) {
             throw new Exception("Dangerous or possible malicious code detected");
         }
         CompileResult result = new CompileResult(input.getCode(), null, null, false, input.getLang());
         try {
-            String command = input.getLang().equals("js") ? "node"
+            String command = input.getLang().equals("js") ? nodePath + "/node"
                     : input.getLang().equals("java") ? "java"
                     : "python3";
             String ext = "." + input.getLang();
@@ -74,8 +83,7 @@ public class CompilerService {
         } catch (TimeoutException e) {
             future.cancel(true);
             result.setErrors("Compilation timed out after " + timeout + " seconds");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             result.setErrors(e.getMessage());
             result.setCompiled(false);
