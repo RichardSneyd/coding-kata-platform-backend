@@ -26,15 +26,16 @@ public class CompilerService {
         }
     }
 
-    public Process startProcess(String command, String args) {
-        try {
+    public Process startProcess(String command, String args) throws IOException {
+        //try {
             ProcessBuilder processBuilder = new ProcessBuilder();
             Process process = processBuilder.command(command, args).start();
             return process;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+       // }
+//        catch (IOException e) {
+//            System.out.println(e.getMessage());
+//            return null;
+//        }
     }
 
     private String readOutput(InputStream stream) {
@@ -57,7 +58,9 @@ public class CompilerService {
         }
         CompileResult result = new CompileResult(input.getCode(), null, null, false, input.getLang());
         try {
-            String command = input.getLang().equals("js") ? "node" : input.getLang().equals("java") ? "java" : "python3";
+            String command = input.getLang().equals("js") ? "node"
+                    : input.getLang().equals("java") ? "java"
+                    : "python3";
             String ext = "." + input.getLang();
             String tDir = System.getProperty("java.io.tmpdir");
             File file = File.createTempFile("temp", ext);
@@ -80,7 +83,7 @@ public class CompilerService {
         return result;
     }
 
-    public CompileResult shell(String command, String args, CompileResult result) {
+    public CompileResult shell(String command, String args, CompileResult result) throws IOException {
         return readAll(startProcess(command, args), result);
     }
 
@@ -98,7 +101,7 @@ public class CompilerService {
 //
 //    }
 
-    public CompileResult echo(String message) {
+    public CompileResult echo(String message) throws IOException {
         return readAll(startProcess("echo", message), new CompileResult());
     }
 

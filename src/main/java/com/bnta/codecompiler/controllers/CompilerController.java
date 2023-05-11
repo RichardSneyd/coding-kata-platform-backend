@@ -23,7 +23,7 @@ public class CompilerController {
     }
 
     @PostMapping
-    public ResponseEntity<?> compile(@RequestBody CompileInput compileInputPojo) throws IOException {
+    public ResponseEntity<?> compile(@RequestBody CompileInput compileInputPojo)  {
         System.out.println("message: " + compileInputPojo.toString());
         try {
         CompileResult result = compilerService.compile(compileInputPojo);
@@ -84,7 +84,7 @@ public class CompilerController {
 //    }
 
     @GetMapping("/echo/{message}")
-    public CompileResult echo(@PathVariable String message) {
+    public CompileResult echo(@PathVariable String message) throws IOException {
         return compilerService.echo(message);
     }
 
