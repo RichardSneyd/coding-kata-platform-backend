@@ -13,7 +13,7 @@ public class Solution {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(length = 1500)
     private String code;
     @Column
     private String lang;
