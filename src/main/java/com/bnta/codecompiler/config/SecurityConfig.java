@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN", "CLIENT")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic(Customizer.withDefaults());
