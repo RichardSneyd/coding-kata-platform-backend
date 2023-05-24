@@ -170,7 +170,7 @@ public class UserService {
     public void requestPasswordReset(User user) throws Exception {
         var secret = URLEncoder.encode(encoder.encode(user.getUsername()), StandardCharsets.UTF_8);
         String formLink = GlobalSettings.getFrontEndOrigin() + "/reset-password/" + user.getId();
-        mailService.sendEmail(user.getEmail(), "Password reset link", "Use this link to reset your password: " +
+        mailService.sendEmail(user.getEmail(), "Password reset link", "Welcome to BrightCode!\n\nYou're username is" + user.getUsername() + ".\n\nUse this link to reset your password: " +
                 formLink + "/" + secret);
     }
 
