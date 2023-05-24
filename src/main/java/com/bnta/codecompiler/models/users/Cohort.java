@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="cohorts")
+@Table(name = "cohorts")
 public class Cohort {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +31,8 @@ public class Cohort {
     }
 
     public Cohort(String name) {
-        this.name = name;
         this.init();
+        this.name = name;
     }
 
     public Cohort() {

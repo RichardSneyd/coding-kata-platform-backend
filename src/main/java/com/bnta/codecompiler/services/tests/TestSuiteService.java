@@ -6,9 +6,7 @@ import com.bnta.codecompiler.repositories.tests.ITestSuiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class TestSuiteService {
@@ -27,15 +25,42 @@ public class TestSuiteService {
         return testSuiteRepo.save(testSuite);
     }
 
-    public TestSuite update(TestSuite testSuite) {
-    //   if(testSuiteRepo.findById(testSuite.get)
+    public TestSuite update(TestSuite testSuite) throws Exception {
+        var existing = testSuiteRepo.findById(testSuite.getId());
+        if(existing.isEmpty()) throw new Exception("No TestSuite with id" + testSuite.getId());
+
+        List<TestCase> updatedPublicCases = new LinkedList<>();
+        for(var testCase : testSuite.getPublicCases()) {
+            if(testCase.getId() != null) {
+                updatedPublicCases.add(testCaseService.update(testCase));
+            } else {
+                updatedPublicCases.add(testCaseService.add(testCase));
+            }
+        }
+        existing.get().setPublicCases(updatedPublicCases);
+
+        List<TestCase> updatedPrivateCases = new LinkedList<>();
+        for(var testCase : testSuite.getPrivateCases()) {
+            if(testCase.getId() != null) {
+                updatedPrivateCases.add(testCaseService.update(testCase));
+            } else {
+                updatedPrivateCases.add(testCaseService.add(testCase));
+            }
+        }
+        existing.get().setPrivateCases(updatedPrivateCases);
+
+        if(testSuite.getProblem() != null) existing.get().setProblem(testSuite.getProblem());
+        return testSuiteRepo.save(existing.get());
+    }
+
+
+    private void updateTestCases(TestSuite testSuite) {
         for(var testCase : testSuite.getPublicCases()) {
             testCaseService.add(testCase);
         }
         for(var testCase : testSuite.getPrivateCases()) {
             testCaseService.add(testCase);
         }
-        return testSuiteRepo.save(testSuite);
     }
 
     public TestSuite findById(Long id) throws Exception {

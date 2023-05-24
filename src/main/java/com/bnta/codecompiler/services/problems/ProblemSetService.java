@@ -3,15 +3,12 @@ package com.bnta.codecompiler.services.problems;
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.ProblemSet;
-import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.repositories.problems.IProblemSetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ProblemSetService {

@@ -39,13 +39,13 @@ public class UserAdminController {
     }
 
     @PutMapping
-    public ResponseEntity<User> update(@RequestBody User user) {
+    public ResponseEntity<?> update(@RequestBody User user) {
         try {
-            User userToUpdate = userService.findById(user.getId()); // exception will be thrown if no such user
-            return new ResponseEntity<User>(userService.add(user), HttpStatus.OK);
+            User updatedUser = userService.update(user); // exception will be thrown if no such user
+            return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

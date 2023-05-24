@@ -14,8 +14,14 @@ public class StartCodeService {
         return startCodeRepo.save(startCode);
     }
 
-    public StartCode update(StartCode startCode) {
-        return add(startCode);
+    public StartCode update(StartCode startCode) throws Exception {
+        var optional = startCodeRepo.findById(startCode.getId());
+        if(optional.isEmpty()) throw new Exception("No StartCode with id " + startCode.getId());
+        var existing = optional.get();
+        existing.setJava(startCode.getJava());
+        existing.setJs(startCode.getJs());
+        existing.setPy(startCode.getPy());
+       return startCodeRepo.save(existing);
     }
 
     public StartCode findById(Long id) throws Exception {

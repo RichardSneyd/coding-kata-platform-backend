@@ -56,34 +56,34 @@ public class DataLoader implements ApplicationRunner {
                 newCohort("C5", LocalDate.of(2022,3,05)),
         };
         
-        var admin = newUser("admin", "admin@fakeaddress.com", "132456", null, List.of(Role.ADMIN));
-        var fakestudent = newUser("fakestudent", "student@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+        var admin = newUser("admin", "admin@fakeaddress.com", "132456", null, new ArrayList<>(List.of(Role.ADMIN)));
+        var fakestudent = newUser("fakestudent", "student@fakeaddress.com", "phonypassword", cohorts[0], new ArrayList<>(List.of(Role.USER)));
 //        var eoan = newUser("eoan", "eoan.odea@bnta.uk", "testtest", cohorts[0], List.of(Role.USER));
-        var student2 = newUser("student2", "student2@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+        var student2 = newUser("student2", "student2@fakeaddress.com", "phonypassword", cohorts[0], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent1 = newUser("johndoe", "johndoe@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+        var fakestudent1 = newUser("johndoe", "johndoe@fakeaddress.com", "phonypassword", cohorts[0], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent2 = newUser("janesmith", "janesmith@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+        var fakestudent2 = newUser("janesmith", "janesmith@fakeaddress.com", "phonypassword", cohorts[0], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent3 = newUser("bobjohnson", "bobjohnson@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+        var fakestudent3 = newUser("bobjohnson", "bobjohnson@fakeaddress.com", "phonypassword", cohorts[0], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent4 = newUser("samanthalee", "samanthalee@fakeaddress.com", "phonypassword", cohorts[0], List.of(Role.USER));
+        var fakestudent4 = newUser("samanthalee", "samanthalee@fakeaddress.com", "phonypassword", cohorts[0], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent5 = newUser("davidkim", "davidkim@fakeaddress.com", "phonypassword", cohorts[1], List.of(Role.USER));
+        var fakestudent5 = newUser("davidkim", "davidkim@fakeaddress.com", "phonypassword", cohorts[1], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent6 = newUser("olivianguyen", "olivianguyen@fakeaddress.com", "phonypassword", cohorts[1], List.of(Role.USER));
+        var fakestudent6 = newUser("olivianguyen", "olivianguyen@fakeaddress.com", "phonypassword", cohorts[1], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent7 = newUser("williamchen", "williamchen@fakeaddress.com", "phonypassword", cohorts[1], List.of(Role.USER));
+        var fakestudent7 = newUser("williamchen", "williamchen@fakeaddress.com", "phonypassword", cohorts[1], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent8 = newUser("lindarodriguez", "lindarodriguez@fakeaddress.com", "phonypassword", cohorts[2], List.of(Role.USER));
+        var fakestudent8 = newUser("lindarodriguez", "lindarodriguez@fakeaddress.com", "phonypassword", cohorts[2], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent9 = newUser("danielpark", "danielpark@fakeaddress.com", "phonypassword", cohorts[2], List.of(Role.USER));
+        var fakestudent9 = newUser("danielpark", "danielpark@fakeaddress.com", "phonypassword", cohorts[2], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent10 = newUser("maggiewong", "maggiewong@fakeaddress.com", "phonypassword", cohorts[2], List.of(Role.USER));
+        var fakestudent10 = newUser("maggiewong", "maggiewong@fakeaddress.com", "phonypassword", cohorts[2], new ArrayList<>(List.of(Role.USER)));
 
-        var fakestudent11 = newUser("juanperez", "juanperez@fakeaddress.com", "phonypassword", cohorts[3], List.of(Role.USER));
-        var fakestudent12 = newUser("emilydavis", "emilydavis@fakeaddress.com", "phonypassword", cohorts[3], List.of(Role.USER));
-        var fakestudent13 = newUser("michaellee", "michaellee@fakeaddress.com", "phonypassword", cohorts[3], List.of(Role.USER));
+        var fakestudent11 = newUser("juanperez", "juanperez@fakeaddress.com", "phonypassword", cohorts[3], new ArrayList<>(List.of(Role.USER)));
+        var fakestudent12 = newUser("emilydavis", "emilydavis@fakeaddress.com", "phonypassword", cohorts[3], new ArrayList<>(List.of(Role.USER)));
+        var fakestudent13 = newUser("michaellee", "michaellee@fakeaddress.com", "phonypassword", cohorts[3], new ArrayList<>(List.of(Role.USER)));
 
 
         User[] users = {admin, fakestudent, student2, fakestudent1, fakestudent2, fakestudent3, fakestudent4, fakestudent5, fakestudent6, fakestudent7, fakestudent8, fakestudent9, fakestudent10, fakestudent11, fakestudent12, fakestudent13};
@@ -91,10 +91,10 @@ public class DataLoader implements ApplicationRunner {
 
         var addValues = newProblem("addValues", "Create a function, addValues(a:int, b:int), which adds two integers together and returns the result.",
                 Difficulty.VERY_EASY,
-                newTestSuite(Arrays.asList(newTestCase(
-                                List.of(ds.of(10), ds.of(5)), ds.of(15))),
-                        Arrays.asList(newTestCase(
-                                List.of(ds.of(15), ds.of(4)), ds.of(19)))
+                newTestSuite(new ArrayList<>(Arrays.asList(newTestCase(
+                                new ArrayList<>(List.of(ds.of(10), ds.of(5))), ds.of(15)))),
+                        new ArrayList<>(Arrays.asList(newTestCase(
+                                new ArrayList<>(List.of(ds.of(15), ds.of(4))), ds.of(19))))
                 ),
                 newStartCode("const addValues = (a, b)=> {\n\n}",
                         "def addValues(a, b):\n\nreturn",
@@ -103,10 +103,10 @@ public class DataLoader implements ApplicationRunner {
 
         var sumOfArray = newProblem("sumOfArray", "Create a function, sumOfArray(vals: int[]), which returns the sum of all integers in a given array.",
                 Difficulty.HARD,
-                newTestSuite(Arrays.asList(newTestCase(
-                                List.of(ds.of(new Integer[]{10, 5, 15})), ds.of(30))),
-                        Arrays.asList(newTestCase(
-                                List.of(ds.of(new Integer[]{15, 4, -8})), ds.of(11)))
+                newTestSuite(new ArrayList<>(Arrays.asList(newTestCase(
+                                new ArrayList<>(List.of(ds.of(new Integer[]{10, 5, 15}))), ds.of(30)))),
+                        new ArrayList<>(Arrays.asList(newTestCase(
+                                List.of(ds.of(new Integer[]{15, 4, -8})), ds.of(11))))
                 ),
                 newStartCode("const sumOfArray = (int[] vals)=> {\n\n}",
                         "def addValues(vals:\n\nreturn",
@@ -116,12 +116,12 @@ public class DataLoader implements ApplicationRunner {
         var productOfArray = newProblem("productOfArray", "Create a function, productOfArray(vals: int[]), which accepts an array of integers and returns their product.",
                 Difficulty.MEDIUM,
                 newTestSuite(
-                                Arrays.asList(newTestCase(List.of(
-                                        ds.of(new Integer[]{10, 5, 2})), ds.of(100))),
+                                new ArrayList<>(Arrays.asList(newTestCase(List.of(
+                                        ds.of(new Integer[]{10, 5, 2})), ds.of(100)))),
 
-                                Arrays.asList(newTestCase(
-                                        List.of(ds.of(new Integer[]{5, 5, 3})),
-                                        ds.of(75)))
+                                new ArrayList<>(Arrays.asList(newTestCase(
+                                        new ArrayList<>(List.of(ds.of(new Integer[]{5, 5, 3}))),
+                                        ds.of(75))))
                 ), newStartCode("const productOfArray = (vals) => {\n\n}",
                         "",
                         ""),
@@ -130,12 +130,12 @@ public class DataLoader implements ApplicationRunner {
         var largestElement = newProblem("largestElement", "Create a function, largestElement(vals: int[]), which accepts an array of integers and returns the largest integer.",
                 Difficulty.EASY,
                 newTestSuite(
-                        Arrays.asList(newTestCase(List.of(
-                                ds.of(new Integer[]{1, 2, 3, 4})), ds.of(4))),
+                        new ArrayList<>(Arrays.asList(newTestCase(List.of(
+                                ds.of(new Integer[]{1, 2, 3, 4})), ds.of(4)))),
 
-                        Arrays.asList(newTestCase(
+                        new ArrayList<>(Arrays.asList(newTestCase(
                                 List.of(ds.of(new Integer[]{5, 7, 3, 8, 1})),
-                                ds.of(8)))
+                                ds.of(8))))
                 ), newStartCode("const largestElement = (vals) => {\n\n}",
                         "",
                         ""),
@@ -144,12 +144,12 @@ public class DataLoader implements ApplicationRunner {
         var reverseString = newProblem("reverseString", "Create a function, reverseString(str: string), which accepts a string and returns the string in reverse.",
                 Difficulty.EASY,
                 newTestSuite(
-                        Arrays.asList(newTestCase(List.of(
-                                ds.of("hello")), ds.of("olleh"))),
+                        new ArrayList<>(Arrays.asList(newTestCase(new ArrayList<>(List.of(
+                                ds.of("hello"))), ds.of("olleh")))),
 
-                        Arrays.asList(newTestCase(
-                                List.of(ds.of("apple")),
-                                ds.of("elppa")))
+                        new ArrayList<>(Arrays.asList(newTestCase(
+                                new ArrayList<>(List.of(ds.of("apple"))),
+                                ds.of("elppa"))))
                 ), newStartCode("const reverseString = (str) => {\n\n}",
                         "",
                         ""),
@@ -158,12 +158,12 @@ public class DataLoader implements ApplicationRunner {
         var palindrome = newProblem("palindrome", "Create a function, palindrome(str: string), which accepts a string and returns true if the string is a palindrome and false otherwise.",
                 Difficulty.MEDIUM,
                 newTestSuite(
-                        Arrays.asList(newTestCase(List.of(
-                                ds.of("racecar")), ds.of(true))),
+                        new ArrayList<>(Arrays.asList(newTestCase(List.of(
+                                ds.of("racecar")), ds.of(true)))),
 
-                        Arrays.asList(newTestCase(
+                        new ArrayList<>(Arrays.asList(newTestCase(
                                 List.of(ds.of("apple")),
-                                ds.of(false)))
+                                ds.of(false))))
                 ), newStartCode("const palindrome = (str) => {\n\n}",
                         "",
                         ""),
@@ -172,11 +172,11 @@ public class DataLoader implements ApplicationRunner {
         var reverseLinkedList = newProblem("reverseLinkedList", "Create a function, reverseLinkedList(head: ListNode), which accepts the head of a singly linked list and returns the reversed linked list.",
                 Difficulty.HARD,
                 newTestSuite(
-                        Arrays.asList(newTestCase(List.of(
-                                ds.of(new Integer[]{1, 2, 3})), ds.of(new Integer[]{3, 2, 1}))),
+                        new ArrayList<>(Arrays.asList(newTestCase(List.of(
+                                ds.of(new Integer[]{1, 2, 3})), ds.of(new Integer[]{3, 2, 1})))),
 
-                        Arrays.asList(newTestCase(List.of(ds.of(new Integer[]{1, 2, 3, 4, 5})), ds.of(new Integer[]{5, 4, 3, 2, 1}))
-                        )
+                        new ArrayList<>(Arrays.asList(newTestCase(List.of(ds.of(new Integer[]{1, 2, 3, 4, 5})), ds.of(new Integer[]{5, 4, 3, 2, 1}))
+                        ))
                 ), newStartCode("const reverseLinkedList = (head) => {\n\n}",
                 "",
                 ""),
@@ -185,12 +185,12 @@ public class DataLoader implements ApplicationRunner {
         var bubbleSort = newProblem("bubbleSort", "Create a function, bubbleSort(vals: int[]), which accepts an array of integers and returns the array sorted using the bubble sort algorithm.",
                 Difficulty.MEDIUM,
                 newTestSuite(
-                        Arrays.asList(newTestCase(List.of(
-                                ds.of(new Integer[]{4, 2, 1, 5})), ds.of(new Integer[]{1, 2, 4, 5}))),
+                        new ArrayList<>(Arrays.asList(newTestCase(List.of(
+                                ds.of(new Integer[]{4, 2, 1, 5})), ds.of(new Integer[]{1, 2, 4, 5})))),
 
-                        Arrays.asList(newTestCase(
+                        new ArrayList<>(Arrays.asList(newTestCase(
                                         List.of(ds.of(new Integer[]{5, 3, 9, 1, 7})), ds.of(new Integer[]{1, 3, 5, 7, 9}))
-                        )
+                        ))
                 ), newStartCode("const bubbleSort = (vals) => {\n\n}",
                 "",
                 ""),
@@ -270,9 +270,9 @@ public class DataLoader implements ApplicationRunner {
         return cohort;
     }
 
-    private User newUser(String uname, String email, String password, Cohort cohort, List<Role> roles, boolean bipassRegistration) {
-        return userService.add(new User(uname, email, password, cohort, roles), bipassRegistration);
-    }
+//    private User newUser(String uname, String email, String password, Cohort cohort, List<Role> roles, boolean bipassRegistration) {
+//        return userService.add(new User(uname, email, password, cohort, roles), bipassRegistration);
+//    }
     private User newUser(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         return userService.add(new User(uname, email, password, cohort, roles), true);
     }

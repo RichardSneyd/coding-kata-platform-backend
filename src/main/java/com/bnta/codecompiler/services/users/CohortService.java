@@ -5,6 +5,7 @@ import com.bnta.codecompiler.repositories.users.ICohortRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +26,18 @@ public class CohortService {
     }
 
 
+    @Transactional
     public Cohort add(Cohort cohort) {
-        cohortRepo.save(cohort);
+        cohort = cohortRepo.save(cohort);
         for(var m : cohort.getMembers()) {
-            m.setCohort(cohort);
+          //  m.setCohort(cohort);
             userService.add(m);
         }
+        cohort = cohortRepo.save(cohort);
+//        for(var m : cohort.getMembers()) {
+//            m.setCohort(cohort);
+//            userService.update(m);
+//        }
         return cohort;
     }
 

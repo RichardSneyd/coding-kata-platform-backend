@@ -1,6 +1,5 @@
 package com.bnta.codecompiler.services.problems;
 
-import com.bnta.codecompiler.models.dtos.EvalResult;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
@@ -9,10 +8,8 @@ import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class SolutionService {

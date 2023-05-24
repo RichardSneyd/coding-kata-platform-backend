@@ -2,24 +2,18 @@ package com.bnta.codecompiler.services.problems;
 
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
-import com.bnta.codecompiler.models.problems.Solution;
-import com.bnta.codecompiler.models.tests.TestCase;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.problems.IProblemRepository;
 import com.bnta.codecompiler.repositories.problems.IProblemSetRepository;
 import com.bnta.codecompiler.repositories.problems.ISolutionRepository;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
-import com.bnta.codecompiler.services.tests.TestCaseService;
 import com.bnta.codecompiler.services.tests.TestSuiteService;
-import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.HashSet;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,14 +41,24 @@ public class ProblemService {
     }
 
     public Problem update(Problem problem) throws Exception {
-        if (problemRepository.findById(problem.getId()).isEmpty()) {
-            throw new Exception("Cannot update, no problem found with that id");
+        if (problem == null || problem.getId() == null) {
+            throw new IllegalArgumentException("Problem or problem id must not be null");
         }
+        var optional = problemRepository.findById(problem.getId());
+        if (optional.isEmpty()) throw new EntityNotFoundException("Cannot update, no problem found with that id");
+        var existing = optional.get();
 
-        startCodeService.update(problem.getStartCode());
-        testSuiteService.update(problem.getTestSuite());
-        return problemRepository.save(problem);
+        if (problem.getTestSuite() != null) existing.setTestSuite(testSuiteService.update(problem.getTestSuite()));
+        if (problem.getStartCode() != null) existing.setStartCode(startCodeService.update(problem.getStartCode()));
+
+        if (problem.getDescription() != null) existing.setDescription(problem.getDescription());
+        if (problem.getTitle() != null) existing.setTitle(problem.getTitle());
+        if (problem.getTags() != null) existing.setTags(problem.getTags());
+        if (problem.getDifficulty() != null) existing.setDifficulty(problem.getDifficulty());
+
+        return problemRepository.save(existing);
     }
+
 
     public List<Problem> findAll() {
         return problemRepository.findAll();

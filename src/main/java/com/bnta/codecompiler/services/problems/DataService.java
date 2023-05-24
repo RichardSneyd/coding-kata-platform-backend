@@ -18,6 +18,18 @@ public class DataService {
         return dataRepo.save(data);
     }
 
+    public Data update(Data data) throws Exception {
+        if (data.getId() == null) throw new Exception("id is null");
+        if (!dataRepo.findById(data.getId()).isPresent())
+            throw new Exception(String.format("No data with id %s", data.getId()));
+
+        var old = dataRepo.findById(data.getId()).get();
+        old.setDataType(data.getDataType());
+        old.setValue(data.getValue());
+        return dataRepo.save(old);
+    }
+
+
     public Data of(String value) {
         return add(new Data(value, DataType.STRING));
     }

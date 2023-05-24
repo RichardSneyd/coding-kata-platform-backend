@@ -29,7 +29,7 @@ public class User {
     private Cohort cohort;
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
   //  @Column(name = "role_id")
-    private List<Role> roles = List.of(Role.USER);
+    private List<Role> roles;
     @Column
     private long score;
     @Column
@@ -59,6 +59,8 @@ public class User {
     }
 
     private void init() {
+        this.roles = new ArrayList<>();
+        this.roles.add(Role.USER);
         this.joinDate = LocalDate.now();
         this.solutions = new HashSet<>();
         this.completedProblems = new HashSet<>();

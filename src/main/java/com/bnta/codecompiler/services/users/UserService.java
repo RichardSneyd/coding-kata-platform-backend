@@ -1,7 +1,6 @@
 package com.bnta.codecompiler.services.users;
 
 import com.bnta.codecompiler.config.GlobalSettings;
-import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProgressDTO;
@@ -9,14 +8,16 @@ import com.bnta.codecompiler.repositories.users.IUserRepository;
 import com.bnta.codecompiler.services.email.MailSenderService;
 import com.bnta.codecompiler.services.problems.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -30,7 +31,9 @@ public class UserService {
     @Autowired
     ProblemService problemService;
 
+    @Transactional
     public User add(User user) {
+        if (user.getId() == null || userRepository.findById(user.getId()).isEmpty()) user = userRepository.save(user);
         // encrypt password before saving any user
         if (user.getPassword() == null) user.setPassword("temppassword_0184");
         user = updatePassword(user, user.getPassword());
@@ -44,9 +47,11 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public User add(User user, boolean bypassRegistration) {
-        if (!bypassRegistration) user = add(user);
         if (user.getPassword() == null) user.setPassword("temppassword_0184");
+        if (!bypassRegistration) return add(user);
+        user = userRepository.save(user);
         user = updatePassword(user, user.getPassword());
         return user;
     }
@@ -72,8 +77,15 @@ public class UserService {
     }
 
     public User update(User user) {
-        // if (user.getId() != null && user.equals(findById(user.getId()))) {
-        return userRepository.save(user);
+        var optional = userRepository.findById(user.getId());
+        if (optional.isEmpty()) throw new EntityNotFoundException("No user found with id " + user.getId());
+        var existing = optional.get();
+        if (user.getEmail() != null) existing.setEmail(user.getEmail());
+        if (user.getUsername() != null) existing.setUsername(user.getUsername());
+        if (user.getRoles() != null) existing.setRoles(user.getRoles());
+        if (user.getCohort() != null) existing.setCohort(user.getCohort());
+        if (user.getJoinDate() != null) existing.setJoinDate(user.getJoinDate());
+        return userRepository.save(existing);
         //   }
     }
 
@@ -162,10 +174,12 @@ public class UserService {
                 formLink + "/" + secret);
     }
 
+    @Transactional
     public User updatePassword(User user, String newPassword) {
-        user.setPassword(encoder.encode(newPassword));
-        update(user);
-        return user;
+        var existing = userRepository.findById(user.getId());
+        if (existing.isEmpty()) throw new EntityNotFoundException("No user with id: " + user.getId());
+        existing.get().setPassword(encoder.encode(newPassword));
+        return userRepository.save(existing.get());
     }
 
 }

@@ -7,9 +7,7 @@ import com.bnta.codecompiler.services.problems.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class TestCaseService {
@@ -19,16 +17,44 @@ public class TestCaseService {
     private DataService dataService;
 
     public TestCase add(TestCase testCase) {
-        for(var data : testCase.getInputs()) {
+        for (var data : testCase.getInputs()) {
             dataService.add(data);
         }
         dataService.add(testCase.getOutput());
         return testCaseRepo.save(testCase);
     }
 
+    public TestCase update(TestCase testCase) throws Exception {
+        if (testCase.getId() == null) throw new Exception("TestCase id provided is null");
+        if (!testCaseRepo.findById(testCase.getId()).isPresent())
+            throw new Exception("No TestCase with id " + testCase.getId());
+
+        var existing = testCaseRepo.findById(testCase.getId()).get();
+        List<Data> updatedInputs = new ArrayList<>();
+        for (var data : testCase.getInputs()) {
+            if(data.getId() != null) {
+                updatedInputs.add(dataService.update(data));
+            } else {
+                updatedInputs.add(dataService.add(data));
+            }
+        }
+        existing.setInputs(updatedInputs);
+
+        Data updatedOutput;
+        if(testCase.getOutput().getId() != null) {
+            updatedOutput = dataService.update(testCase.getOutput());
+        } else {
+            updatedOutput = dataService.add(testCase.getOutput());
+        }
+        existing.setOutput(updatedOutput);
+
+        return testCaseRepo.save(existing);
+    }
+
+
     public TestCase findById(Long id) throws Exception {
         Optional<TestCase> optional = testCaseRepo.findById(id);
-        if(optional.isEmpty()) throw new Exception("No test case with id: " + id);
+        if (optional.isEmpty()) throw new Exception("No test case with id: " + id);
         return optional.get();
     }
 
