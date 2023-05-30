@@ -45,8 +45,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name="problem_id"))
     private Set<Problem> completedProblems;
 
-    @OneToOne
-    @Column(nullable = true)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"user"})
     private UserProfile profile;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {

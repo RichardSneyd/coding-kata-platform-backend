@@ -1,6 +1,5 @@
 package com.bnta.codecompiler.repositories.users;
 
-import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.models.users.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 

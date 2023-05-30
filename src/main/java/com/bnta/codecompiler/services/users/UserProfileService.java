@@ -4,6 +4,7 @@ import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProfile;
 import com.bnta.codecompiler.repositories.users.IUserProfileRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,10 +18,12 @@ import java.nio.file.StandardCopyOption;
 public class UserProfileService {
 
     private final IUserProfileRepo userProfileRepo;
+
+
     private final Path rootLocation;
 
     @Autowired
-    public UserProfileService(IUserProfileRepo userProfileRepository, Path rootLocation) {
+    public UserProfileService(IUserProfileRepo userProfileRepository, @Value("${storage.images.headshots}") Path rootLocation) {
         this.userProfileRepo = userProfileRepository;
         this.rootLocation = rootLocation;
     }

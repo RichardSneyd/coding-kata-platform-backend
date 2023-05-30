@@ -1,5 +1,7 @@
 package com.bnta.codecompiler.models.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class UserProfile {
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
+    @JsonIgnoreProperties({"profile"})
     private User user;
 
     @Column
@@ -22,9 +25,11 @@ public class UserProfile {
     private String bio;
 
     @Column
+    @ElementCollection
     private List<String> education;
 
     @Column
+    @ElementCollection
     private List<String> workExperience;
 
     public Long getId() {
