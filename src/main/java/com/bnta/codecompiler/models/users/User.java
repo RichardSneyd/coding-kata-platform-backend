@@ -4,6 +4,7 @@ import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -43,6 +44,10 @@ public class User {
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="problem_id"))
     private Set<Problem> completedProblems;
+
+    @OneToOne
+    @Column(nullable = true)
+    private UserProfile profile;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.init();
