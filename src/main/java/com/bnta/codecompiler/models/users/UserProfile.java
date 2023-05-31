@@ -28,6 +28,9 @@ public class UserProfile {
     private String bio;
 
     @Column
+    private String fullName;
+
+    @Column
     @ElementCollection
     private List<String> education;
 
