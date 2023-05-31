@@ -77,6 +77,19 @@ public class UserProfileService {
         return Files.readAllBytes(rootLocation.resolve(userProfile.getHeadshot()));
     }
 
+    public UserProfile saveResume(Long userId, MultipartFile file) throws IOException {
+        UserProfile userProfile = getUserProfile(userId);
+        String cvFileName = storeFile(file);
+        userProfile.setResume(cvFileName);
+        return userProfileRepo.save(userProfile);
+    }
+
+    public byte[] getResume(Long userId) throws IOException {
+        UserProfile userProfile = getUserProfile(userId);
+        return Files.readAllBytes(rootLocation.resolve(userProfile.getResume()));
+    }
+
+
     private UserProfile getUserProfile(Long userId) {
         return userProfileRepo.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("User Profile not found"));

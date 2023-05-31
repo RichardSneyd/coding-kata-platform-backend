@@ -82,4 +82,13 @@ public class UserProfile {
     public void setWorkExperience(List<String> workExperience) {
         this.workExperience = workExperience;
     }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
+    }
+
 }
