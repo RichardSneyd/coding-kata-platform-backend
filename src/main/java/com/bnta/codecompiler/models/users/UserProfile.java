@@ -22,6 +22,9 @@ public class UserProfile {
     private String headshot;
 
     @Column
+    private String resume;
+
+    @Column
     private String bio;
 
     @Column
