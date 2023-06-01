@@ -47,8 +47,11 @@ public class UserProfileService {
         if (userProfileOptional.isPresent()) {
             UserProfile userProfile = userProfileOptional.get();
             if(userProfileDetails.getHeadshot() != null) userProfile.setHeadshot(userProfileDetails.getHeadshot());
-            if(userProfileDetails.getBio() != null) userProfile.setBio(userProfileDetails.getBio());
             if(userProfileDetails.getEducation() != null) userProfile.setEducation(userProfileDetails.getEducation());
+            if(userProfileDetails.getBio() != null) userProfile.setBio(userProfileDetails.getBio());
+            if(userProfileDetails.getFullName() != null) userProfile.setFullName(userProfileDetails.getFullName());
+            if(userProfileDetails.getGithubLink() != null) userProfile.setGithubLink(userProfileDetails.getGithubLink());
+
             if(userProfileDetails.getWorkExperience() != null) userProfile.setWorkExperience(userProfileDetails.getWorkExperience());
             return Optional.of(userProfileRepo.save(userProfile));
         } else {

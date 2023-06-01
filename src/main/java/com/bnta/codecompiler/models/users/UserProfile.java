@@ -31,6 +31,9 @@ public class UserProfile {
     private String fullName;
 
     @Column
+    private String githubLink;
+
+    @Column
     @ElementCollection
     private List<String> education;
 
@@ -94,4 +97,19 @@ public class UserProfile {
         this.resume = resume;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getGithubLink() {
+        return githubLink;
+    }
+
+    public void setGithubLink(String githubLink) {
+        this.githubLink = githubLink;
+    }
 }
