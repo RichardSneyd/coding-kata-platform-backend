@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/profiles")
+@RequestMapping("/user/profiles")
 public class UserProfileController {
 
     private final UserProfileService userProfileService;
