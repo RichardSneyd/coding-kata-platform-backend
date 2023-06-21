@@ -44,8 +44,7 @@ public class UserProfileService {
     }
 
     public UserProfile save(UserProfile userProfile) {
-        if(userProfile.getUser().getId() == null) throw new IllegalArgumentException("User Id is null");
-        if(userProfile.getId() == null) throw new IllegalArgumentException("UserProfile Id is null");
+        if (userProfile.getUser().getId() == null) throw new IllegalArgumentException("User Id is null");
         Optional<User> userOptional = userRepo.findById(userProfile.getUser().getId());
         User user;
         if (userOptional.isEmpty()) {
@@ -62,21 +61,22 @@ public class UserProfileService {
 
     public Optional<UserProfile> update(Long id, UserProfile userProfileDetails) {
         Optional<UserProfile> userProfileOptional = userProfileRepo.findById(id);
-        if (userProfileOptional.isPresent()) {
-            UserProfile userProfile = userProfileOptional.get();
-            if (userProfileDetails.getHeadshot() != null) userProfile.setHeadshot(userProfileDetails.getHeadshot());
-            if (userProfileDetails.getEducation() != null) userProfile.setEducation(userProfileDetails.getEducation());
-            if (userProfileDetails.getBio() != null) userProfile.setBio(userProfileDetails.getBio());
-            if (userProfileDetails.getFullName() != null) userProfile.setFullName(userProfileDetails.getFullName());
-            if (userProfileDetails.getGithubLink() != null)
-                userProfile.setGithubLink(userProfileDetails.getGithubLink());
+        if (userProfileOptional.isEmpty()) return Optional.empty();
 
-            if (userProfileDetails.getWorkExperience() != null)
-                userProfile.setWorkExperience(userProfileDetails.getWorkExperience());
-            return Optional.of(userProfileRepo.save(userProfile));
-        } else {
-            return Optional.empty();
-        }
+        UserProfile userProfile = userProfileOptional.get();
+        if (userProfileDetails.getHeadshot() != null) userProfile.setHeadshot(userProfileDetails.getHeadshot());
+        if (userProfileDetails.getEducation() != null) userProfile.setEducation(userProfileDetails.getEducation());
+        if (userProfileDetails.getWorkExperience() != null)
+            userProfile.setWorkExperience(userProfileDetails.getWorkExperience());
+        if (userProfileDetails.getGithubLink() != null) userProfile.setGithubLink(userProfileDetails.getGithubLink());
+        if (userProfileDetails.getBio() != null) userProfile.setBio(userProfileDetails.getBio());
+        if (userProfileDetails.getFullName() != null) userProfile.setFullName(userProfileDetails.getFullName());
+        if (userProfileDetails.getPreferredRoles() != null) userProfile.setPreferredRoles(userProfileDetails.getPreferredRoles());
+        if (userProfileDetails.getPreferredLocations() != null) userProfile.setPreferredLocations(userProfileDetails.getPreferredLocations());
+
+
+        return Optional.of(userProfileRepo.save(userProfile));
+
     }
 
     public boolean delete(Long id) {

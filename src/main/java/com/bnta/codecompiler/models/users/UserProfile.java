@@ -41,6 +41,14 @@ public class UserProfile {
     @ElementCollection
     private List<String> workExperience;
 
+    @Column(nullable = true)
+    @ElementCollection
+    private List<String> preferredRoles;
+
+    @Column(nullable = true)
+    @ElementCollection
+    private List<String> preferredLocations;
+
     public Long getId() {
         return id;
     }
@@ -114,5 +122,21 @@ public class UserProfile {
 
     public void setGithubLink(String githubLink) {
         this.githubLink = githubLink;
+    }
+
+    public List<String> getPreferredRoles() {
+        return preferredRoles;
+    }
+
+    public void setPreferredRoles(List<String> preferredRoles) {
+        this.preferredRoles = preferredRoles;
+    }
+
+    public List<String> getPreferredLocations() {
+        return preferredLocations;
+    }
+
+    public void setPreferredLocations(List<String> preferredLocations) {
+        this.preferredLocations = preferredLocations;
     }
 }
