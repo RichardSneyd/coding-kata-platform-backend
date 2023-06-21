@@ -45,9 +45,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name="problem_id"))
     private Set<Problem> completedProblems;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"user"})
-    private UserProfile profile;
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    @JsonIgnoreProperties({"user"})
+//    private UserProfile profile;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.init();
@@ -152,5 +152,14 @@ public class User {
         this.completedProblems = completedProblems;
     }
 
-
+//    public UserProfile getProfile() {
+//        return profile;
+//    }
+//
+//    public void setProfile(UserProfile userProfile) {
+//        this.profile = userProfile;
+//        if (userProfile.getUser() != this) {
+//            userProfile.setUser(this);
+//        }
+//    }
 }

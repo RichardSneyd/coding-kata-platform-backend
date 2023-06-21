@@ -3,11 +3,14 @@ package com.bnta.codecompiler.services.users;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProfile;
 import com.bnta.codecompiler.repositories.users.IUserProfileRepo;
+import com.bnta.codecompiler.repositories.users.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -20,13 +23,15 @@ import java.util.Optional;
 public class UserProfileService {
 
     private final IUserProfileRepo userProfileRepo;
+    final IUserRepository userRepo;
 
 
     private final Path rootLocation;
 
     @Autowired
-    public UserProfileService(IUserProfileRepo userProfileRepository, @Value("${storage.images.headshots}") Path rootLocation) {
+    public UserProfileService(IUserProfileRepo userProfileRepository, IUserRepository userRepo, @Value("${storage.images.headshots}") Path rootLocation) {
         this.userProfileRepo = userProfileRepository;
+        this.userRepo = userRepo;
         this.rootLocation = rootLocation;
     }
 
@@ -39,6 +44,19 @@ public class UserProfileService {
     }
 
     public UserProfile save(UserProfile userProfile) {
+        if(userProfile.getUser().getId() == null) throw new IllegalArgumentException("User Id is null");
+        if(userProfile.getId() == null) throw new IllegalArgumentException("UserProfile Id is null");
+        Optional<User> userOptional = userRepo.findById(userProfile.getUser().getId());
+        User user;
+        if (userOptional.isEmpty()) {
+            throw new EntityNotFoundException("No User found with that id");
+        }
+
+        user = userOptional.get();
+        userProfile.setUser(user);
+        // in unidirectional with @MapsId, leave id null - derived from associated object
+        userProfile.setId(null);
+
         return userProfileRepo.save(userProfile);
     }
 
@@ -46,13 +64,15 @@ public class UserProfileService {
         Optional<UserProfile> userProfileOptional = userProfileRepo.findById(id);
         if (userProfileOptional.isPresent()) {
             UserProfile userProfile = userProfileOptional.get();
-            if(userProfileDetails.getHeadshot() != null) userProfile.setHeadshot(userProfileDetails.getHeadshot());
-            if(userProfileDetails.getEducation() != null) userProfile.setEducation(userProfileDetails.getEducation());
-            if(userProfileDetails.getBio() != null) userProfile.setBio(userProfileDetails.getBio());
-            if(userProfileDetails.getFullName() != null) userProfile.setFullName(userProfileDetails.getFullName());
-            if(userProfileDetails.getGithubLink() != null) userProfile.setGithubLink(userProfileDetails.getGithubLink());
+            if (userProfileDetails.getHeadshot() != null) userProfile.setHeadshot(userProfileDetails.getHeadshot());
+            if (userProfileDetails.getEducation() != null) userProfile.setEducation(userProfileDetails.getEducation());
+            if (userProfileDetails.getBio() != null) userProfile.setBio(userProfileDetails.getBio());
+            if (userProfileDetails.getFullName() != null) userProfile.setFullName(userProfileDetails.getFullName());
+            if (userProfileDetails.getGithubLink() != null)
+                userProfile.setGithubLink(userProfileDetails.getGithubLink());
 
-            if(userProfileDetails.getWorkExperience() != null) userProfile.setWorkExperience(userProfileDetails.getWorkExperience());
+            if (userProfileDetails.getWorkExperience() != null)
+                userProfile.setWorkExperience(userProfileDetails.getWorkExperience());
             return Optional.of(userProfileRepo.save(userProfile));
         } else {
             return Optional.empty();

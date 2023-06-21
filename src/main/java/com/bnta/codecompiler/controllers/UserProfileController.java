@@ -4,6 +4,7 @@ package com.bnta.codecompiler.controllers;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProfile;
 import com.bnta.codecompiler.services.users.UserProfileService;
+import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
@@ -20,10 +21,12 @@ import java.util.List;
 public class UserProfileController {
 
     private final UserProfileService userProfileService;
+    private final UserService userService;
 
     @Autowired
-    public UserProfileController(UserProfileService userProfileService) {
+    public UserProfileController(UserProfileService userProfileService, UserService userService) {
         this.userProfileService = userProfileService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -41,9 +44,10 @@ public class UserProfileController {
     @PostMapping
     public ResponseEntity<?> createProfile(@RequestBody UserProfile userProfile) {
         try {
-            authScreen(userProfile.getUser().getId());
+            authScreen(userProfile.getUser());
         }
         catch(ResponseStatusException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error: " + e.getMessage());
         }
         return new ResponseEntity<>(userProfileService.save(userProfile), HttpStatus.CREATED);
@@ -52,9 +56,10 @@ public class UserProfileController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProfile(@PathVariable Long id, @RequestBody UserProfile userProfile) {
         try {
-            authScreen(userProfile.getUser().getId());
+            authScreen(userProfile.getUser());
         }
         catch(ResponseStatusException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error: " + e.getMessage());
         }
         return userProfileService.update(id, userProfile)
@@ -75,9 +80,12 @@ public class UserProfileController {
     @PostMapping("/{id}/headshot")
     public ResponseEntity<?> uploadHeadshot(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
-            authScreen(id);
+            authScreen(userService.findById(id));
         }
         catch(ResponseStatusException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error: " + e.getMessage());
+        }
+        catch(Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error: " + e.getMessage());
         }
         try {
@@ -129,10 +137,11 @@ public class UserProfileController {
     }
 
 
-    public void authScreen(Long id) throws ResponseStatusException {
+    public void authScreen(User user) throws ResponseStatusException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) auth.getPrincipal();
-        if (!currentUser.getId().equals(id)) {
+        String uname = (String) auth.getPrincipal();
+     //   var user = userService.findByUname(uname);
+        if (!user.getUsername().equals(uname)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only modify your own profile");
         }
     }

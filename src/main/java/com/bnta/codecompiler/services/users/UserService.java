@@ -167,6 +167,10 @@ public class UserService {
         return this.userRepository.findByEmail(email);
     }
 
+    public User findByUname(String uname) {
+        return this.userRepository.findByUsername(uname);
+    }
+
     public void requestPasswordReset(User user) throws Exception {
         var secret = URLEncoder.encode(encoder.encode(user.getUsername()), StandardCharsets.UTF_8);
         String formLink = GlobalSettings.getFrontEndOrigin() + "/reset-password/" + user.getId();

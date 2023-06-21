@@ -12,32 +12,32 @@ public class UserProfile {
     @Id
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = {})
     @MapsId
     @JoinColumn(name = "id")
     @JsonIgnoreProperties({"profile"})
     private User user;
 
-    @Column
+    @Column(nullable = true)
     private String headshot;
 
-    @Column
+    @Column(nullable = true)
     private String resume;
 
-    @Column
+    @Column(nullable = false)
     private String bio;
 
-    @Column
+    @Column(nullable = false)
     private String fullName;
 
-    @Column
+    @Column(nullable = true)
     private String githubLink;
 
-    @Column
+    @Column(nullable = true)
     @ElementCollection
     private List<String> education;
 
-    @Column
+    @Column(nullable = true)
     @ElementCollection
     private List<String> workExperience;
 
@@ -55,6 +55,9 @@ public class UserProfile {
 
     public void setUser(User user) {
         this.user = user;
+//        if (user.getProfile() != this) {
+//            user.setProfile(this);
+//        }
     }
 
     public String getHeadshot() {
