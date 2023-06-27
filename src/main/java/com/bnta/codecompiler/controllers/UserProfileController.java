@@ -112,8 +112,8 @@ public class UserProfileController {
         }
     }
 
-    @PostMapping("/{id}/cv")
-    public ResponseEntity<?> uploadCV(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+    @PostMapping("/{id}/resume")
+    public ResponseEntity<?> uploadResume(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
             UserProfile updatedProfile = userProfileService.saveResume(id, file);
             return ResponseEntity.ok(updatedProfile);
@@ -122,8 +122,8 @@ public class UserProfileController {
         }
     }
 
-    @GetMapping("/{id}/cv")
-    public ResponseEntity<byte[]> downloadCV(@PathVariable Long id) {
+    @GetMapping("/{id}/resume")
+    public ResponseEntity<byte[]> getResume(@PathVariable Long id) {
         try {
             byte[] cv = userProfileService.getResume(id);
             HttpHeaders headers = new HttpHeaders();
