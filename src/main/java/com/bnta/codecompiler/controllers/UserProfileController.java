@@ -83,15 +83,18 @@ public class UserProfileController {
             authScreen(userService.findById(id));
         }
         catch(ResponseStatusException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error: " + e.getMessage());
         }
         catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error: " + e.getMessage());
         }
         try {
             userProfileService.saveHeadshot(id, file);
             return ResponseEntity.ok().body("Headshot uploaded successfully.");
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error uploading headshot: " + e.getMessage());
         }
     }
@@ -108,6 +111,7 @@ public class UserProfileController {
             return new ResponseEntity<>(headshot, headers, HttpStatus.OK);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving headshot: " + e.getMessage());
         }
     }
@@ -115,10 +119,15 @@ public class UserProfileController {
     @PostMapping("/{id}/resume")
     public ResponseEntity<?> uploadResume(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
-            UserProfile updatedProfile = userProfileService.saveResume(id, file);
-            return ResponseEntity.ok(updatedProfile);
+            authScreen(userService.findById(id));
+            String filename = userProfileService.saveResume(id, file);
+            return ResponseEntity.ok(filename);
         } catch (IOException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading CV: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -132,6 +141,7 @@ public class UserProfileController {
             headers.setContentDisposition(ContentDisposition.builder("inline").filename(filename).build());
             return new ResponseEntity<>(cv, headers, HttpStatus.OK);
         } catch (IOException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
