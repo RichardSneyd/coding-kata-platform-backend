@@ -105,7 +105,7 @@ public class UserProfileService {
     }
 
     public byte[] getResume(Long userId) throws IOException {
-        return Files.readAllBytes(headshotDIR.resolve("" + userId + ".pdf"));
+        return Files.readAllBytes(resumeDIR.resolve("" + userId + ".pdf"));
     }
 
 

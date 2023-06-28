@@ -134,12 +134,12 @@ public class UserProfileController {
     @GetMapping("/{id}/resume")
     public ResponseEntity<byte[]> getResume(@PathVariable Long id) {
         try {
-            byte[] cv = userProfileService.getResume(id);
+            byte[] resume = userProfileService.getResume(id);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
             String filename = "resume.pdf";
             headers.setContentDisposition(ContentDisposition.builder("inline").filename(filename).build());
-            return new ResponseEntity<>(cv, headers, HttpStatus.OK);
+            return new ResponseEntity<>(resume, headers, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
