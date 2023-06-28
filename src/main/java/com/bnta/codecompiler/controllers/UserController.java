@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.controllers;
 
 import com.bnta.codecompiler.models.users.PasswordResetInput;
+import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.services.email.MailSenderService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,16 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody User user) {
+        try {
+            User updatedUser = userService.update(user); // exception will be thrown if no such user
+            return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
     @GetMapping("/leaderboard")
     public ResponseEntity<?> globalLeaderboard() {
         return ResponseEntity.ok().body(userService.globalLeaderboard());

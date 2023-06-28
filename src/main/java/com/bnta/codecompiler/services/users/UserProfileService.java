@@ -26,13 +26,16 @@ public class UserProfileService {
     final IUserRepository userRepo;
 
 
-    private final Path rootLocation;
+    private final Path headshotDIR;
+    private final Path resumeDIR;
 
     @Autowired
-    public UserProfileService(IUserProfileRepo userProfileRepository, IUserRepository userRepo, @Value("${storage.images.headshots}") Path rootLocation) {
+    public UserProfileService(IUserProfileRepo userProfileRepository, IUserRepository userRepo, @Value("${storage.images.headshots}") Path headshotDIR,
+                              @Value("${storage.pdfs.resumes}") Path resumeDIR) {
         this.userProfileRepo = userProfileRepository;
         this.userRepo = userRepo;
-        this.rootLocation = rootLocation;
+        this.headshotDIR = headshotDIR;
+        this.resumeDIR = resumeDIR;
     }
 
     public List<UserProfile> findAll() {
@@ -90,26 +93,26 @@ public class UserProfileService {
 
     public UserProfile saveHeadshot(Long userId, MultipartFile file) throws IOException {
         UserProfile userProfile = getUserProfile(userId);
-        String headshotFileName = storeFile(file);
+        String headshotFileName = storeFile(file, "" + userId + ".pdf");
         userProfile.setHeadshot(headshotFileName);
         return userProfileRepo.save(userProfile);
     }
 
     public byte[] getHeadshot(Long userId) throws IOException {
         UserProfile userProfile = getUserProfile(userId);
-        return Files.readAllBytes(rootLocation.resolve(userProfile.getHeadshot()));
+        return Files.readAllBytes(headshotDIR.resolve(userProfile.getHeadshot()));
     }
 
     public UserProfile saveResume(Long userId, MultipartFile file) throws IOException {
         UserProfile userProfile = getUserProfile(userId);
-        String cvFileName = storeFile(file);
+        String cvFileName = storeFile(file, "" + userId + ".jpg");
         userProfile.setResume(cvFileName);
         return userProfileRepo.save(userProfile);
     }
 
     public byte[] getResume(Long userId) throws IOException {
         UserProfile userProfile = getUserProfile(userId);
-        return Files.readAllBytes(rootLocation.resolve(userProfile.getResume()));
+        return Files.readAllBytes(headshotDIR.resolve(userProfile.getResume()));
     }
 
 
@@ -118,10 +121,18 @@ public class UserProfileService {
                 .orElseThrow(() -> new IllegalStateException("User Profile not found"));
     }
 
-    private String storeFile(MultipartFile file) throws IOException {
+//    private String storeFile(MultipartFile file) throws IOException {
+//        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+//        try (InputStream inputStream = file.getInputStream()) {
+//            Files.copy(inputStream, this.rootLocation.resolve(originalFilename), StandardCopyOption.REPLACE_EXISTING);
+//        }
+//        return originalFilename;
+//    }
+
+    private String storeFile(MultipartFile file, String filename) throws IOException {
         String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
         try (InputStream inputStream = file.getInputStream()) {
-            Files.copy(inputStream, this.rootLocation.resolve(originalFilename), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(inputStream, this.headshotDIR.resolve(originalFilename), StandardCopyOption.REPLACE_EXISTING);
         }
         return originalFilename;
     }

@@ -38,17 +38,6 @@ public class UserAdminController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> update(@RequestBody User user) {
-        try {
-            User updatedUser = userService.update(user); // exception will be thrown if no such user
-            return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         userService.delete(id);
