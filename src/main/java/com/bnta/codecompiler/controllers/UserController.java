@@ -7,9 +7,12 @@ import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 @RequestMapping("/user/users")
@@ -23,6 +26,7 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody User user) {
+        authScreen(user);
         try {
             User updatedUser = userService.update(user); // exception will be thrown if no such user
             return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
@@ -60,4 +64,16 @@ public class UserController {
         if(progress.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sorry, no user found with that id");
         return ResponseEntity.ok(progress.get());
     }
+
+    public void authScreen(User user) throws ResponseStatusException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String uname = (String) auth.getPrincipal();
+        //   var user = userService.findByUname(uname);
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
+        if (!user.getUsername().equals(uname) && !isAdmin) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only modify your own profile");
+        }
+    }
+
 }
