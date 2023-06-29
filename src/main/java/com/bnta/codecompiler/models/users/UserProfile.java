@@ -24,7 +24,7 @@ public class UserProfile {
     @Column(nullable = true)
     private String resume;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String bio;
 
     @Column(nullable = false)
