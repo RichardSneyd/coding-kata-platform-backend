@@ -49,6 +49,9 @@ public class UserProfile {
     @ElementCollection
     private List<String> preferredLocations;
 
+    @Column
+    private Boolean available = true;
+
     public Long getId() {
         return id;
     }
@@ -138,5 +141,13 @@ public class UserProfile {
 
     public void setPreferredLocations(List<String> preferredLocations) {
         this.preferredLocations = preferredLocations;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 }

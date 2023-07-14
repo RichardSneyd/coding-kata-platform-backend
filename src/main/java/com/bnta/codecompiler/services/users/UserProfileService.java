@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
@@ -76,6 +77,7 @@ public class UserProfileService {
         if (userProfileDetails.getFullName() != null) userProfile.setFullName(userProfileDetails.getFullName());
         if (userProfileDetails.getPreferredRoles() != null) userProfile.setPreferredRoles(userProfileDetails.getPreferredRoles());
         if (userProfileDetails.getPreferredLocations() != null) userProfile.setPreferredLocations(userProfileDetails.getPreferredLocations());
+        if (userProfileDetails.getAvailable() != null) userProfile.setAvailable(userProfileDetails.getAvailable());
 
 
         return Optional.of(userProfileRepo.save(userProfile));
