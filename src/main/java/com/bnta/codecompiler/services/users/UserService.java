@@ -87,7 +87,7 @@ public class UserService {
         if (user.getUsername() != null) existing.setUsername(user.getUsername());
         if (user.getRoles() != null) existing.setRoles(user.getRoles());
         if (user.getCohort() != null) existing.setCohort(user.getCohort());
-        if (user.getJoinDate() != null) existing.setJoinDate(user.getJoinDate());
+//        if (user.getJoinDate() != null) existing.setJoinDate(user.getJoinDate());
         return userRepository.save(existing);
         //   }
     }

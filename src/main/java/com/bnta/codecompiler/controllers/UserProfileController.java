@@ -152,11 +152,11 @@ public class UserProfileController {
     public void authScreen(User user) throws ResponseStatusException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String uname = (String) auth.getPrincipal();
-     //   var user = userService.findByUname(uname);
+        var id = userService.findByUname(uname).getId();
         boolean isAdmin = auth.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
-        if (!user.getUsername().equals(uname) && !isAdmin) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only modify your own profile");
+        if (id != user.getId() && !isAdmin) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, uname + "cannot modify profile of " + user.getUsername());
         }
     }
 
