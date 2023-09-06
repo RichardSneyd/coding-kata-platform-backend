@@ -64,13 +64,11 @@ public class ProblemService {
         return problemRepository.findAll();
     }
 
-    public Problem nextForUser(User user) {
+    public Optional<Problem> nextForUser(User user) {
         List<Long> problemIds = user.getSolutions().stream().map(solution -> solution.getProblem().getId()).collect(Collectors.toList());
-        for (var problem : problemRepository.findAll()) {
-            if (!problemIds.contains(problem.getId())) return problem;
-        }
 
-        return null;
+        // Find a problem that the user hasn't solved yet
+        return problemRepository.findFirstByIdNotIn(problemIds);
     }
 
     public Optional<Problem> find(Long id) {

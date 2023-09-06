@@ -12,4 +12,7 @@ import java.util.Set;
 public interface IProblemRepository extends JpaRepository<Problem, Long> {
     public List<Problem> findByDifficulty(Difficulty difficulty);
     public List<Problem> findByTags(String tag);
+
+    Optional<Problem> findFirstByIdNotIn(List<Long> ids);
+
 }
