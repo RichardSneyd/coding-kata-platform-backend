@@ -22,7 +22,7 @@ public class Solution {
     private int correctness;
     @Column
     private LocalDate submissionDate;
-    @ManyToOne(cascade = {})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {})
     private Problem problem;
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"solutions"})
