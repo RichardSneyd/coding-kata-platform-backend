@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Set;
@@ -23,11 +25,13 @@ public class UserAdminController {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Cacheable(value = "allUsers", key = "'all'")
     @GetMapping
     public List<User> allUsers() {
         return userService.findAll();
     }
 
+    @CacheEvict(value = "allUsers", allEntries = true)
     @PostMapping
     public ResponseEntity<?> add(@RequestBody User user) {
         try {
@@ -38,12 +42,14 @@ public class UserAdminController {
         }
     }
 
+    @CacheEvict(value = {"allUsers", "users"}, key = "#id")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.ok("Removed user");
     }
 
+    @Cacheable(value = "leaderboards", key = "'adminGlobal'")
     @GetMapping("/leaderboard")
     public ResponseEntity<?> globalLeaderboard() {
         return ResponseEntity.ok().body(userService.globalLeaderboard());

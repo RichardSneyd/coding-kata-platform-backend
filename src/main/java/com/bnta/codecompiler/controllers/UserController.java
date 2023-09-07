@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 @Controller
 @RequestMapping("/user/users")
@@ -24,6 +26,7 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    @CacheEvict(value = "users", key = "#user.getId()")
     @PutMapping
     public ResponseEntity<?> update(@RequestBody User user) {
         authScreen(user);
@@ -35,20 +38,26 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @Cacheable(value = "leaderboards", key = "'global'")
     @GetMapping("/leaderboard")
     public ResponseEntity<?> globalLeaderboard() {
         return ResponseEntity.ok().body(userService.globalLeaderboard());
     }
+
+    @Cacheable(value = "leaderboards", key = "#cohort")
     @GetMapping("/leaderboard/cohort-name/{cohort}")
     public ResponseEntity<?> cohortLeaderboardByName(@PathVariable String cohort) {
         return ResponseEntity.ok().body(userService.cohortLeaderboardByName(cohort));
     }
 
+    @Cacheable(value = "leaderboards", key = "#cohortId")
     @GetMapping("/leaderboard/{cohortId}")
     public ResponseEntity<?> cohortLeaderboardById(@PathVariable Long cohortId) {
         return ResponseEntity.ok().body(userService.cohortLeaderboardById(cohortId));
     }
 
+    @Cacheable(value = "users", key = "#userId")
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable Long userId) {
         try {

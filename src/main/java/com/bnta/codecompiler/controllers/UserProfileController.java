@@ -6,6 +6,8 @@ import com.bnta.codecompiler.models.users.UserProfile;
 import com.bnta.codecompiler.services.users.UserProfileService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,11 +31,13 @@ public class UserProfileController {
         this.userService = userService;
     }
 
+    @Cacheable(value = "profiles", key = "'all'")
     @GetMapping
     public ResponseEntity<List<UserProfile>> getAllProfiles() {
         return new ResponseEntity<>(userProfileService.findAll(), HttpStatus.OK);
     }
 
+    @Cacheable(value = "profiles", key = "#id")
     @GetMapping("/{id}")
     public ResponseEntity<UserProfile> getProfileById(@PathVariable Long id) {
         return userProfileService.findById(id)
@@ -41,6 +45,7 @@ public class UserProfileController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @CacheEvict(value = "profiles", allEntries = true)
     @PostMapping
     public ResponseEntity<?> createProfile(@RequestBody UserProfile userProfile) {
         try {
@@ -53,6 +58,7 @@ public class UserProfileController {
         return new ResponseEntity<>(userProfileService.save(userProfile), HttpStatus.CREATED);
     }
 
+    @CacheEvict(value = "profiles", key = "#id")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProfile(@PathVariable Long id, @RequestBody UserProfile userProfile) {
         try {
@@ -67,6 +73,7 @@ public class UserProfileController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @CacheEvict(value = "profiles", key = "#id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
         if (userProfileService.delete(id)) {
@@ -76,7 +83,7 @@ public class UserProfileController {
         }
     }
 
-    // Method to upload headshot
+    @CacheEvict(value = "headshots", key = "#id")
     @PostMapping("/{id}/headshot")
     public ResponseEntity<?> uploadHeadshot(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
@@ -99,6 +106,7 @@ public class UserProfileController {
         }
     }
 
+    @Cacheable(value = "headshots", key = "#id")
     @GetMapping("/{id}/headshot")
     public ResponseEntity<?> getHeadshot(@PathVariable Long id) {
         try {
@@ -116,6 +124,7 @@ public class UserProfileController {
         }
     }
 
+    @CacheEvict(value = "resumes", key = "#id")
     @PostMapping("/{id}/resume")
     public ResponseEntity<?> uploadResume(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
         try {
@@ -131,6 +140,7 @@ public class UserProfileController {
         }
     }
 
+    @Cacheable(value = "resumes", key = "#id")
     @GetMapping("/{id}/resume")
     public ResponseEntity<byte[]> getResume(@PathVariable Long id) {
         try {

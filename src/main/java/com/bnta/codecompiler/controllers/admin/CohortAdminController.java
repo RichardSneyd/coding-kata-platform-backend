@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Objects;
 
@@ -19,6 +21,7 @@ public class CohortAdminController {
     @Autowired
     UserService userService;
 
+    @CacheEvict(value = "cohorts", allEntries = true)
     @PostMapping
     public ResponseEntity<?> addNew(@RequestBody Cohort cohort) {
         if(cohortService.findByName(cohort.getName()).isPresent()) return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -26,6 +29,7 @@ public class CohortAdminController {
         return ResponseEntity.ok().body(cohortService.add(cohort));
     }
 
+    @CacheEvict(value = {"cohort", "cohorts"}, allEntries = true)
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         var cohort = cohortService.find(id);
@@ -38,6 +42,7 @@ public class CohortAdminController {
     }
 
 
+    @CacheEvict(value = {"cohort", "cohorts"}, allEntries = true)
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Cohort cohort) {
         if(cohortService.find(cohort.getId()).isEmpty()) {

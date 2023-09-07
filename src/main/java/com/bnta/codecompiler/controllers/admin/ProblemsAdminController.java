@@ -7,6 +7,7 @@ import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.services.problems.ProblemService;
 import com.bnta.codecompiler.services.problems.ProblemSetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +22,13 @@ public class ProblemsAdminController {
     @Autowired
     private ProblemSetService problemSetService;
 
+    @CacheEvict(value = "problems", allEntries = true)
     @PostMapping
     public Problem newProblem(@RequestBody Problem problem) {
         return problemService.add(problem);
     }
 
+    @CacheEvict(value = {"problems", "problem"}, key = "#problem.getId()")
     @PutMapping
     public ResponseEntity<?> update(@RequestBody Problem problem) {
         if (problemService.find(problem.getId()).isEmpty()) {
@@ -40,6 +43,7 @@ public class ProblemsAdminController {
         }
     }
 
+    @CacheEvict(value = {"problems", "problem"}, key = "#id")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         var problem = problemService.find(id);
@@ -51,6 +55,7 @@ public class ProblemsAdminController {
         return ResponseEntity.ok(String.format("Deleted problem with id %s", id));
     }
 
+    @CacheEvict(value = "problemSets", allEntries = true)
     @PostMapping("/sets")
     public ResponseEntity<?> newProblemSet(@RequestBody ProblemSet problemSet) {
         problemSet = problemSetService.add(problemSet);
@@ -58,6 +63,7 @@ public class ProblemsAdminController {
         return ResponseEntity.ok().body(problemSet);
     }
 
+    @CacheEvict(value = {"problemSets", "problemSet"}, key = "#set.getId()")
     @PutMapping("/sets")
     public ResponseEntity<?> updateSet(@RequestBody ProblemSet set) {
         if (problemSetService.findById(set.getId()).isEmpty()) {
@@ -68,6 +74,7 @@ public class ProblemsAdminController {
         return ResponseEntity.ok(String.format("Updated problem set %s", set.getTitle()));
     }
 
+    @CacheEvict(value = {"problemSets", "problemSet"}, key = "#id")
     @DeleteMapping("/sets/{id}")
     public ResponseEntity<?> deleteSet(@PathVariable Long id) {
         var set = problemSetService.findById(id);

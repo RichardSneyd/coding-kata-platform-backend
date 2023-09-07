@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 @RestController
 @RequestMapping("/user/problems")
@@ -38,17 +40,20 @@ public class ProblemsUserController {
     UserService userService;
 
     @GetMapping
+    @Cacheable(value = "problems")
     public List<Problem> allProblems() {
         return problemService.findAll();
     }
 
     @GetMapping("/tag/{tag}")
+    @Cacheable(value = "problemsByTag", key = "#tag")
     public ResponseEntity<?> byTag(@PathVariable String tag) {
         var problems = problemService.findByTag(tag);
         return new ResponseEntity<>(problems, HttpStatus.OK);
     }
 
     @GetMapping("/tags")
+    @Cacheable(value = "allTags")
     public Set<String> allTags() {
         Set<String> tags = new HashSet();
         problemService.findAll().stream().map(problem -> problem.getTags()).collect(Collectors.toSet()).forEach(tags::addAll);
@@ -56,6 +61,7 @@ public class ProblemsUserController {
     }
 
     @GetMapping("/difficulty/{difficulty}")
+    @Cacheable(value = "problemsByDifficulty", key = "#difficulty")
     public ResponseEntity<List<Problem>> byDifficulty(@PathVariable("difficulty") Difficulty difficulty) {
         var problems = problemService.findByDifficulty(difficulty);
         // if (problems.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -63,6 +69,7 @@ public class ProblemsUserController {
     }
 
     @GetMapping("/{id}")
+    @Cacheable(value = "problem", key = "#id")
     public ResponseEntity<?> getProblemById(@PathVariable Long id) {
         try {
             Problem problem = problemService.findById(id);
@@ -74,6 +81,7 @@ public class ProblemsUserController {
     }
 
     @GetMapping("/solutions/{id}")
+    @Cacheable(value = "solution", key = "#id")
     public ResponseEntity<?> getSolutionById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(solutionService.findById(id));
@@ -92,12 +100,14 @@ public class ProblemsUserController {
     }
 
     @GetMapping("/sets")
+    @Cacheable(value = "allProblemSets")
     public ResponseEntity<List<ProblemSet>> getAllProblemSets() {
         List<ProblemSet> problemSets = problemSetService.findAll();
         return new ResponseEntity<>(problemSets, HttpStatus.OK);
     }
 
     @GetMapping("/sets/{id}")
+    @Cacheable(value = "problemSet", key = "#id")
     public ResponseEntity<?> getProblemSetById(@PathVariable Long id) {
         var set = problemSetService.findById(id);
         if (set.isEmpty()) return new ResponseEntity<>("No problem set found with id " + id, HttpStatus.NOT_FOUND);

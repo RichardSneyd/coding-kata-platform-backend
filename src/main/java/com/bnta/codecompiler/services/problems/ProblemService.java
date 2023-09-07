@@ -9,6 +9,7 @@ import com.bnta.codecompiler.repositories.problems.ISolutionRepository;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import com.bnta.codecompiler.services.tests.TestSuiteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,12 +34,14 @@ public class ProblemService {
     @Autowired
     private IUserRepository userRepository;
 
+
     public Problem add(Problem problem) {
         // save the startCode first
         problem.setStartCode(startCodeService.add(problem.getStartCode()));
         problem.setTestSuite(testSuiteService.add(problem.getTestSuite()));
         return problemRepository.save(problem);
     }
+
 
     public Problem update(Problem problem) throws Exception {
         if (problem == null || problem.getId() == null) {
