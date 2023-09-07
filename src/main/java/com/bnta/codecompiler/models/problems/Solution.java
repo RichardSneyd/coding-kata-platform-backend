@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.models.problems;
 
 import com.bnta.codecompiler.models.users.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class Solution {
     private LocalDate submissionDate;
     @ManyToOne(cascade = {})
     private Problem problem;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"solutions"})
     private User user;
 
