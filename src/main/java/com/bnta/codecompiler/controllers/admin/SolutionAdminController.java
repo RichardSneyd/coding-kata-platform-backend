@@ -17,7 +17,7 @@ public class SolutionAdminController {
     SolutionService solutionService;
 
     @GetMapping
-    @Cacheable(value = "solutions", key = "allSolutions")
+    @Cacheable(value = "solutions")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok().body(solutionService.findAll());
     }
