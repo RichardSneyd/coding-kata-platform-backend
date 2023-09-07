@@ -6,6 +6,7 @@ import com.bnta.codecompiler.utilities.SafetyFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PreDestroy;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.*;
@@ -13,51 +14,41 @@ import java.util.stream.Collectors;
 
 @Service
 public class CompilerService {
+
     @Value("${node.path}")
     private String nodePath;
-    private final int timeout = 5;
-    private final int threadCount = 4;
-    private ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-    private Future<CompileResult> future;
+    private final int timeout = 8;
+    private final int threadCount = 2;
+    private final ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 
-    private void saveFile(File file, String code) {
-        try {
-            PrintWriter pr = new PrintWriter(new FileWriter(file));
+    @PreDestroy
+    public void shutdownExecutor() {
+        executor.shutdown();
+    }
+
+    private void saveFile(File file, String code) throws IOException {
+        try (PrintWriter pr = new PrintWriter(new FileWriter(file))) {
             pr.print(code);
-            pr.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     public Process startProcess(String command, String args) throws IOException {
-        //try {
         ProcessBuilder processBuilder = new ProcessBuilder();
         String newPath = System.getenv("PATH") + ":" + nodePath;
         processBuilder.environment().put("PATH", newPath);
-        System.out.println(System.getenv("PATH"));
-
-        Process process = processBuilder.command(command, args).start();
-        return process;
-        // }
-//        catch (IOException e) {
-//            System.out.println(e.getMessage());
-//            return null;
-//        }
+        return processBuilder.command(command, args).start();
     }
 
-    private String readOutput(InputStream stream) {
-        String text = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
-        System.out.println("returned from in stream: " + text);
-        return text;
+    private String readOutput(InputStream stream) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.joining("\n"));
+        }
     }
 
-    private CompileResult readAll(Process process, CompileResult compileResult) {
+    private CompileResult readAll(Process process, CompileResult compileResult) throws IOException {
         compileResult.setOutput(readOutput(process.getInputStream()));
         compileResult.setErrors(readOutput(process.getErrorStream()));
-        if (!(compileResult.getErrors().equals("") || compileResult.getErrors() == null))
-            compileResult.setCompiled(false);
-        else compileResult.setCompiled(true);
+        compileResult.setCompiled(compileResult.getErrors() == null || compileResult.getErrors().isEmpty());
         return compileResult;
     }
 
@@ -65,52 +56,39 @@ public class CompilerService {
         if (!SafetyFilter.isInputSafe(input)) {
             throw new Exception("Dangerous or possible malicious code detected");
         }
-        CompileResult result = new CompileResult(input.getCode(), null, null, false, input.getLang());
-        try {
-            String command = input.getLang().equals("js") ? nodePath + "/node"
-                    : input.getLang().equals("java") ? "java"
-                    : "python3";
-            String ext = "." + input.getLang();
-            String tDir = System.getProperty("java.io.tmpdir");
-            File file = File.createTempFile("temp", ext);
-            String tempName = file.getName();
-            String fullPath = tDir + File.separator + tempName;
 
-            saveFile(file, input.getCode());
-            CompileResult finalResult = result.clone();
-            future = executor.submit(() -> shell(command, fullPath, finalResult));
+        CompileResult result = new CompileResult(input.getCode(), null, null, false, input.getLang());
+        Future<CompileResult> future;
+
+        String command = switch (input.getLang()) {
+            case "js" -> nodePath + "/node";
+            case "java" -> "java";
+            default -> "python3";
+        };
+
+        String ext = "." + input.getLang();
+        File file = File.createTempFile("temp", ext);
+
+        saveFile(file, input.getCode());
+
+        CompileResult finalResult = result.clone();
+        future = executor.submit(() -> shell(command, file.getAbsolutePath(), finalResult));
+
+        try {
             result = future.get(timeout, TimeUnit.SECONDS);
         } catch (TimeoutException e) {
             future.cancel(true);
             result.setErrors("Compilation timed out after " + timeout + " seconds");
-        } catch (IOException e) {
-            e.printStackTrace();
-            result.setErrors(e.getMessage());
-            result.setCompiled(false);
+        } finally {
+            if (!file.delete()) {
+                System.out.println("Failed to delete temporary file: " + file.getAbsolutePath());
+            }
         }
+
         return result;
     }
 
     public CompileResult shell(String command, String args, CompileResult result) throws IOException {
         return readAll(startProcess(command, args), result);
     }
-
-//    public CompileResult where(String command) {
-//        CompileResult result = new CompileResult();
-//        try {
-//            result = readAll(startProcess("which", command), result);
-//            return result;
-//        } catch (Exception e) {
-//            result.setCompiled(false);
-//            result.setErrors("Error running 'where' on " + command + ": " + e.getMessage());
-//            e.printStackTrace();
-//            return result;
-//        }
-//
-//    }
-
-    public CompileResult echo(String message) throws IOException {
-        return readAll(startProcess("echo", message), new CompileResult());
-    }
-
 }

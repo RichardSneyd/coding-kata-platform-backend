@@ -90,7 +90,7 @@ public class EvalServiceTest {
 
     @Test
     public void testRunTestCases() {
-        List<TestCaseResult> results = evalService.runTestCases("add",
+        List<TestCaseResult> results = evalService.asyncRunTestCases("add",
                 testCases, javaInput);
         // assertThat(results.get(1).getCompileResult().getOutput()).isEqualTo("9");
         for (int i = 0; i < results.size(); i++) {

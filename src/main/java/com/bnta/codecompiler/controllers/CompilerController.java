@@ -78,14 +78,4 @@ public class CompilerController {
 
     }
 
-//    @GetMapping("/where/{command}")
-//    public CompileResult whereJS(@PathVariable String command) {
-//        return compilerService.where(command);
-//    }
-
-    @GetMapping("/echo/{message}")
-    public CompileResult echo(@PathVariable String message) throws IOException {
-        return compilerService.echo(message);
-    }
-
 }
