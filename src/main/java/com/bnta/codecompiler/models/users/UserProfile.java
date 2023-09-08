@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="user_profiles")
@@ -35,20 +36,20 @@ public class UserProfile {
     private String githubLink;
 
     @Column(nullable = true)
-    @ElementCollection
-    private List<String> education;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> education;
 
     @Column(nullable = true)
-    @ElementCollection
-    private List<String> workExperience;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> workExperience;
 
     @Column(nullable = true)
-    @ElementCollection
-    private List<String> preferredRoles;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> preferredRoles;
 
     @Column(nullable = true)
-    @ElementCollection
-    private List<String> preferredLocations;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> preferredLocations;
 
     @Column
     private Boolean available = true;
@@ -88,19 +89,19 @@ public class UserProfile {
         this.bio = bio;
     }
 
-    public List<String> getEducation() {
+    public Set<String> getEducation() {
         return education;
     }
 
-    public void setEducation(List<String> education) {
+    public void setEducation(Set<String> education) {
         this.education = education;
     }
 
-    public List<String> getWorkExperience() {
+    public Set<String> getWorkExperience() {
         return workExperience;
     }
 
-    public void setWorkExperience(List<String> workExperience) {
+    public void setWorkExperience(Set<String> workExperience) {
         this.workExperience = workExperience;
     }
 
@@ -128,19 +129,19 @@ public class UserProfile {
         this.githubLink = githubLink;
     }
 
-    public List<String> getPreferredRoles() {
+    public Set<String> getPreferredRoles() {
         return preferredRoles;
     }
 
-    public void setPreferredRoles(List<String> preferredRoles) {
+    public void setPreferredRoles(Set<String> preferredRoles) {
         this.preferredRoles = preferredRoles;
     }
 
-    public List<String> getPreferredLocations() {
+    public Set<String> getPreferredLocations() {
         return preferredLocations;
     }
 
-    public void setPreferredLocations(List<String> preferredLocations) {
+    public void setPreferredLocations(Set<String> preferredLocations) {
         this.preferredLocations = preferredLocations;
     }
 
