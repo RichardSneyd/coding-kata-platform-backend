@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.controllers;
 
 
+import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProfile;
 import com.bnta.codecompiler.services.users.UserProfileService;
@@ -8,6 +9,8 @@ import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,10 +34,12 @@ public class UserProfileController {
         this.userService = userService;
     }
 
-    @Cacheable(value = "profiles", key = "'all'")
+    @Cacheable(value = "profiles", key = "#page + '-' + #size")
     @GetMapping
-    public ResponseEntity<List<UserProfile>> getAllProfiles() {
-        return new ResponseEntity<>(userProfileService.findAll(), HttpStatus.OK);
+    public ResponseEntity<?> getAllProfiles(@RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "10") int size) {
+        Page<UserProfile> profiles = userProfileService.findAll(PageRequest.of(page, size));
+        return ResponseEntity.ok().body(profiles);
     }
 
     @Cacheable(value = "profiles", key = "#id")

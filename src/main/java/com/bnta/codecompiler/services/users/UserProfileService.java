@@ -1,11 +1,14 @@
 package com.bnta.codecompiler.services.users;
 
+import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProfile;
 import com.bnta.codecompiler.repositories.users.IUserProfileRepo;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,8 +42,8 @@ public class UserProfileService {
         this.resumeDIR = resumeDIR;
     }
 
-    public List<UserProfile> findAll() {
-        return userProfileRepo.findAll();
+    public Page<UserProfile> findAll(Pageable pageable) {
+        return userProfileRepo.findAll(pageable);
     }
 
     public Optional<UserProfile> findById(Long id) {
