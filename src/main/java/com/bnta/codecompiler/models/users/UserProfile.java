@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.models.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -12,10 +13,10 @@ public class UserProfile {
     @Id
     private Long id;
 
-    @OneToOne(cascade = {})
+    @OneToOne(cascade = {}, fetch = FetchType.EAGER)
     @MapsId
     @JoinColumn(name = "id")
-    @JsonIgnoreProperties({"profile"})
+    @JsonIgnoreProperties({"profile", "solutions", "completedProblems"})
     private User user;
 
     @Column(nullable = true)

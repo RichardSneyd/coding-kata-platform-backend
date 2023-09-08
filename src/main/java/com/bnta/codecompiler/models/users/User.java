@@ -26,7 +26,7 @@ public class User {
     @Column
     private String email;
     @JsonIgnoreProperties({"members"})
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Cohort cohort;
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
   //  @Column(name = "role_id")
