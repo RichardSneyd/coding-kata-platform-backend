@@ -6,6 +6,8 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +19,15 @@ public class SolutionAdminController {
     SolutionService solutionService;
 
     @GetMapping
-    @Cacheable(value = "solutions")
-    public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok().body(solutionService.findAll());
+    @Cacheable(value = "solutions", key = "#page + '-' + #size")
+    public ResponseEntity<?> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<Solution> solutions = solutionService.findAll(PageRequest.of(page, size));
+        return ResponseEntity.ok().body(solutions);
     }
+
 
     @GetMapping("/{id}")
     @Cacheable(value = "solution", key = "#id")

@@ -6,6 +6,8 @@ import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.problems.ISolutionRepository;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,9 +45,10 @@ public class SolutionService {
         return solutionRepo.save(solution);
     }
 
-    public List<Solution> findAll() {
-        return solutionRepo.findAll();
+    public Page<Solution> findAll(Pageable pageable) {
+        return solutionRepo.findAll(pageable);
     }
+
 
     public List<Solution> findAllByUser(User user) {
         return solutionRepo.findAllByUser(user);
