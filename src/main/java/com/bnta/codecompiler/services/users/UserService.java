@@ -10,6 +10,8 @@ import com.bnta.codecompiler.services.problems.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -98,16 +100,16 @@ public class UserService {
         return optional.get();
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     public List<User> findAllFromCohort(String cohort) {
         return userRepository.findByCohort(cohort);
     }
 
-    public List<User> globalLeaderboard() {
-        return userRepository.findByOrderByScoreDesc();
+    public Page<User> globalLeaderboard(Pageable pageable) {
+        return userRepository.findByOrderByScoreDesc(pageable);
     }
 
     public List<User> cohortLeaderboardByName(String cohortName) {

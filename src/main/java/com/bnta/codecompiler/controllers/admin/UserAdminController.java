@@ -5,6 +5,9 @@ import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.services.email.MailSenderService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,10 +28,10 @@ public class UserAdminController {
     @Autowired
     private PasswordEncoder encoder;
 
-    @Cacheable(value = "allUsers", key = "'all'")
+    @Cacheable(value = "allUsers", key = "'page' + #pageable.pageNumber + '-size:' + #pageable.pageSize")
     @GetMapping
-    public List<User> allUsers() {
-        return userService.findAll();
+    public Page<User> allUsers(@PageableDefault Pageable pageable) {
+        return userService.findAll(pageable);
     }
 
     @CacheEvict(value = "allUsers", allEntries = true)
@@ -49,10 +52,10 @@ public class UserAdminController {
         return ResponseEntity.ok("Removed user");
     }
 
-    @Cacheable(value = "leaderboards", key = "'adminGlobal'")
+    @Cacheable(value = "leaderboards", key = "'global-page:' + #pageable.pageNumber + '-size:' + #pageable.pageSize")
     @GetMapping("/leaderboard")
-    public ResponseEntity<?> globalLeaderboard() {
-        return ResponseEntity.ok().body(userService.globalLeaderboard());
+    public ResponseEntity<?> globalLeaderboard(@PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok().body(userService.globalLeaderboard(pageable));
     }
 
 

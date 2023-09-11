@@ -2,7 +2,10 @@ package com.bnta.codecompiler.repositories.problems;
 
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.problems.Problem;
+import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.models.users.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 public interface ISolutionRepository extends JpaRepository<Solution, Long> {
+    Page<Solution> findAllByOrderBySubmissionDateDesc(Pageable pageable);
     public List<Solution> findAllByUser(User user);
     public List<Solution> findAllByUser_id(Long id);
     public List<Solution> findAllByProblem(Problem problem);

@@ -46,7 +46,7 @@ public class SolutionService {
     }
 
     public Page<Solution> findAll(Pageable pageable) {
-        return solutionRepo.findAll(pageable);
+        return solutionRepo.findAllByOrderBySubmissionDateDesc(pageable);
     }
 
 

@@ -2,6 +2,8 @@ package com.bnta.codecompiler.repositories.users;
 
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +19,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     //todo: add derived queries as needed
     List<User> findByCohort(String cohort);
 
-    List<User> findByOrderByScoreDesc();
+    Page<User> findByOrderByScoreDesc(Pageable pageable);
 
     List<User> findByCohort_NameOrderByScoreDesc(String cohort);
     List<User> findByCohort_IdOrderByScoreDesc(Long cohortId);

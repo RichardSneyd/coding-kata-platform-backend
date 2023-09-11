@@ -3,6 +3,8 @@ package com.bnta.codecompiler.services.users;
 import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.repositories.users.ICohortRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -41,13 +43,19 @@ public class CohortService {
         return cohort;
     }
 
-    public List<Cohort> find() {
-        return cohortRepo.findAll();
+    public Page<Cohort> find(Pageable pageable) {
+        return cohortRepo.findAll(pageable);
+    }
+
+    public Page<Cohort> orderByStartDateDesc(Pageable pageable) {
+        return cohortRepo.findAllByOrderByStartDateDesc(pageable);
     }
 
     public Optional<Cohort> find(Long cohortId) {
         return cohortRepo.findById(cohortId);
     }
+
+
 
     public Optional<Cohort> find(String name) {
         return cohortRepo.findByName(name);

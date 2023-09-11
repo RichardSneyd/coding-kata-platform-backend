@@ -5,6 +5,8 @@ import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.services.email.MailSenderService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -39,17 +41,12 @@ public class UserController {
         }
     }
 
-    @Cacheable(value = "leaderboards", key = "'global'")
+    @Cacheable(value = "leaderboards", key = "'global-page:' + #pageable.pageNumber + '-size:' + #pageable.pageSize")
     @GetMapping("/leaderboard")
-    public ResponseEntity<?> globalLeaderboard() {
-        return ResponseEntity.ok().body(userService.globalLeaderboard());
+    public ResponseEntity<?> globalLeaderboard(@PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok().body(userService.globalLeaderboard(pageable));
     }
 
-    @Cacheable(value = "leaderboards", key = "#cohort")
-    @GetMapping("/leaderboard/cohort-name/{cohort}")
-    public ResponseEntity<?> cohortLeaderboardByName(@PathVariable String cohort) {
-        return ResponseEntity.ok().body(userService.cohortLeaderboardByName(cohort));
-    }
 
     @Cacheable(value = "leaderboards", key = "#cohortId")
     @GetMapping("/leaderboard/{cohortId}")

@@ -3,6 +3,8 @@ package com.bnta.codecompiler.controllers;
 import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.services.users.CohortService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +17,10 @@ public class CohortController {
     @Autowired
     CohortService cohortService;
 
-    @Cacheable(value = "cohorts")
+    @Cacheable(value = "cohorts", key = "'page:' + #pageable.pageNumber + '-size:' + #pageable.pageSize")
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok().body(cohortService.find());
+    public ResponseEntity<?> getAll(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok().body(cohortService.orderByStartDateDesc(pageable));
     }
 
     @Cacheable(value = "cohort", key = "#id")
@@ -27,9 +29,4 @@ public class CohortController {
         return ResponseEntity.ok().body(cohortService.find(id));
     }
 
-    @Cacheable(value = "cohortsByName", key = "#name")
-    @GetMapping("/by-name/{name}")
-    public ResponseEntity<?> getByName(@PathVariable String name) {
-        return ResponseEntity.ok().body(cohortService.find());
-    }
 }
