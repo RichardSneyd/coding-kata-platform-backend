@@ -26,13 +26,12 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     private Cohort cohort;
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
-    //  @Column(name = "role_id")
     private List<Role> roles;
     @Column
     private long score;
     @Column
     private LocalDate joinDate;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"user"})
     private Set<Solution> solutions;
 
