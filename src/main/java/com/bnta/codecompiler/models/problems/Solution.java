@@ -22,9 +22,9 @@ public class Solution {
     private int correctness;
     @Column
     private LocalDate submissionDate;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {})
     private Problem problem;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"solutions"})
     private User user;
 
@@ -106,19 +106,13 @@ public class Solution {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, lang, correctness, submissionDate, problem, user);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Solution{" +
                 "id=" + id +
-                ", code='" + code + '\'' +
-                ", lang='" + lang + '\'' +
-                ", correct=" + correctness +
-                ", submissionDate=" + submissionDate +
-                ", problem=" + problem +
-                ", user=" + user +
                 '}';
     }
 

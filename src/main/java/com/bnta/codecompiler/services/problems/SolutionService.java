@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class SolutionService {
     @Autowired
     private UserService userService;
 
+//    @Transactional
     public Solution add(Solution solution) {
         userService.addSolution(solution.getUser(), solution);
         solution = solutionRepo.save(solution);

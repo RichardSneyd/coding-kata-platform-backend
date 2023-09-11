@@ -100,12 +100,6 @@ public class Problem {
     public String toString() {
         return "Problem{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", difficulty=" + difficulty +
-                ", testSuite=" + testSuite +
-                ", startCode=" + startCode +
-                ", tags=" + tags +
                 '}';
     }
 
@@ -119,6 +113,6 @@ public class Problem {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, difficulty, testSuite, startCode, tags);
+        return Objects.hash(id);
     }
 }

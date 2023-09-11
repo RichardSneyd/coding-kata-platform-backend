@@ -95,6 +95,13 @@ public class ProblemSet {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, difficulty, tags, problems);
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "ProblemSet{" +
+                "id=" + id +
+                '}';
     }
 }

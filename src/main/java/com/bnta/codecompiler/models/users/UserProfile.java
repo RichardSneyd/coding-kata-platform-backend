@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -151,5 +152,17 @@ public class UserProfile {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" +
+                "id=" + id +
+                '}';
     }
 }

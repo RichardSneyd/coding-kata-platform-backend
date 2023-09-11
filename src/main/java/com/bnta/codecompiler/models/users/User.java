@@ -8,16 +8,13 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="users")
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String username;
@@ -29,7 +26,7 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     private Cohort cohort;
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
-  //  @Column(name = "role_id")
+    //  @Column(name = "role_id")
     private List<Role> roles;
     @Column
     private long score;
@@ -40,14 +37,10 @@ public class User {
     private Set<Solution> solutions;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="users_problems",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="problem_id"))
+    @JoinTable(name = "users_problems",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "problem_id"))
     private Set<Problem> completedProblems;
-
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    @JsonIgnoreProperties({"user"})
-//    private UserProfile profile;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.init();
@@ -55,12 +48,12 @@ public class User {
         this.password = password;
         this.email = email;
         this.cohort = cohort;
-        if(roles != null) this.roles = roles;
+        if (roles != null) this.roles = roles;
         this.score = 0;
     }
 
     public User() {
-       init();
+        init();
     }
 
     private void init() {
@@ -152,14 +145,15 @@ public class User {
         this.completedProblems = completedProblems;
     }
 
-//    public UserProfile getProfile() {
-//        return profile;
-//    }
-//
-//    public void setProfile(UserProfile userProfile) {
-//        this.profile = userProfile;
-//        if (userProfile.getUser() != this) {
-//            userProfile.setUser(this);
-//        }
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                '}';
+    }
 }
