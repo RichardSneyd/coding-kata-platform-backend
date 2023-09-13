@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 @ImportResource({"classpath*:application-context.xml"})
 @EnableAutoConfiguration
-@EnableCaching
+//@EnableCaching
 public class BrightCodeApp {
 
 	public static void main(String[] args) {

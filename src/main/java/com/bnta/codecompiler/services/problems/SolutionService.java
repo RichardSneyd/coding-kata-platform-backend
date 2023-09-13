@@ -6,6 +6,7 @@ import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.repositories.problems.ISolutionRepository;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,8 @@ public class SolutionService {
     @Autowired
     private UserService userService;
 
-//    @Transactional
+    //    @Transactional
+    @CacheEvict(value = {"solutions", "solutionsForUser", "solutionsForProblem"}, allEntries = true)
     public Solution add(Solution solution) {
         userService.addSolution(solution.getUser(), solution);
         solution = solutionRepo.save(solution);
@@ -37,9 +39,9 @@ public class SolutionService {
         solutionRepo.deleteById(id);
     }
 
-    public Solution findById(Long id) throws Exception{
+    public Solution findById(Long id) throws Exception {
         Optional<Solution> optional = solutionRepo.findById(id);
-        if(optional.isEmpty()) throw new Exception("No solution with id: " + id);
+        if (optional.isEmpty()) throw new Exception("No solution with id: " + id);
         return optional.get();
     }
 
@@ -71,4 +73,4 @@ public class SolutionService {
     public List<Solution> findAllByProblemAndUser(Problem problem, User user) {
         return solutionRepo.findAllByProblemAndUser(problem, user);
     }
- }
+}
