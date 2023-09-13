@@ -36,11 +36,11 @@ public class User {
     @JsonIgnoreProperties({"user"})
     private Set<Solution> solutions;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_problems",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "problem_id"))
-    private Set<Problem> completedProblems;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "users_problems",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "problem_id"))
+//    private Set<Problem> completedProblems;
 
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.init();
@@ -61,7 +61,15 @@ public class User {
         this.roles.add(Role.USER);
         this.joinDate = LocalDate.now();
         this.solutions = new HashSet<>();
-        this.completedProblems = new HashSet<>();
+      //  this.completedProblems = new HashSet<>();
+    }
+
+    public Set<Problem> getCompletedProblems() {
+        Set<Problem> completedProblems = new HashSet<>();
+        for (Solution solution : solutions) {
+            completedProblems.add(solution.getProblem());
+        }
+        return completedProblems;
     }
 
     public Long getId() {
@@ -137,13 +145,13 @@ public class User {
         this.email = email;
     }
 
-    public Set<Problem> getCompletedProblems() {
-        return completedProblems;
-    }
-
-    public void setCompletedProblems(Set<Problem> completedProblems) {
-        this.completedProblems = completedProblems;
-    }
+//    public Set<Problem> getCompletedProblems() {
+//        return completedProblems;
+//    }
+//
+//    public void setCompletedProblems(Set<Problem> completedProblems) {
+//        this.completedProblems = completedProblems;
+//    }
 
     @Override
     public boolean equals(Object o) {

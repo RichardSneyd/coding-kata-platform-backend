@@ -124,7 +124,7 @@ public class UserService {
         if (scorable(solution, user)) {
             long score = 50 + (50 * solution.getProblem().getDifficulty().ordinal() * (solution.getCorrectness() / 100));
             user = increaseScore(user, score);
-            user = addCompletedProblem(user.getId(), solution);
+         //   user = addCompletedProblem(user.getId(), solution);
             return userRepository.save(user);
         } else {
             System.out.println("matches existing solution, can't add");
@@ -132,23 +132,23 @@ public class UserService {
         return user;
     }
 
-    public User addCompletedProblem(Long userId, Solution solution) {
-        try {
-            User user = findById(userId);
-            for (var problem : user.getCompletedProblems()) {
-                if (problem.getId().equals(solution.getProblem().getId())) {
-                    return user;
-                }
-            }
-            user.getCompletedProblems().add(solution.getProblem());
-            user = update(user);
-            return user;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        return null;
-    }
+//    public User addCompletedProblem(Long userId, Solution solution) {
+//        try {
+//            User user = findById(userId);
+//            for (var problem : user.getCompletedProblems()) {
+//                if (problem.getId().equals(solution.getProblem().getId())) {
+//                    return user;
+//                }
+//            }
+//            user.getCompletedProblems().add(solution.getProblem());
+//            user = update(user);
+//            return user;
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//
+//        return null;
+//    }
 
     public boolean scorable(Solution solution, User user) {
         for (var savedSolution : user.getSolutions()) {
