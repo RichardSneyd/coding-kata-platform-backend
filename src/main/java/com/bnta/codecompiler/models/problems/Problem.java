@@ -20,9 +20,9 @@ public class Problem {
     private String description = "Solve me!";
     @Column
     private Difficulty difficulty = Difficulty.EASY;
-    @OneToOne(cascade = {})
+    @OneToOne
     private TestSuite testSuite;
-    @OneToOne(cascade = {})
+    @OneToOne
     private StartCode startCode;
     // tag the concepts this problem trains/tests, i.e 'objects', 'arrays',
     @ElementCollection
