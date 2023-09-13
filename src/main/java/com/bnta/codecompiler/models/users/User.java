@@ -1,11 +1,8 @@
 package com.bnta.codecompiler.models.users;
 
-import com.bnta.codecompiler.models.assessment.TechTestSession;
-import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -61,16 +58,8 @@ public class User {
         this.roles.add(Role.USER);
         this.joinDate = LocalDate.now();
         this.solutions = new HashSet<>();
-      //  this.completedProblems = new HashSet<>();
     }
 
-    public Set<Problem> getCompletedProblems() {
-        Set<Problem> completedProblems = new HashSet<>();
-        for (Solution solution : solutions) {
-            completedProblems.add(solution.getProblem());
-        }
-        return completedProblems;
-    }
 
     public Long getId() {
         return id;
@@ -144,14 +133,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-//    public Set<Problem> getCompletedProblems() {
-//        return completedProblems;
-//    }
-//
-//    public void setCompletedProblems(Set<Problem> completedProblems) {
-//        this.completedProblems = completedProblems;
-//    }
 
     @Override
     public boolean equals(Object o) {

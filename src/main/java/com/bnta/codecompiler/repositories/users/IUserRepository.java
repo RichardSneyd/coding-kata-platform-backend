@@ -33,4 +33,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query(value = "DELETE FROM users_problems WHERE problem_id = :problemId", nativeQuery = true)
     void deleteProblemFromAllUsers(@Param("problemId") Long problemId);
+
+    @Query("SELECT s.problem FROM Solution s WHERE s.user.id = :userId")
+    Set<Problem> findCompletedProblemsByUserId(Long userId);
 }

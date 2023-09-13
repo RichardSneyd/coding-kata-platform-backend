@@ -16,7 +16,7 @@ public class UserProfile {
     @Id
     private Long id;
 
-    @OneToOne(cascade = {}, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {}, fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id")
     @JsonIgnoreProperties({"profile", "solutions", "completedProblems"})
@@ -38,19 +38,19 @@ public class UserProfile {
     private String githubLink;
 
     @Column(nullable = true)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> education;
 
     @Column(nullable = true)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> workExperience;
 
     @Column(nullable = true)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> preferredRoles;
 
     @Column(nullable = true)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> preferredLocations;
 
     @Column

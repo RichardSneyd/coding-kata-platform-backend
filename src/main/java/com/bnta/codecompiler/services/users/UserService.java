@@ -1,6 +1,7 @@
 package com.bnta.codecompiler.services.users;
 
 import com.bnta.codecompiler.config.GlobalSettings;
+import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProgressDTO;
@@ -65,7 +66,7 @@ public class UserService {
         if (user.isEmpty()) return Optional.of(new UserProgressDTO());
         var total = problemService.findAll().size();
         return Optional.of(new UserProgressDTO(user.get().getUsername(), user.get().getScore(),
-                user.get().getCompletedProblems().size(), total));
+                getCompletedProblemsForUser(user.get().getId()).size(), total));
     }
 
     public Optional<UserProgressDTO> getUserProgress(Long id) {
@@ -130,6 +131,10 @@ public class UserService {
             System.out.println("matches existing solution, can't add");
         }
         return user;
+    }
+
+    public Set<Problem> getCompletedProblemsForUser(Long userId) {
+        return userRepository.findCompletedProblemsByUserId(userId);
     }
 
 //    public User addCompletedProblem(Long userId, Solution solution) {
