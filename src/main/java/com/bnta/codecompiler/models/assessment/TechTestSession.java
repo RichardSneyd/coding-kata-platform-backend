@@ -1,10 +1,12 @@
 package com.bnta.codecompiler.models.assessment;
 
+import com.bnta.codecompiler.models.problems.Data;
 import com.bnta.codecompiler.models.users.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name="tech_test_sessions")
@@ -72,5 +74,18 @@ public class TechTestSession {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TechTestSession coerced = (TechTestSession) o;
+        return Objects.equals(id, coerced.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

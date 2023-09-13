@@ -1,6 +1,9 @@
 package com.bnta.codecompiler.models.problems;
 
+import com.bnta.codecompiler.models.assessment.TechTestSession;
+
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name="data")
@@ -44,5 +47,18 @@ public class Data {
 
     public void setDataType(DataType dataType) {
         this.dataType = dataType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Data coerced = (Data) o;
+        return Objects.equals(id, coerced.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

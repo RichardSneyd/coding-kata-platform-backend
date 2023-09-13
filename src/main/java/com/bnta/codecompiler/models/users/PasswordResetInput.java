@@ -37,4 +37,6 @@ public class PasswordResetInput {
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
+
+
 }

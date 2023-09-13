@@ -1,10 +1,12 @@
 package com.bnta.codecompiler.models.tests;
 
+import com.bnta.codecompiler.models.assessment.TechTestSession;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -60,5 +62,18 @@ public class TestSuite {
 
     public void setProblem(Problem problem) {
         this.problem = problem;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TestSuite coerced = (TestSuite) o;
+        return Objects.equals(id, coerced.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

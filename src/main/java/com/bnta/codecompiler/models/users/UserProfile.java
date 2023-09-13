@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.models.users;
 
+import com.bnta.codecompiler.models.assessment.TechTestSession;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -152,6 +153,14 @@ public class UserProfile {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserProfile coerced = (UserProfile) o;
+        return Objects.equals(id, coerced.id);
     }
 
     @Override

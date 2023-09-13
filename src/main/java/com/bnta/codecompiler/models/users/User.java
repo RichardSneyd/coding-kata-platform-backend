@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.models.users;
 
+import com.bnta.codecompiler.models.assessment.TechTestSession;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -142,6 +143,14 @@ public class User {
 
     public void setCompletedProblems(Set<Problem> completedProblems) {
         this.completedProblems = completedProblems;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User coerced = (User) o;
+        return Objects.equals(id, coerced.id);
     }
 
     @Override

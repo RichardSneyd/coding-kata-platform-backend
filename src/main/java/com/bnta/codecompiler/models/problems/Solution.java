@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.models.problems;
 
+import com.bnta.codecompiler.models.assessment.TechTestSession;
 import com.bnta.codecompiler.models.users.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -100,8 +101,8 @@ public class Solution {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Solution solution = (Solution) o;
-        return correctness == solution.correctness && Objects.equals(id, solution.id) && Objects.equals(code, solution.code) && Objects.equals(lang, solution.lang) && Objects.equals(submissionDate, solution.submissionDate) && Objects.equals(problem, solution.problem) && Objects.equals(user, solution.user);
+        Solution coerced = (Solution) o;
+        return Objects.equals(id, coerced.id);
     }
 
     @Override

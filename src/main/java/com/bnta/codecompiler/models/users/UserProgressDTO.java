@@ -47,4 +47,5 @@ public class UserProgressDTO {
     public void setTotalProblems(long totalProblems) {
         this.totalProblems = totalProblems;
     }
+
 }

@@ -1,7 +1,10 @@
 package com.bnta.codecompiler.models.quizes;
 
+import com.bnta.codecompiler.models.assessment.TechTestSession;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "questions")
@@ -45,5 +48,18 @@ public class Question {
 
     public void setWrongAnswers(List<String> wrongAnswers) {
         this.wrongAnswers = wrongAnswers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question coerced = (Question) o;
+        return Objects.equals(id, coerced.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

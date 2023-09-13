@@ -1,9 +1,11 @@
 package com.bnta.codecompiler.models.tests;
 
+import com.bnta.codecompiler.models.assessment.TechTestSession;
 import com.bnta.codecompiler.models.problems.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="test_cases")
@@ -48,5 +50,16 @@ public class TestCase {
         this.output = output;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TestCase coerced = (TestCase) o;
+        return Objects.equals(id, coerced.id);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -1,6 +1,9 @@
 package com.bnta.codecompiler.models.problems;
 
+import com.bnta.codecompiler.models.assessment.TechTestSession;
+
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name="start_codes")
@@ -52,5 +55,18 @@ public class StartCode {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StartCode coerced = (StartCode) o;
+        return Objects.equals(id, coerced.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

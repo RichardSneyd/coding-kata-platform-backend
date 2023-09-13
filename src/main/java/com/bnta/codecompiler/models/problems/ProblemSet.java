@@ -1,5 +1,7 @@
 package com.bnta.codecompiler.models.problems;
 
+import com.bnta.codecompiler.models.assessment.TechTestSession;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -89,8 +91,8 @@ public class ProblemSet {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProblemSet that = (ProblemSet) o;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && difficulty == that.difficulty && Objects.equals(tags, that.tags) && Objects.equals(problems, that.problems);
+        ProblemSet coerced = (ProblemSet) o;
+        return Objects.equals(id, coerced.id);
     }
 
     @Override
