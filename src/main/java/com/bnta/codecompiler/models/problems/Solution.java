@@ -23,10 +23,10 @@ public class Solution {
     private int correctness;
     @Column
     private LocalDate submissionDate;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {})
+    @ManyToOne(fetch = FetchType.LAZY)
     private Problem problem;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"solutions"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"solutions", "completedProblems"})
     private User user;
 
     public Solution(String code, String lang, int correctness, Problem problem, User user) {
