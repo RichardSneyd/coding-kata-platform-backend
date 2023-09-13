@@ -51,15 +51,26 @@ public class UserProfileController {
     }
 
     @CacheEvict(value = "profiles", allEntries = true)
-    @PostMapping
-    public ResponseEntity<?> createProfile(@RequestBody UserProfile userProfile) {
+    @PostMapping(value = "/{userId}")
+    public ResponseEntity<?> createProfile(@RequestBody UserProfile userProfile, @PathVariable Long userId) {
+        User user = null;
         try {
-            authScreen(userProfile.getUser());
+            user = userService.findById(userId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            authScreen(user);
         }
         catch(ResponseStatusException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+        userProfile.setUser(user);
         return new ResponseEntity<>(userProfileService.save(userProfile), HttpStatus.CREATED);
     }
 

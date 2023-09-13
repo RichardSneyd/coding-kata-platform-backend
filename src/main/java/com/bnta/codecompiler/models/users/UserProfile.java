@@ -16,10 +16,10 @@ public class UserProfile {
     @Id
     private Long id;
 
-    @OneToOne(cascade = {}, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id")
-    @JsonIgnoreProperties({"profile", "solutions", "completedProblems"})
+    @JsonIgnore
     private User user;
 
     @Column(nullable = true)
@@ -70,9 +70,6 @@ public class UserProfile {
 
     public void setUser(User user) {
         this.user = user;
-//        if (user.getProfile() != this) {
-//            user.setProfile(this);
-//        }
     }
 
     public String getHeadshot() {
