@@ -33,12 +33,6 @@ public class User {
     @JsonIgnoreProperties({"user"})
     private Set<Solution> solutions;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "users_problems",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "problem_id"))
-//    private Set<Problem> completedProblems;
-
     public User(String uname, String email, String password, Cohort cohort, List<Role> roles) {
         this.init();
         this.username = uname;

@@ -24,9 +24,10 @@ public class Solution {
     @Column
     private LocalDate submissionDate;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"testSuite", "startCode", "tags"})
     private Problem problem;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"solutions", "completedProblems"})
+    @JsonIgnoreProperties({"solutions", "score"})
     private User user;
 
     public Solution(String code, String lang, int correctness, Problem problem, User user) {
