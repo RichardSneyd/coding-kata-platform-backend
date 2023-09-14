@@ -20,7 +20,7 @@ public class CohortController {
     @Cacheable(value = "cohorts", key = "'page:' + #pageable.pageNumber + '-size:' + #pageable.pageSize")
     @GetMapping
     public ResponseEntity<?> getAll(@PageableDefault Pageable pageable) {
-        return ResponseEntity.ok().body(cohortService.orderByStartDateDesc(pageable));
+        return ResponseEntity.ok().body(cohortService.getListOfCohorts(pageable));
     }
 
     @Cacheable(value = "cohort", key = "#id")

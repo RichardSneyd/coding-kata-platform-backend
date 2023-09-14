@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.services.users;
 
+import com.bnta.codecompiler.models.dtos.CohortDTO;
 import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.repositories.users.ICohortRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,10 @@ public class CohortService {
 
     public Page<Cohort> orderByStartDateDesc(Pageable pageable) {
         return cohortRepo.findAllByOrderByStartDateDesc(pageable);
+    }
+
+    public Page<CohortDTO>getListOfCohorts (Pageable pageable) {
+        return cohortRepo.getListOfCohorts(pageable);
     }
 
     public Optional<Cohort> find(Long cohortId) {

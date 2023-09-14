@@ -18,11 +18,11 @@ public class Cohort {
     private Long id;
     @Column(unique = true)
     private String name;
-    @Column
+    @Column(name = "start_date")
     private LocalDate startDate;
 
     @JsonIgnoreProperties(value = {"cohort"}, allowSetters = true)
-    @OneToMany(mappedBy = "cohort")
+    @OneToMany(mappedBy = "cohort", fetch = FetchType.LAZY)
     private List<User> members;
 
 
