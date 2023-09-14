@@ -25,7 +25,7 @@ public class Solution {
     @JsonIgnoreProperties({"testSuite", "startCode", "tags"})
     private Problem problem;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"solutions", "score"})
+    @JsonIgnoreProperties({"solutions", "score", "joinDate", "roles", "cohort", "email", "password"})
     private User user;
 
     public Solution(String code, String lang, int correctness, Problem problem, User user) {
