@@ -1,8 +1,6 @@
 package com.bnta.codecompiler.models.problems;
 
-import com.bnta.codecompiler.models.assessment.TechTestSession;
 import com.bnta.codecompiler.models.users.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -117,6 +115,5 @@ public class Solution {
                 "id=" + id +
                 '}';
     }
-
 
 }

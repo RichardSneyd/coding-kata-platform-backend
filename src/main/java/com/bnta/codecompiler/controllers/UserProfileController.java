@@ -50,15 +50,20 @@ public class UserProfileController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @CacheEvict(value = "profiles", allEntries = true)
-    @PostMapping(value = "/{userId}")
-    public ResponseEntity<?> createProfile(@RequestBody UserProfile userProfile, @PathVariable Long userId) {
+    public User getUser(Long id) {
         User user = null;
         try {
-            user = userService.findById(userId);
+            user = userService.findById(id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return user;
+    }
+
+    @CacheEvict(value = "profiles", allEntries = true)
+    @PostMapping(value = "/{userId}")
+    public ResponseEntity<?> createProfile(@RequestBody UserProfile userProfile, @PathVariable Long userId) {
+        User user = getUser(userId);
 
         try {
             authScreen(user);
@@ -77,8 +82,9 @@ public class UserProfileController {
     @CacheEvict(value = "profiles", key = "#id")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProfile(@PathVariable Long id, @RequestBody UserProfile userProfile) {
+        User user = getUser(id);
         try {
-            authScreen(userProfile.getUser());
+            authScreen(user);
         }
         catch(ResponseStatusException e) {
             e.printStackTrace();
