@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.controllers.admin;
 
+import com.bnta.codecompiler.models.dtos.SolutionDTO;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.services.problems.SolutionService;
 import org.apache.coyote.Response;
@@ -24,7 +25,7 @@ public class SolutionAdminController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        Page<Solution> solutions = solutionService.findAll(PageRequest.of(page, size));
+        Page<SolutionDTO> solutions = solutionService.findAll(PageRequest.of(page, size));
         return ResponseEntity.ok().body(solutions);
     }
 

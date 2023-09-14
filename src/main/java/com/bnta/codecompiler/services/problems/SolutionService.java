@@ -1,5 +1,6 @@
 package com.bnta.codecompiler.services.problems;
 
+import com.bnta.codecompiler.models.dtos.SolutionDTO;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.users.User;
@@ -39,8 +40,8 @@ public class SolutionService {
         solutionRepo.deleteById(id);
     }
 
-    public Solution findById(Long id) throws Exception {
-        Optional<Solution> optional = solutionRepo.findById(id);
+    public SolutionDTO findById(Long id) throws Exception {
+        Optional<SolutionDTO> optional = solutionRepo.getDTOById(id);
         if (optional.isEmpty()) throw new Exception("No solution with id: " + id);
         return optional.get();
     }
@@ -49,28 +50,28 @@ public class SolutionService {
         return solutionRepo.save(solution);
     }
 
-    public Page<Solution> findAll(Pageable pageable) {
-        return solutionRepo.findAllByOrderBySubmissionDateDesc(pageable);
+    public Page<SolutionDTO> findAll(Pageable pageable) {
+        return solutionRepo.findSolutionsWithUserAndProblemDetails(pageable);
     }
 
 
-    public List<Solution> findAllByUser(User user) {
+    public List<SolutionDTO> findAllByUser(User user) {
         return solutionRepo.findAllByUser(user);
     }
 
-    public List<Solution> findAllByUser_id(Long id) {
-        return solutionRepo.findAllByUser_id(id);
+    public List<SolutionDTO> findAllByUser_id(Long id) {
+        return solutionRepo.findAllByUserId(id);
     }
 
-    public List<Solution> findAllByProblem(Problem problem) {
+    public List<SolutionDTO> findAllByProblem(Problem problem) {
         return solutionRepo.findAllByProblem(problem);
     }
 
-    public List<Solution> findAllByProblem_id(Long id) {
-        return solutionRepo.findAllByProblem_id(id);
+    public List<SolutionDTO> findAllByProblem_id(Long id) {
+        return solutionRepo.findAllByProblemId(id);
     }
 
-    public List<Solution> findAllByProblemAndUser(Problem problem, User user) {
+    public List<SolutionDTO> findAllByProblemAndUser(Problem problem, User user) {
         return solutionRepo.findAllByProblemAndUser(problem, user);
     }
 }
