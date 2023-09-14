@@ -20,12 +20,12 @@ public class Problem {
     private String description = "Solve me!";
     @Column
     private Difficulty difficulty = Difficulty.EASY;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private TestSuite testSuite;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private StartCode startCode;
     // tag the concepts this problem trains/tests, i.e 'objects', 'arrays',
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> tags = new HashSet<>();
 
     public Problem(String title, String description, Difficulty difficulty, TestSuite testSuite, StartCode startCode, Set<String> tags) {
