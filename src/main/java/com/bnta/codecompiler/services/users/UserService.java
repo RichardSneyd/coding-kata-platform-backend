@@ -5,6 +5,7 @@ import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProgressDTO;
+import com.bnta.codecompiler.repositories.users.ICohortRepository;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import com.bnta.codecompiler.services.email.MailSenderService;
 import com.bnta.codecompiler.services.problems.ProblemService;
@@ -36,6 +37,9 @@ public class UserService {
 
     @Autowired
     GlobalSettings globalSettings;
+
+    @Autowired
+    ICohortRepository cohortRepo;
 
     @Transactional
     public User add(User user) {

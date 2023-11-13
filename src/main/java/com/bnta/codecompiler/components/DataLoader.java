@@ -48,7 +48,7 @@ public class DataLoader implements ApplicationRunner {
 
 
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(ApplicationArguments args) throws Exception {
         if(env.equals("production")) return;
         // use the factory methods ONLY, i.e 'newUser', 'newSolution', NOT 'new User' or 'new Solution'.
         Cohort[] cohorts = {
@@ -265,7 +265,7 @@ public class DataLoader implements ApplicationRunner {
         return startCodeService.add(new StartCode(js, py, java));
     }
 
-    private Cohort newCohort(String name, LocalDate date) {
+    private Cohort newCohort(String name, LocalDate date) throws Exception {
         Cohort cohort = cohortService.add(new Cohort(name));
         cohort.setStartDate(date);
         cohortService.update(cohort);

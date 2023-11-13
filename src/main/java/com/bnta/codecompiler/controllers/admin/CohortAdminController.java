@@ -44,7 +44,7 @@ public class CohortAdminController {
 
     @CacheEvict(value = {"cohort", "cohorts"}, allEntries = true)
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody Cohort cohort) {
+    public ResponseEntity<?> update(@RequestBody Cohort cohort) throws Exception {
         if(cohortService.find(cohort.getId()).isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No cohort found with id %s", cohort.getId()));
         }
