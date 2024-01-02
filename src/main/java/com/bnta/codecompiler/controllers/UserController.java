@@ -31,13 +31,17 @@ public class UserController {
     @CacheEvict(value = "users", key = "#user.getId()")
     @PutMapping
     public ResponseEntity<?> update(@RequestBody User user) {
-        authScreen(user);
         try {
+            authScreen(user);
             User updatedUser = userService.update(user); // exception will be thrown if no such user
-            return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (ResponseStatusException e) {
+            // Handle the specific case for ResponseStatusException
+            return ResponseEntity.status(e.getStatus()).body(e.getReason());
         } catch (Exception e) {
+            // Handle other exceptions
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
