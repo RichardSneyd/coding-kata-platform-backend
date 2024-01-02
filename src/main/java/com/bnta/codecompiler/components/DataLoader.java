@@ -46,7 +46,6 @@ public class DataLoader implements ApplicationRunner {
     @Value("${environment}")
     private String env;
 
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if(env.equals("production")) return;

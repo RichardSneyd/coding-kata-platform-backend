@@ -78,7 +78,7 @@ public class UserController {
         boolean isAdmin = auth.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
         if (id != user.getId() && !isAdmin) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, uname + "cannot modify profile of " + user.getUsername());
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, uname + " (" + id + ") cannot modify profile of " + user.getUsername() + "(" + user.getId() + ")");
         }
     }
 

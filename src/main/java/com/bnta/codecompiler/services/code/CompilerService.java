@@ -17,7 +17,7 @@ public class CompilerService {
 
     @Value("${node.path}")
     private String nodePath;
-    private final int timeout = 8;
+    private final int timeout = 12;
     private final int threadCount = 2;
     private final ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 
