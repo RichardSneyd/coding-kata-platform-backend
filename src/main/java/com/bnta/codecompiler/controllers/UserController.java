@@ -81,7 +81,7 @@ public class UserController {
         var id = userService.findByUname(uname).getId();
         boolean isAdmin = auth.getAuthorities().stream()
                 .anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
-        if (id != user.getId() && !isAdmin) {
+        if (!user.getId().equals(id) && !isAdmin) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, uname + " (" + id + ") cannot modify profile of " + user.getUsername() + "(" + user.getId() + ")");
         }
     }
