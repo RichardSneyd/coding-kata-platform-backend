@@ -123,7 +123,15 @@ public class SrcParser {
         return Arrays.stream(val.split(",")).map(SrcParser::wrapString).collect(Collectors.joining(","));
     }
 
-    public static String wrapString(String val) { return  "\"" + val + "\"";}
+    public static String wrapString(String val) {
+        // Escape special characters for JSON/JavaScript strings
+        String escapedVal = val.replace("\\", "\\\\"); // Escape backslashes
+        escapedVal = escapedVal.replace("\"", "\\\""); // Escape double quotes
+        escapedVal = escapedVal.replace("\n", "\\n"); // Escape newlines
+        escapedVal = escapedVal.replace("\r", "\\r"); // Escape carriage returns
+        // ... and so on for other special characters as needed
+        return "\"" + escapedVal + "\"";
+    }
 
     public static String removeLogs(String src, String lang) {
         String pattern = lang.equals("java") ? "System.out.println(.*?);"
