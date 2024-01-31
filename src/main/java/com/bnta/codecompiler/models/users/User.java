@@ -14,11 +14,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, length = 300)
     private String username;
-    @Column
+    @Column(length = 300)
     private String password;
-    @Column
+    @Column(length = 300)
     private String email;
     @JsonIgnoreProperties({"members"})
     @ManyToOne(fetch = FetchType.EAGER)
