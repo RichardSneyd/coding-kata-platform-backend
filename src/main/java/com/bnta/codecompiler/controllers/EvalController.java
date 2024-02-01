@@ -29,7 +29,7 @@ public class EvalController {
         return "Evaluation API. Use a POST request with lang, code and userId properties in the request body.";
     }
 
-    @PostMapping("/test/{problemId}/")
+    @PostMapping("/test/{problemId}")
     public ResponseEntity<?> test(@RequestBody EvalInput evalInput,
                                                @PathVariable Long problemId) {
         try {
