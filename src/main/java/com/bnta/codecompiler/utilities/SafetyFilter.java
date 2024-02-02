@@ -19,7 +19,8 @@ public class SafetyFilter {
     private static boolean checkJava(String src) {
 
         return isSafe(src, new String[]{
-                "java.lang.ProcessBuilder", "Runtime.getRuntime", "java.lang.Runtime", "java.io.File", "java.util.Scanner"
+                "java.lang.ProcessBuilder", "Runtime.getRuntime",
+                "java.lang.Runtime", "java.io.File", "java.util.Scanner"
         });
     }
 
