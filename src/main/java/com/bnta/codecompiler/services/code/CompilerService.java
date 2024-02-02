@@ -10,6 +10,7 @@ import javax.annotation.PreDestroy;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,7 +20,7 @@ public class CompilerService {
     private String nodePath;
     private final int timeout = 12;
     private final int threadCount = 2;
-    private final ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+    private ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 
     @PreDestroy
     public void shutdownExecutor() {
@@ -31,6 +32,27 @@ public class CompilerService {
             pr.print(code);
         }
     }
+
+    private void initExecutor() {
+        if (executor != null && !executor.isShutdown()) {
+            executor.shutdownNow(); // Attempt to stop all actively executing tasks and halt processing of waiting tasks
+            try {
+                // Wait a while for existing tasks to terminate
+                if (!executor.awaitTermination(2, TimeUnit.SECONDS)) {
+                    System.err.println("Executor did not terminate.");
+                }
+            } catch (InterruptedException ie) {
+                // Re-cancel if the current thread also gets interrupted
+                executor.shutdownNow();
+                // Preserve interrupt status
+                Thread.currentThread().interrupt();
+            }
+        }
+        // Reinitialize the executor
+        executor = Executors.newFixedThreadPool(threadCount);
+    }
+
+
 
     public Process startProcess(String command, String args) throws IOException {
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -57,7 +79,7 @@ public class CompilerService {
             throw new Exception("Dangerous or possible malicious code detected");
         }
 
-        CompileResult result = new CompileResult(input.getCode(), null, null, false, input.getLang());
+        AtomicReference<CompileResult> resultRef = new AtomicReference<>(new CompileResult(input.getCode(), null, null, false, input.getLang()));
         Future<CompileResult> future;
 
         String command = switch (input.getLang()) {
@@ -71,24 +93,39 @@ public class CompilerService {
 
         saveFile(file, input.getCode());
 
-        CompileResult finalResult = result.clone();
-        future = executor.submit(() -> shell(command, file.getAbsolutePath(), finalResult));
+        future = executor.submit(() -> {
+            Process process = startProcess(command, file.getAbsolutePath());
+            try {
+                CompileResult compileResult = readAll(process, resultRef.get());
+                compileResult.setCompiled(compileResult.getErrors() == null || compileResult.getErrors().isEmpty());
+                return compileResult;
+            } finally {
+                process.destroyForcibly(); // Ensure the process is terminated
+            }
+        });
 
         try {
-            result = future.get(timeout, TimeUnit.SECONDS);
+            resultRef.set(future.get(timeout, TimeUnit.SECONDS));
         } catch (TimeoutException e) {
-            future.cancel(true);
-            result.setErrors("Compilation timed out after " + timeout + " seconds");
+            future.cancel(true); // This will interrupt the executor's thread
+            CompileResult timeoutResult = new CompileResult(input.getCode(), null, "Compilation timed out after " + timeout + " seconds", false, input.getLang());
+            resultRef.set(timeoutResult);
+            initExecutor();
+        } catch (ExecutionException | InterruptedException e) {
+            CompileResult errorResult = new CompileResult(input.getCode(), null, "An error occurred during compilation", false, input.getLang());
+            resultRef.set(errorResult);
         } finally {
             if (!file.delete()) {
                 System.out.println("Failed to delete temporary file: " + file.getAbsolutePath());
             }
         }
 
-        return result;
+        return resultRef.get();
     }
 
-    public CompileResult shell(String command, String args, CompileResult result) throws IOException {
-        return readAll(startProcess(command, args), result);
-    }
+
+
+//    public CompileResult shell(String command, String args, CompileResult result) throws IOException {
+//        return readAll(startProcess(command, args), result);
+//    }
 }
