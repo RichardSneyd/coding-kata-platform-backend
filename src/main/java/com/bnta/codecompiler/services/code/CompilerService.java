@@ -18,7 +18,7 @@ public class CompilerService {
 
     @Value("${node.path}")
     private String nodePath;
-    private final int timeout = 12;
+    private final int timeout = 6;
     private final int threadCount = 2;
     private ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 
@@ -38,7 +38,7 @@ public class CompilerService {
             executor.shutdownNow(); // Attempt to stop all actively executing tasks and halt processing of waiting tasks
             try {
                 // Wait a while for existing tasks to terminate
-                if (!executor.awaitTermination(2, TimeUnit.SECONDS)) {
+                if (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
                     System.err.println("Executor did not terminate.");
                 }
             } catch (InterruptedException ie) {
@@ -108,7 +108,7 @@ public class CompilerService {
             resultRef.set(future.get(timeout, TimeUnit.SECONDS));
         } catch (TimeoutException e) {
             future.cancel(true); // This will interrupt the executor's thread
-            CompileResult timeoutResult = new CompileResult(input.getCode(), null, "Compilation timed out after " + timeout + " seconds", false, input.getLang());
+            CompileResult timeoutResult = new CompileResult(input.getCode(), null, "Compilation timed out, check for infinite loops", false, input.getLang());
             resultRef.set(timeoutResult);
             initExecutor();
         } catch (ExecutionException | InterruptedException e) {
@@ -123,9 +123,4 @@ public class CompilerService {
         return resultRef.get();
     }
 
-
-
-//    public CompileResult shell(String command, String args, CompileResult result) throws IOException {
-//        return readAll(startProcess(command, args), result);
-//    }
 }
