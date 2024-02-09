@@ -1,9 +1,7 @@
 package com.bnta.codecompiler.services.users;
 
-import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProfile;
-import com.bnta.codecompiler.models.users.UserProfileDTO;
 import com.bnta.codecompiler.repositories.users.IUserProfileRepo;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
@@ -21,7 +17,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +24,6 @@ public class UserProfileService {
 
     private final IUserProfileRepo userProfileRepo;
     final IUserRepository userRepo;
-
 
     private final Path headshotDIR;
     private final Path resumeDIR;
