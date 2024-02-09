@@ -3,6 +3,7 @@ package com.bnta.codecompiler.services.users;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProfile;
+import com.bnta.codecompiler.models.users.UserProfileDTO;
 import com.bnta.codecompiler.repositories.users.IUserProfileRepo;
 import com.bnta.codecompiler.repositories.users.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

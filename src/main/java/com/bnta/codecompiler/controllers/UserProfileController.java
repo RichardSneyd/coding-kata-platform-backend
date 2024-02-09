@@ -4,6 +4,7 @@ package com.bnta.codecompiler.controllers;
 import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProfile;
+import com.bnta.codecompiler.models.users.UserProfileDTO;
 import com.bnta.codecompiler.services.users.UserProfileService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
