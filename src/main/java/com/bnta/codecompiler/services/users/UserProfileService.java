@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserProfileService {
@@ -35,6 +36,39 @@ public class UserProfileService {
         this.userRepo = userRepo;
         this.headshotDIR = headshotDIR;
         this.resumeDIR = resumeDIR;
+    }
+
+    public Page<UserProfileDTO> findAllUserProfileDTOs(Pageable pageable) {
+        // Fetching UserProfile entities
+        Page<UserProfile> userProfiles = userProfileRepo.findAll(pageable);
+
+        // Transforming UserProfile entities to UserProfileDTOs
+        Page<UserProfileDTO> userProfileDTOs = userProfiles.map(this::convertToUserProfileDTO);
+
+        return userProfileDTOs;
+    }
+
+    private UserProfileDTO convertToUserProfileDTO(UserProfile userProfile) {
+        // Assuming UserProfile has getUser() and the User entity has getCohort() and Cohort has getName()
+        String cohortName = userProfile.getUser().getCohort().getName();
+
+        // Creating a new UserProfileDTO and setting values from UserProfile and the cohort name
+        UserProfileDTO userProfileDTO = new UserProfileDTO(
+                userProfile.getId(),
+                cohortName,
+                userProfile.getHeadshot(),
+                userProfile.getResume(),
+                userProfile.getBio(),
+                userProfile.getFullName(),
+                userProfile.getGithubLink(),
+                userProfile.getEducation(),
+                userProfile.getWorkExperience(),
+                userProfile.getPreferredRoles(),
+                userProfile.getPreferredLocations(),
+                userProfile.getAvailable()
+        );
+
+        return userProfileDTO;
     }
 
     public Page<UserProfile> findAll(Pageable pageable) {

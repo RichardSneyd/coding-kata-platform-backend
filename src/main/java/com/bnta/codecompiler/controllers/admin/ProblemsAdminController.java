@@ -1,11 +1,10 @@
 package com.bnta.codecompiler.controllers.admin;
 
-import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.ProblemSet;
-import com.bnta.codecompiler.models.users.Cohort;
 import com.bnta.codecompiler.services.problems.ProblemService;
 import com.bnta.codecompiler.services.problems.ProblemSetService;
+import com.bnta.codecompiler.services.problems.SolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,9 @@ public class ProblemsAdminController {
     //todo: add all problem/problemSet routes for the ADMIN role
     @Autowired
     private ProblemService problemService;
+
+    @Autowired
+    SolutionService solutionService;
 
     @Autowired
     private ProblemSetService problemSetService;
@@ -53,6 +55,17 @@ public class ProblemsAdminController {
 
         problemService.delete(problem.get());
         return ResponseEntity.ok(String.format("Deleted problem with id %s", id));
+    }
+
+    @DeleteMapping("/solution/{id}")
+    public ResponseEntity<?> deleteSolution(@PathVariable Long id) {
+        var solution = solutionService.findyById(id);
+        if (solution.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No solution with id %s", id));
+        }
+
+        solutionService.remove(solution.get());
+        return ResponseEntity.ok(String.format("Deleted solution with id %s", id));
     }
 
     @CacheEvict(value = "problemSets", allEntries = true)

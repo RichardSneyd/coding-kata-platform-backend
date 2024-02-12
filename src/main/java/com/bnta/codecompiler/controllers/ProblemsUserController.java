@@ -3,25 +3,20 @@ package com.bnta.codecompiler.controllers;
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.ProblemSet;
-import com.bnta.codecompiler.models.problems.Solution;
 import com.bnta.codecompiler.services.problems.ProblemService;
 import com.bnta.codecompiler.services.problems.ProblemSetService;
 import com.bnta.codecompiler.services.problems.SolutionService;
-import com.bnta.codecompiler.services.quizes.QuestionService;
-import com.bnta.codecompiler.services.quizes.QuizService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.springframework.cache.annotation.CacheEvict;
+
 import org.springframework.cache.annotation.Cacheable;
 
 @RestController
@@ -84,7 +79,7 @@ public class ProblemsUserController {
     @Cacheable(value = "solution", key = "#id")
     public ResponseEntity<?> getSolutionById(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(solutionService.findById(id));
+            return ResponseEntity.ok(solutionService.getDTObyId(id));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No solution found with id " + id);
         }

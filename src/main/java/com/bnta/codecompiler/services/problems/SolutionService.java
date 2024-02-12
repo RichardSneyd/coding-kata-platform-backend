@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,10 +39,14 @@ public class SolutionService {
         solutionRepo.deleteById(id);
     }
 
-    public SolutionDTO findById(Long id) throws Exception {
+    public SolutionDTO getDTObyId(Long id) throws Exception {
         Optional<SolutionDTO> optional = solutionRepo.getDTOById(id);
         if (optional.isEmpty()) throw new Exception("No solution with id: " + id);
         return optional.get();
+    }
+
+    public Optional<Solution> findyById(Long id) {
+        return solutionRepo.findById(id);
     }
 
     public Solution update(Solution solution) {

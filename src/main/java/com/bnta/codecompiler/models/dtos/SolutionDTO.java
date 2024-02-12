@@ -10,6 +10,7 @@ public class SolutionDTO {
 
     // Solution fields
     private Long id;
+    private Long userId;
     private String code;
     private String lang;
     private int correctness;
@@ -27,13 +28,14 @@ public class SolutionDTO {
 
     // Constructor to initialize with provided values
     public SolutionDTO(Long id, String code, String lang, int correctness, LocalDate submissionDate,
-                       String username, String title, String description, Difficulty difficulty) {
+                       String username, Long userId, String title, String description, Difficulty difficulty) {
         this.id = id;
         this.code = code;
         this.lang = lang;
         this.correctness = correctness;
         this.submissionDate = submissionDate;
         this.username = username;
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.difficulty = difficulty;
@@ -136,4 +138,11 @@ public class SolutionDTO {
                 '}';
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }
