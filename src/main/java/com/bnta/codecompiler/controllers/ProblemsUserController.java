@@ -3,6 +3,7 @@ package com.bnta.codecompiler.controllers;
 import com.bnta.codecompiler.models.problems.Difficulty;
 import com.bnta.codecompiler.models.problems.Problem;
 import com.bnta.codecompiler.models.problems.ProblemSet;
+import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.services.problems.ProblemService;
 import com.bnta.codecompiler.services.problems.ProblemSetService;
 import com.bnta.codecompiler.services.problems.SolutionService;
@@ -10,6 +11,8 @@ import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -18,6 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/user/problems")
@@ -107,6 +111,30 @@ public class ProblemsUserController {
         var set = problemSetService.findById(id);
         if (set.isEmpty()) return new ResponseEntity<>("No problem set found with id " + id, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(set, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/solutions/{id}")
+    public ResponseEntity<?> deleteSolution(@PathVariable Long id) throws ResponseStatusException {
+        var solution = solutionService.findyById(id);
+        if (solution.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("No solution with id %s", id));
+        }
+
+        authScreen(solution.get().getUser());
+
+        solutionService.remove(solution.get());
+        return ResponseEntity.ok(String.format("Deleted solution with id %s", id));
+    }
+
+    public void authScreen(User user) throws ResponseStatusException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String uname = (String) auth.getPrincipal();
+        var id = userService.findByUname(uname).getId();
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
+        if (id != user.getId() && !isAdmin) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, uname + "cannot modify profile of " + user.getUsername());
+        }
     }
 
 
