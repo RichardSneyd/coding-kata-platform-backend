@@ -76,14 +76,10 @@ public class CohortService {
     public Cohort add(Cohort cohort) {
         cohort = cohortRepo.save(cohort);
         for(var m : cohort.getMembers()) {
-          //  m.setCohort(cohort);
+            m.setCohort(cohort);
             userService.add(m);
         }
         cohort = cohortRepo.save(cohort);
-//        for(var m : cohort.getMembers()) {
-//            m.setCohort(cohort);
-//            userService.update(m);
-//        }
         return cohort;
     }
 
