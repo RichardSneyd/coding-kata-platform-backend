@@ -2,6 +2,7 @@ package com.bnta.codecompiler.controllers;
 
 import com.bnta.codecompiler.models.users.User;
 import com.bnta.codecompiler.models.users.UserProfile;
+import com.bnta.codecompiler.services.users.UserProfileDTO;
 import com.bnta.codecompiler.services.users.UserProfileService;
 import com.bnta.codecompiler.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UserProfileController {
     @GetMapping
     public ResponseEntity<?> getAllProfiles(@RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int size) {
-        Page<UserProfile> profiles = userProfileService.findAll(PageRequest.of(page, size));
+        Page<UserProfileDTO> profiles = userProfileService.findAllUserProfileDTOs(PageRequest.of(page, size));
         return ResponseEntity.ok().body(profiles);
     }
 
