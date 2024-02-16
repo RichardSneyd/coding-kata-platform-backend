@@ -82,6 +82,11 @@ public class SrcParser {
     }
 
     public static String wrapPython(String src, List<Data> inputs, String methodName) {
+        for(Data input: inputs) {
+            if(input.getDataType().equals(DataType.BOOLEAN)) {
+                input.setValue(input.getValue().equals("true") ? "True" : "False");
+            }
+        }
         var insert = SrcParser.toMethodCall(methodName, inputs, "py");
         return src + "\nprint(" + insert + ")";
     }

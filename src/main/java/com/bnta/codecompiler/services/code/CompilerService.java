@@ -79,6 +79,7 @@ public class CompilerService {
             throw new Exception("Dangerous or possible malicious code detected");
         }
 
+
         AtomicReference<CompileResult> resultRef = new AtomicReference<>(new CompileResult(input.getCode(), null, null, false, input.getLang()));
         Future<CompileResult> future;
 

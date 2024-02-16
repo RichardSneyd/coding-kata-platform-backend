@@ -70,8 +70,6 @@ public class CohortService {
         return cohort;
     }
 
-
-
     @Transactional
     public Cohort add(Cohort cohort) {
         cohort = cohortRepo.save(cohort);
@@ -98,8 +96,6 @@ public class CohortService {
     public Optional<Cohort> find(Long cohortId) {
         return cohortRepo.findById(cohortId);
     }
-
-
 
     public Optional<Cohort> find(String name) {
         return cohortRepo.findByName(name);
