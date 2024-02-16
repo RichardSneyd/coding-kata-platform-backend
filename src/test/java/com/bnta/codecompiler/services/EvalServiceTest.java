@@ -116,8 +116,10 @@ public class EvalServiceTest {
 
     @Test
     public void testIsDataMatch() {
-        assertThat(evalService.isDataMatch("[\"Horse\", \"Cat\", \"Dog\"]", "Horse,Cat,Dog")).isTrue();
-        assertThat(evalService.isDataMatch("[true, false, false]", "true,false,false")).isTrue();
-        assertThat(evalService.isDataMatch("[35, 22]", "35,22")).isTrue();
+        assertThat(evalService.isDataMatch("[\"Horse\", \"Cat\", \"Dog\"]", "Horse,Cat,Dog", "js")).isTrue();
+        assertThat(evalService.isDataMatch("[true, false, false]", "true,false,false", "py")).isTrue();
+        assertThat(evalService.isDataMatch("true", "True", "py")).isTrue();
+        assertThat(evalService.isDataMatch("false", "False", "py")).isTrue();
+        assertThat(evalService.isDataMatch("[35, 22]", "35,22", "java")).isTrue();
     }
 }

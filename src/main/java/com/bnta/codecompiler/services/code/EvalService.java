@@ -52,7 +52,7 @@ public class EvalService {
         List<CompletableFuture<TestCaseResult>> futures = testCases.stream()
                 .map(testCase -> CompletableFuture.supplyAsync(() -> {
                     var compileResult = executeTestCase(functionName, testCase, compileInputPojo);
-                    var correct = isDataMatch(testCase.getOutput().getValue(), compileResult.getOutput());
+                    var correct = isDataMatch(testCase.getOutput().getValue(), compileResult.getOutput(), compileInputPojo.getLang());
                     return new TestCaseResult(compileResult, correct);
                 }))
                 .collect(Collectors.toList());
@@ -74,7 +74,11 @@ public class EvalService {
         }
     }
 
-    public boolean isDataMatch(String expected, String actual) {
+    public boolean isDataMatch(String expected, String actual, String lang) {
+        if(lang.equals("py")) {
+            if(actual.equals("True")) actual = "true";
+            if(actual.equals("False")) actual = "false";
+        }
         return SrcParser.standardiseArgFormat(expected).equals(SrcParser.standardiseArgFormat(actual));
     }
 }

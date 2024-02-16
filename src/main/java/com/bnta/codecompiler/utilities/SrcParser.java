@@ -12,7 +12,8 @@ public class SrcParser {
         System.out.println(standardiseArgFormat(val));
     }
     public static String standardiseArgFormat(String str) {
-        return str == null ? null : str.replaceAll("['\" {}\\[\\]]", "");
+        if(str == null) return null;
+        return str.replaceAll("['\" {}\\[\\]]", "");
     }
 
     public static String toArgument(Data data, String lang) {
