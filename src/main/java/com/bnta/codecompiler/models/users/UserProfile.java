@@ -19,7 +19,7 @@ public class UserProfile {
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id")
-    @JsonIgnore
+    @JsonIgnoreProperties({"solutions", "roles"})
     private User user;
 
     @Column(nullable = true)
