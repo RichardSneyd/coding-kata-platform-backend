@@ -29,15 +29,17 @@ public class EvalService {
         EvalResult evalResult = new EvalResult();
         evalResult.setProblem(problem);
 
-        var logFreeInput = compileInputPojo.clone();
-        logFreeInput.setCode(SrcParser.removeLogs(logFreeInput.getCode(), logFreeInput.getLang()));
-
         evalResult.setTestResultsWithLogs(asyncRunTestCases(problem.getTitle(), problem.getTestSuite().getPublicCases(), compileInputPojo));
+
+        var logFreeInput = compileInputPojo;
+       // logFreeInput.setCode(SrcParser.removeLogs(logFreeInput.getCode(), logFreeInput.getLang()));
+
         evalResult.setPublicTestResults(asyncRunTestCases(problem.getTitle(), problem.getTestSuite().getPublicCases(), logFreeInput));
 
         var privateResults = asyncRunTestCases(problem.getTitle(), problem.getTestSuite().getPrivateCases(), logFreeInput);
 
-        evalResult.setPrivateTestsPassed(privateResults.stream().allMatch(TestCaseResult::isCorrect));
+        evalResult.setPrivateTestsPassed(privateResults.size() > 0 ?
+                privateResults.stream().allMatch(TestCaseResult::isCorrect) : true);
 
         var correctness = ((double)evalResult.getPublicTestResults().stream().filter(testCase -> testCase.isCorrect()).count()
                 + (double)privateResults.stream().filter(testCase -> testCase.isCorrect()).count())
@@ -75,10 +77,15 @@ public class EvalService {
     }
 
     public boolean isDataMatch(String expected, String actual, String lang) {
+        String actualClone = String.valueOf(actual);
         if(lang.equals("py")) {
-            if(actual.equals("True")) actual = "true";
-            if(actual.equals("False")) actual = "false";
+            if(actualClone.equals("True")) {
+                actualClone = "true";
+            }
+            else if(actualClone.equals("False")) {
+                actualClone = "false";
+            }
         }
-        return SrcParser.standardiseArgFormat(expected).equals(SrcParser.standardiseArgFormat(actual));
+        return SrcParser.standardiseArgFormat(expected).equals(SrcParser.standardiseArgFormat(actualClone));
     }
 }

@@ -18,7 +18,13 @@ public class SrcParser {
 
     public static String toArgument(Data data, String lang) {
         switch (data.getDataType()) {
-            case INT, FLOAT, BOOLEAN:
+            case INT, FLOAT:
+                return data.getValue();
+            case BOOLEAN:
+                if(lang.equals("py")) {
+                    if(data.getValue().equals("true")) return "True";
+                    if(data.getValue().equals("false")) return "False";
+                }
                 return data.getValue();
             case STRING:
                 return wrapString(data.getValue());
@@ -38,6 +44,7 @@ public class SrcParser {
     }
 
     public static String toArgs(List<Data> args, String lang) {
+        // get an array of the args
         String argsStr = "";
         for(int i = 0; i < args.size(); i++) {
             argsStr = argsStr + toArgument(args.get(i), lang);
@@ -83,12 +90,14 @@ public class SrcParser {
     }
 
     public static String wrapPython(String src, List<Data> inputs, String methodName) {
-        for(Data input: inputs) {
-            if(input.getDataType().equals(DataType.BOOLEAN)) {
-                input.setValue(input.getValue().equals("true") ? "True" : "False");
-            }
-        }
+//        for(Data input: inputs) {
+//            if(input.getDataType().equals(DataType.BOOLEAN)) {
+//                String transformed;
+//                input.setValue(input.getValue().equals("true") ? "True" : "False");
+//            }
+//        }
         var insert = SrcParser.toMethodCall(methodName, inputs, "py");
+//        System.out.println(src + "\nprint(" + insert + ")");
         return src + "\nprint(" + insert + ")";
     }
 
@@ -141,7 +150,7 @@ public class SrcParser {
 
     public static String removeLogs(String src, String lang) {
         String pattern = lang.equals("java") ? "System.out.println(.*?);"
-                : lang.equals("py") ? "print([ \\(])(.*?)\\)"
+                : lang.equals("py") ? "\\bprint\\((.*?)\\)"
                 : "console\\.log.*?(\\)|\\))";
         var str = src.replaceAll(pattern, " ");
         return str;

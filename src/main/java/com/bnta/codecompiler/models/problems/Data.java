@@ -61,4 +61,13 @@ public class Data {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "id=" + id +
+                ", value='" + value + '\'' +
+                ", dataType=" + dataType +
+                '}';
+    }
 }

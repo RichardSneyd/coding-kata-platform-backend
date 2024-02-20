@@ -197,7 +197,15 @@ public class DataLoader implements ApplicationRunner {
                 ""),
                 new HashSet<>(Arrays.asList("sorting", "bubble")));
 
-        Problem[] problems = {addValues, sumOfArray, productOfArray, largestElement, reverseString, palindrome, reverseLinkedList, bubbleSort};
+        var sayHi = newProblem("sayHi", "hi there", Difficulty.EASY,
+                newTestSuite(
+                        new ArrayList<>(Arrays.asList(
+                                newTestCase(List.of(ds.of(true)), ds.of("Hi")),
+                                newTestCase(List.of(ds.of(false)), ds.of("Go away"))
+                        )), new ArrayList<>()
+                ), new StartCode(), new HashSet<>(){});
+
+        Problem[] problems = {addValues, sumOfArray, productOfArray, largestElement, reverseString, palindrome, reverseLinkedList, bubbleSort, sayHi};
 
         Set<String> tags = Set.of("One tag", "A second tag", "A third tag");
         newProblemSet("Beginner Problem Set", "A perfectly legitimate description of a problem set",

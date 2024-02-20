@@ -62,4 +62,13 @@ public class TestCase {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "TestCase{" +
+                "id=" + id +
+                ", inputs=" + inputs +
+                ", output=" + output +
+                '}';
+    }
 }
