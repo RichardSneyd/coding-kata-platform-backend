@@ -197,6 +197,38 @@ public class DataLoader implements ApplicationRunner {
                 ""),
                 new HashSet<>(Arrays.asList("sorting", "bubble")));
 
+        var mergeSort = newProblem("mergeSort", "mergeSort(vals: int[]), which accepts an array of integers and returns the array sorted using the merge sort algorithm.",
+                Difficulty.MEDIUM,
+                newTestSuite(
+                        new ArrayList<>(Arrays.asList(newTestCase(List.of(
+                                ds.of(new Integer[]{9,8,7,6,5,4})), ds.of(new Integer[]{4,5,6,7,8,9})),
+                                newTestCase(List.of(
+                                        ds.of(new Integer[]{45,35,20,10})), ds.of(new Integer[]{10,20,35,45})))),
+
+                        new ArrayList<>(Arrays.asList(newTestCase(
+                                List.of(ds.of(new Integer[]{500,400,200,0,-100})), ds.of(new Integer[]{-100,0,200,400,500}))
+                        ))
+                ), newStartCode("const mergeSort = (vals) => {\n\n}",
+                        "",
+                        ""),
+                new HashSet<>(Arrays.asList("sorting", "bubble")));
+
+        var insertionSort = newProblem("insertionSort", "insertionSort(vals: int[]), which accepts an array of integers and returns the array sorted using the insertion sort algorithm.",
+                Difficulty.MEDIUM,
+                newTestSuite(
+                        new ArrayList<>(Arrays.asList(newTestCase(List.of(
+                                        ds.of(new Integer[]{9,8,7,6,5,4})), ds.of(new Integer[]{4,5,6,7,8,9})),
+                                newTestCase(List.of(
+                                        ds.of(new Integer[]{45,35,20,10})), ds.of(new Integer[]{10,20,35,45})))),
+
+                        new ArrayList<>(Arrays.asList(newTestCase(
+                                List.of(ds.of(new Integer[]{500,400,200,0,-100})), ds.of(new Integer[]{-100,0,200,400,500}))
+                        ))
+                ), newStartCode("const insertionSort = (vals) => {\n\n}",
+                        "",
+                        ""),
+                new HashSet<>(Arrays.asList("sorting", "bubble")));
+
         var sayHi = newProblem("sayHi", "hi there", Difficulty.EASY,
                 newTestSuite(
                         new ArrayList<>(Arrays.asList(
@@ -205,7 +237,7 @@ public class DataLoader implements ApplicationRunner {
                         )), new ArrayList<>()
                 ), new StartCode(), new HashSet<>(){});
 
-        Problem[] problems = {addValues, sumOfArray, productOfArray, largestElement, reverseString, palindrome, reverseLinkedList, bubbleSort, sayHi};
+        Problem[] problems = {addValues, sumOfArray, productOfArray, largestElement, reverseString, palindrome, reverseLinkedList, bubbleSort, sayHi, mergeSort};
 
         Set<String> tags = Set.of("One tag", "A second tag", "A third tag");
         newProblemSet("Beginner Problem Set", "A perfectly legitimate description of a problem set",

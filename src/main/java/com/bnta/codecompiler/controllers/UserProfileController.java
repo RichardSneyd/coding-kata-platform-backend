@@ -36,7 +36,7 @@ public class UserProfileController {
     @GetMapping
     public ResponseEntity<?> getAllProfiles(@RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int size) {
-        Page<UserProfile> profiles = userProfileService.findAll(PageRequest.of(page, size));
+        Page<UserProfile> profiles = userProfileService.findAllWithRequiredFields(PageRequest.of(page, size));
         return ResponseEntity.ok().body(profiles);
     }
 

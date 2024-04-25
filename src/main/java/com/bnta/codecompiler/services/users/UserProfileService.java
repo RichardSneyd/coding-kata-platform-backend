@@ -75,6 +75,10 @@ public class UserProfileService {
         return userProfileRepo.findAll(pageable);
     }
 
+    public Page<UserProfile> findAllWithRequiredFields(Pageable pageable) {
+        return userProfileRepo.findProfilesWithRequiredFields(pageable);
+    }
+
     public Optional<UserProfile> findById(Long id) {
         return userProfileRepo.findById(id);
     }
