@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface IUserProfileRepo extends JpaRepository<UserProfile, Long> {
 
-    @Query("SELECT DISTINCT up FROM UserProfile up WHERE up.fullName IS NOT NULL AND up.bio IS NOT NULL AND NOT up.bio = '' AND up.education IS NOT EMPTY AND up.preferredRoles IS NOT EMPTY AND up.preferredLocations IS NOT EMPTY")
+    @Query("SELECT DISTINCT up FROM UserProfile up WHERE up.fullName IS NOT NULL AND up.bio IS NOT NULL AND NOT up.bio = '' AND up.education IS NOT EMPTY AND up.preferredRoles IS NOT EMPTY AND up.preferredLocations IS NOT EMPTY ORDER BY up.id DESC")
     Page<UserProfile> findProfilesWithRequiredFields(Pageable pageable);
 }

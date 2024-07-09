@@ -10,13 +10,16 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name="user_profiles")
+@Table(name="user_profiles", indexes = {
+        @Index(name = "idx_full_name", columnList = "fullName"),
+        @Index(name = "idx_bio", columnList = "bio"),
+})
 public class UserProfile {
 
     @Id
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @MapsId
     @JoinColumn(name = "id")
     @JsonIgnoreProperties({"solutions", "roles"})
