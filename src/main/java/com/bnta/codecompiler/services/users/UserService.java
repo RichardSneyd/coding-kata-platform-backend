@@ -106,7 +106,7 @@ public class UserService {
     }
 
     public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        return userRepository.findAllByOrderByIdDesc(pageable);
     }
 
     public List<User> findAllFromCohort(String cohort) {

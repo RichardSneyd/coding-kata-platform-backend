@@ -21,6 +21,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     Page<User> findByOrderByScoreDesc(Pageable pageable);
 
+    Page<User> findAllByOrderByIdDesc(Pageable pageable);
+
     List<User> findByCohort_NameOrderByScoreDesc(String cohort);
     List<User> findByCohort_IdOrderByScoreDesc(Long cohortId);
 
