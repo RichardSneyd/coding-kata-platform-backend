@@ -1,11 +1,14 @@
-# BrightCode Backend:
+# Coding Kata Platform Backend
+This is a coding kata platform backend written in Java & Spring Boot, with existing support for Java, JavaScript & Python. Support for additional languages can be added easily. The corresponding front-end repo is written in React/TypeScript, and can be found here: https://github.com/RichardSneyd/coding-kata-platform-frontend
+
+# Menu:
 - [How to Build and Run Locally](#how-to-build-and-run-locally)
 - [Authentication and Authorisation](#authentication-and-authorisation)
 - [CompileController](#compilecontroller)
 - [EvalController](#evalcontroller)
 - [Problems](#problems)
 - [Solutions](#solutions)
-- [Problem Sets](#problem-sets)
+- [Problem Sets](#probleThis m-sets)
 - [Difficulty Settings](#difficulty-settings)
 - [Input & Output Values](#input-and-output-values)
 - [Users](#users)
